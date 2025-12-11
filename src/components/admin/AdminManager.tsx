@@ -365,11 +365,11 @@ export function AdminManager() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
             <Shield className="h-6 w-6 text-purple-600" />
             Admin Management
           </h2>
-          <p className="text-gray-500 mt-1">Create and manage admin accounts with custom permissions</p>
+          <p className="text-gray-500 dark:text-gray-400 mt-1">Create and manage admin accounts with custom permissions</p>
         </div>
         <Button
           onClick={() => {
@@ -392,7 +392,7 @@ export function AdminManager() {
                 <ShieldCheck className="h-5 w-5 text-purple-600" />
               </div>
               <div>
-                <p className="text-xs text-gray-500">Super Admins</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">Super Admins</p>
                 <p className="text-xl font-bold text-purple-600">
                   {admins.filter(a => a.admin_role === 'super_admin').length}
                 </p>
@@ -407,7 +407,7 @@ export function AdminManager() {
                 <Shield className="h-5 w-5 text-blue-600" />
               </div>
               <div>
-                <p className="text-xs text-gray-500">Admins</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">Admins</p>
                 <p className="text-xl font-bold text-blue-600">
                   {admins.filter(a => a.admin_role === 'admin').length}
                 </p>
@@ -422,7 +422,7 @@ export function AdminManager() {
                 <ShieldAlert className="h-5 w-5 text-green-600" />
               </div>
               <div>
-                <p className="text-xs text-gray-500">Moderators</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">Moderators</p>
                 <p className="text-xl font-bold text-green-600">
                   {admins.filter(a => a.admin_role === 'moderator').length}
                 </p>
@@ -434,11 +434,11 @@ export function AdminManager() {
           <CardContent className="p-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
-                <Users className="h-5 w-5 text-gray-600" />
+                <Users className="h-5 w-5 text-gray-600 dark:text-gray-400" />
               </div>
               <div>
-                <p className="text-xs text-gray-500">Total Admins</p>
-                <p className="text-xl font-bold text-gray-900">{admins.length}</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">Total Admins</p>
+                <p className="text-xl font-bold text-gray-900 dark:text-white">{admins.length}</p>
               </div>
             </div>
           </CardContent>
@@ -454,13 +454,13 @@ export function AdminManager() {
         <CardContent className="p-0">
           {isLoading ? (
             <div className="p-8 text-center">
-              <RefreshCw className="h-8 w-8 animate-spin text-gray-400 mx-auto" />
-              <p className="text-gray-500 mt-2">Loading admins...</p>
+              <RefreshCw className="h-8 w-8 animate-spin text-gray-400 dark:text-gray-500 mx-auto" />
+              <p className="text-gray-500 dark:text-gray-400 mt-2">Loading admins...</p>
             </div>
           ) : admins.length === 0 ? (
             <div className="p-8 text-center">
-              <Shield className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-500">No admin accounts found</p>
+              <Shield className="h-12 w-12 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
+              <p className="text-gray-500 dark:text-gray-400">No admin accounts found</p>
               <Button
                 variant="outline"
                 className="mt-4"
@@ -490,7 +490,7 @@ export function AdminManager() {
                       </div>
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <h4 className="font-semibold text-gray-900 truncate">{admin.full_name}</h4>
+                          <h4 className="font-semibold text-gray-900 dark:text-white truncate">{admin.full_name}</h4>
                           {admin.admin_role && (
                             <Badge className={`${roleConfig[admin.admin_role].color} text-xs`}>
                               {roleConfig[admin.admin_role].label}
@@ -502,7 +502,7 @@ export function AdminManager() {
                             </Badge>
                           )}
                         </div>
-                        <p className="text-sm text-gray-500 truncate">{admin.email}</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400 truncate">{admin.email}</p>
                       </div>
                     </div>
 
@@ -532,7 +532,7 @@ export function AdminManager() {
                           )}
                         </>
                       ) : (
-                        <Badge variant="outline" className="text-gray-500 text-xs">No permissions set</Badge>
+                        <Badge variant="outline" className="text-gray-500 dark:text-gray-400 text-xs">No permissions set</Badge>
                       )}
                     </div>
 
@@ -638,7 +638,7 @@ export function AdminManager() {
                         Generate
                       </Button>
                     </div>
-                    <p className="text-xs text-gray-500">Must be a valid email format (e.g., admin@devsera.store)</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">Must be a valid email format (e.g., admin@devsera.store)</p>
                   </div>
                 </div>
 
@@ -656,7 +656,7 @@ export function AdminManager() {
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:text-gray-400"
                       >
                         {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                       </button>
@@ -697,7 +697,7 @@ export function AdminManager() {
                       ))}
                     </SelectContent>
                   </Select>
-                  <p className="text-xs text-gray-500">{roleConfig[formData.adminRole].description}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">{roleConfig[formData.adminRole].description}</p>
                 </div>
               </TabsContent>
 
@@ -712,7 +712,7 @@ export function AdminManager() {
                 ) : (
                   permissionGroups.map((group) => (
                     <div key={group.title} className="space-y-3">
-                      <div className="flex items-center gap-2 text-gray-700">
+                      <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
                         {group.icon}
                         <h4 className="font-medium">{group.title}</h4>
                       </div>
@@ -817,7 +817,7 @@ export function AdminManager() {
               ) : (
                 permissionGroups.map((group) => (
                   <div key={group.title} className="space-y-3">
-                    <div className="flex items-center gap-2 text-gray-700">
+                    <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
                       {group.icon}
                       <h4 className="font-medium">{group.title}</h4>
                     </div>
@@ -888,8 +888,8 @@ export function AdminManager() {
           <div className="py-4 space-y-4">
             <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border">
               <div>
-                <p className="font-medium text-gray-900">Demote to Regular User</p>
-                <p className="text-sm text-gray-500">Remove admin privileges but keep the account</p>
+                <p className="font-medium text-gray-900 dark:text-white">Demote to Regular User</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Remove admin privileges but keep the account</p>
               </div>
               <input
                 type="radio"
@@ -966,7 +966,7 @@ export function AdminManager() {
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:text-gray-400"
                   >
                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>

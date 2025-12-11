@@ -156,7 +156,7 @@ export function ProfilePage() {
       <div className="min-h-screen bg-gradient-to-b from-gray-50 via-white to-teal-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center px-4 pb-20 md:pb-0">
         <Card className="max-w-md w-full dark:bg-gray-800 dark:border-gray-700">
           <CardContent className="p-8 text-center">
-            <User className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+            <User className="h-16 w-16 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Login Required</h2>
             <p className="text-gray-600 dark:text-gray-400 mb-6">Please login to view your profile</p>
             <Button onClick={() => navigate('/login')} className="rounded-xl w-full">
@@ -297,7 +297,7 @@ export function ProfilePage() {
           <Card className="mb-6 border-2 border-gray-200 dark:border-gray-700">
             <CardContent className="p-4">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium text-gray-600">Progress to {nextTier.tier}</span>
+                <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Progress to {nextTier.tier}</span>
                 <span className="text-sm font-semibold text-purple-600">{nextTier.pointsNeeded} points to go</span>
               </div>
               <Progress 
@@ -367,7 +367,7 @@ export function ProfilePage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <Label className="text-gray-600">Full Name</Label>
+                  <Label className="text-gray-600 dark:text-gray-400">Full Name</Label>
                   {isEditing ? (
                     <Input
                       value={profileData.name}
@@ -379,12 +379,12 @@ export function ProfilePage() {
                   )}
                 </div>
                 <div>
-                  <Label className="text-gray-600">Email Address</Label>
+                  <Label className="text-gray-600 dark:text-gray-400">Email Address</Label>
                   <p className="text-gray-900 dark:text-white">{user.email}</p>
-                  <p className="text-xs text-gray-500">Email cannot be changed</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">Email cannot be changed</p>
                 </div>
                 <div>
-                  <Label className="text-gray-600">Phone Number</Label>
+                  <Label className="text-gray-600 dark:text-gray-400">Phone Number</Label>
                   {isEditing ? (
                     <Input
                       value={profileData.phone}
@@ -397,7 +397,7 @@ export function ProfilePage() {
                   )}
                 </div>
                 <div>
-                  <Label className="text-gray-600">Member Since</Label>
+                  <Label className="text-gray-600 dark:text-gray-400">Member Since</Label>
                   <p className="text-gray-900 dark:text-white">
                     {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
                   </p>
@@ -418,8 +418,8 @@ export function ProfilePage() {
               <CardContent>
                 {orders.length === 0 ? (
                   <div className="text-center py-8">
-                    <Package className="h-12 w-12 text-gray-300 mx-auto mb-3" />
-                    <p className="text-gray-500">No orders yet</p>
+                    <Package className="h-12 w-12 text-gray-300 dark:text-gray-600 mx-auto mb-3" />
+                    <p className="text-gray-500 dark:text-gray-400">No orders yet</p>
                     <Button onClick={() => navigate('/')} variant="outline" className="mt-4 rounded-xl">
                       Start Shopping
                     </Button>
@@ -437,7 +437,7 @@ export function ProfilePage() {
                           </div>
                           <div>
                             <p className="font-semibold text-sm md:text-base">{order.product?.name || 'Product'}</p>
-                            <p className="text-xs text-gray-500">
+                            <p className="text-xs text-gray-500 dark:text-gray-400">
                               {new Date(order.createdAt).toLocaleDateString()}
                             </p>
                           </div>
@@ -568,7 +568,7 @@ export function ProfilePage() {
                 <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800">
                   <div>
                     <p className="font-medium text-sm md:text-base">Order Updates</p>
-                    <p className="text-xs md:text-sm text-gray-500">Get notified about order status</p>
+                    <p className="text-xs md:text-sm text-gray-500 dark:text-gray-400">Get notified about order status</p>
                   </div>
                   <Switch
                     checked={preferences.emailOrderUpdates}
@@ -578,7 +578,7 @@ export function ProfilePage() {
                 <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800">
                   <div>
                     <p className="font-medium text-sm md:text-base">Promotions</p>
-                    <p className="text-xs md:text-sm text-gray-500">Receive special offers</p>
+                    <p className="text-xs md:text-sm text-gray-500 dark:text-gray-400">Receive special offers</p>
                   </div>
                   <Switch
                     checked={preferences.emailPromotions}

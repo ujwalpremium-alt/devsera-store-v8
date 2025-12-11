@@ -3,8 +3,7 @@ import { Product, DeliveryType } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useNavigate } from 'react-router-dom';
-import { useWishlist } from '@/contexts/WishlistContext';
-import { Clock, Key, Package, UserCheck, Zap, ArrowRight, Heart, Eye, Star, AlertTriangle, Layers, Flame } from 'lucide-react';
+import { Clock, Key, Package, UserCheck, Zap, ArrowRight, Eye, Star, AlertTriangle, Layers, Flame } from 'lucide-react';
 import { getFlashSaleInfoFromStorage } from '@/hooks/useFlashSale';
 
 const deliveryIcons: Record<DeliveryType, React.ReactNode> = {
@@ -28,7 +27,6 @@ interface ProductCardProps {
 
 export function ProductCard({ product, onQuickView }: ProductCardProps) {
   const navigate = useNavigate();
-  const { isInWishlist, toggleWishlist } = useWishlist();
   const [isHovered, setIsHovered] = useState(false);
   const [flashSaleInfo, setFlashSaleInfo] = useState({ isOnFlashSale: false, discountAmount: 0 });
   
@@ -105,22 +103,9 @@ export function ProductCard({ product, onQuickView }: ProductCardProps) {
         </div>
       )}
 
-      {/* Wishlist & Quick View Buttons */}
-      <div className={`absolute top-2 sm:top-4 right-2 sm:right-4 z-10 flex flex-col gap-1.5 sm:gap-2 transition-all duration-300 ${isHovered ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-2 sm:opacity-0'}`}>
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            toggleWishlist(product.id);
-          }}
-          className={`w-7 h-7 sm:w-9 sm:h-9 rounded-full flex items-center justify-center shadow-lg transition-all ${
-            isInWishlist(product.id)
-              ? 'bg-red-500 text-white'
-              : 'bg-white/95 dark:bg-gray-800/95 text-gray-600 dark:text-gray-300 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-500'
-          }`}
-        >
-          <Heart className={`h-3.5 w-3.5 sm:h-4 sm:w-4 ${isInWishlist(product.id) ? 'fill-current' : ''}`} />
-        </button>
-        {onQuickView && (
+      {/* Quick View Button */}
+      {onQuickView && (
+        <div className={`absolute top-2 sm:top-4 right-2 sm:right-4 z-10 transition-all duration-300 ${isHovered ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-2 sm:opacity-0'}`}>
           <button
             onClick={(e) => {
               e.stopPropagation();
@@ -130,8 +115,8 @@ export function ProductCard({ product, onQuickView }: ProductCardProps) {
           >
             <Eye className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
           </button>
-        )}
-      </div>
+        </div>
+      )}
 
       {/* Image Container */}
       <div className="aspect-[4/3] overflow-hidden relative bg-gradient-to-br from-gray-100 to-gray-50 dark:from-gray-700 dark:to-gray-800 cursor-pointer" onClick={() => navigate(`/product/${product.id}`)}>
@@ -147,25 +132,24 @@ export function ProductCard({ product, onQuickView }: ProductCardProps) {
         {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         
-        {/* Delivery Type Badge */}
-        {product.deliveryType && (
-          <div className="absolute bottom-2 sm:bottom-3 left-2 sm:left-3">
+        {/* Bottom Badges Container */}
+        <div className="absolute bottom-2 sm:bottom-3 left-2 sm:left-3 right-2 sm:right-3 flex items-center justify-between gap-2">
+          {/* Delivery Type Badge */}
+          {product.deliveryType && (
             <Badge className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm text-gray-700 dark:text-gray-200 border-0 shadow-md text-[10px] sm:text-xs flex items-center gap-1 sm:gap-1.5 px-1.5 sm:px-2.5 py-0.5 sm:py-1">
               {deliveryIcons[product.deliveryType]}
               <span className="hidden xs:inline">{deliveryLabels[product.deliveryType]}</span>
             </Badge>
-          </div>
-        )}
+          )}
 
-        {/* Low Stock Warning */}
-        {isLowStock && (
-          <div className="absolute bottom-2 sm:bottom-3 right-2 sm:right-3">
-            <Badge className="bg-amber-500/95 text-white border-0 shadow-md text-[10px] sm:text-xs flex items-center gap-0.5 sm:gap-1 px-1.5 sm:px-2 py-0.5 sm:py-1">
+          {/* Low Stock Warning */}
+          {isLowStock && (
+            <Badge className="bg-amber-500/95 text-white border-0 shadow-md text-[10px] sm:text-xs flex items-center gap-0.5 sm:gap-1 px-1.5 sm:px-2 py-0.5 sm:py-1 flex-shrink-0">
               <AlertTriangle className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
               <span className="hidden xs:inline">Only</span> {stockLevel} left
             </Badge>
-          </div>
-        )}
+          )}
+        </div>
         
         {/* Out of Stock Badge */}
         {isOutOfStock && (

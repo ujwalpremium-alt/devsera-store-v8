@@ -218,7 +218,7 @@ export function BannerManager() {
         </div>
         <div className="brutalist-card p-4 border-gray-500">
           <p className="text-sm text-gray-500 dark:text-gray-400">Inactive</p>
-          <p className="text-2xl font-bold text-gray-600">{banners.filter(b => !b.is_active).length}</p>
+          <p className="text-2xl font-bold text-gray-600 dark:text-gray-400">{banners.filter(b => !b.is_active).length}</p>
         </div>
         <div className="brutalist-card p-4 border-purple-500">
           <p className="text-sm text-gray-500 dark:text-gray-400">Scheduled</p>
@@ -230,7 +230,7 @@ export function BannerManager() {
       <div className="space-y-3">
         {banners.length === 0 ? (
           <div className="text-center py-12 brutalist-card">
-            <ImageIcon className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+            <ImageIcon className="h-12 w-12 text-gray-400 dark:text-gray-600 mx-auto mb-4" />
             <p className="text-gray-500 dark:text-gray-400">No banners yet. Create your first banner!</p>
           </div>
         ) : (
@@ -242,7 +242,7 @@ export function BannerManager() {
               <div className="flex items-start gap-4">
                 {/* Drag Handle & Order Controls */}
                 <div className="flex flex-col items-center gap-1">
-                  <GripVertical className="h-5 w-5 text-gray-400 cursor-grab" />
+                  <GripVertical className="h-5 w-5 text-gray-400 dark:text-gray-500 cursor-grab" />
                   <Button 
                     variant="ghost" 
                     size="sm" 
@@ -252,7 +252,7 @@ export function BannerManager() {
                   >
                     <ChevronUp className="h-4 w-4" />
                   </Button>
-                  <span className="text-xs font-bold text-gray-500">{index + 1}</span>
+                  <span className="text-xs font-bold text-gray-500 dark:text-gray-400">{index + 1}</span>
                   <Button 
                     variant="ghost" 
                     size="sm" 
@@ -289,9 +289,9 @@ export function BannerManager() {
                     <p className="text-sm text-gray-600 dark:text-gray-400">{banner.subtitle}</p>
                   )}
                   {banner.description && (
-                    <p className="text-xs text-gray-500 dark:text-gray-500 mt-1 line-clamp-1">{banner.description}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 line-clamp-1">{banner.description}</p>
                   )}
-                  <div className="flex items-center gap-3 mt-2 text-xs text-gray-500">
+                  <div className="flex items-center gap-3 mt-2 text-xs text-gray-500 dark:text-gray-400">
                     <span className="flex items-center gap-1">
                       <Link className="h-3 w-3" />
                       {banner.button_link}
@@ -309,7 +309,7 @@ export function BannerManager() {
                     variant="ghost"
                     size="sm"
                     onClick={() => handleToggleStatus(banner.id, banner.is_active)}
-                    className={banner.is_active ? 'text-green-600' : 'text-gray-400'}
+                    className={banner.is_active ? 'text-green-600' : 'text-gray-400 dark:text-gray-500'}
                   >
                     {banner.is_active ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
                   </Button>
@@ -509,7 +509,7 @@ export function BannerManager() {
             <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
               <div>
                 <Label className="font-semibold">Active Status</Label>
-                <p className="text-xs text-gray-500">Enable to show this banner on the front page</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">Enable to show this banner on the front page</p>
               </div>
               <Switch
                 checked={formData.is_active}

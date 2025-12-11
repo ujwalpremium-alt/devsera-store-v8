@@ -94,7 +94,7 @@ export function SupportPage() {
       open: 'bg-blue-100 text-blue-700 border-blue-200',
       in_progress: 'bg-amber-100 text-amber-700 border-amber-200',
       resolved: 'bg-green-100 text-green-700 border-green-200',
-      closed: 'bg-gray-100 text-gray-700 border-gray-200',
+      closed: 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700',
     };
     const labels = {
       open: 'Open',
@@ -111,7 +111,7 @@ export function SupportPage() {
 
   const getPriorityBadge = (priority: string) => {
     const styles = {
-      low: 'bg-gray-100 text-gray-600',
+      low: 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400',
       medium: 'bg-blue-100 text-blue-600',
       high: 'bg-orange-100 text-orange-600',
       urgent: 'bg-red-100 text-red-600',
@@ -377,8 +377,8 @@ export function SupportPage() {
                     {expandedTicket === ticket.id && (
                       <div className="mt-4 pt-4 border-t dark:border-gray-700 space-y-4">
                         <div>
-                          <p className="text-sm font-medium text-gray-700 mb-1">Your Message:</p>
-                          <p className="text-gray-600 bg-gray-50 p-3 rounded-lg text-sm">
+                          <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Your Message:</p>
+                          <p className="text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-800 p-3 rounded-lg text-sm">
                             {ticket.description}
                           </p>
                         </div>
@@ -389,11 +389,11 @@ export function SupportPage() {
                               <CheckCircle className="h-4 w-4" />
                               Admin Response:
                             </p>
-                            <p className="text-gray-600 bg-teal-50 p-3 rounded-lg text-sm border border-teal-200">
+                            <p className="text-gray-600 dark:text-gray-300 bg-teal-50 dark:bg-teal-900/30 p-3 rounded-lg text-sm border border-teal-200 dark:border-teal-700">
                               {ticket.adminResponse}
                             </p>
                             {ticket.respondedAt && (
-                              <p className="text-xs text-gray-500 mt-1">
+                              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                                 Responded on {new Date(ticket.respondedAt).toLocaleString()}
                               </p>
                             )}

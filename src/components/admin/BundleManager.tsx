@@ -269,7 +269,7 @@ export function BundleManager() {
                           </div>
                         ))}
                       </div>
-                      <p className="text-xs text-gray-500 mt-1">
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                         {formData.productIds.length} products selected
                       </p>
                     </div>
@@ -301,10 +301,10 @@ export function BundleManager() {
         {isLoading ? (
           <div className="text-center py-8">
             <div className="w-8 h-8 border-4 border-purple-500 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
-            <p className="text-gray-500">Loading bundles...</p>
+            <p className="text-gray-500 dark:text-gray-400">Loading bundles...</p>
           </div>
         ) : bundles.length === 0 ? (
-          <div className="text-center py-8 text-gray-500">
+          <div className="text-center py-8 text-gray-500 dark:text-gray-400">
             <Package className="h-12 w-12 mx-auto mb-2 opacity-50" />
             <p>No bundles created yet</p>
             <p className="text-sm">Create your first bundle offer to attract more customers!</p>
@@ -335,17 +335,17 @@ export function BundleManager() {
                     )}
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
-                        <h3 className="font-bold text-gray-900">{bundle.name}</h3>
+                        <h3 className="font-bold text-gray-900 dark:text-white">{bundle.name}</h3>
                         <Badge className="bg-gradient-to-r from-red-500 to-pink-500 text-white">
                           -{calculateDiscount(bundle.originalPrice, bundle.salePrice)}%
                         </Badge>
                         {!bundle.isActive && (
-                          <Badge variant="outline" className="text-gray-500">Inactive</Badge>
+                          <Badge variant="outline" className="text-gray-500 dark:text-gray-400">Inactive</Badge>
                         )}
                       </div>
-                      <p className="text-sm text-gray-600 mb-2">{bundle.description}</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">{bundle.description}</p>
                       <div className="flex items-center gap-4 text-sm">
-                        <span className="text-gray-500 line-through">₹{bundle.originalPrice}</span>
+                        <span className="text-gray-500 dark:text-gray-400 line-through">₹{bundle.originalPrice}</span>
                         <span className="font-bold text-purple-600">₹{bundle.salePrice}</span>
                         {bundle.validUntil && (
                           <span className="flex items-center gap-1 text-amber-600">
@@ -369,7 +369,7 @@ export function BundleManager() {
                         checked={bundle.isActive}
                         onCheckedChange={(checked) => handleToggleActive(bundle.id, checked)}
                       />
-                      <span className="text-xs text-gray-500">
+                      <span className="text-xs text-gray-500 dark:text-gray-400">
                         {bundle.isActive ? 'Active' : 'Inactive'}
                       </span>
                     </div>

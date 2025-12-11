@@ -175,8 +175,8 @@ export function ContactPage() {
                     <Clock className="h-6 w-6 text-amber-600" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-gray-900 mb-1">Response Time</h3>
-                    <p className="text-sm text-gray-600">
+                    <h3 className="font-bold text-gray-900 dark:text-white mb-1">Response Time</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
                       Telegram: Usually within 1 hour<br />
                       Email: Within 24 hours
                     </p>
@@ -190,11 +190,11 @@ export function ContactPage() {
           <div className="lg:col-span-2">
             <Card className="border-2 border-gray-200">
               <CardContent className="p-6 md:p-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">Send us a Message</h2>
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Send us a Message</h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <Label htmlFor="name" className="font-semibold text-gray-700">
+                      <Label htmlFor="name" className="font-semibold text-gray-700 dark:text-gray-300">
                         Your Name *
                       </Label>
                       <Input
@@ -207,7 +207,7 @@ export function ContactPage() {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="email" className="font-semibold text-gray-700">
+                      <Label htmlFor="email" className="font-semibold text-gray-700 dark:text-gray-300">
                         Email Address *
                       </Label>
                       <Input
@@ -223,7 +223,7 @@ export function ContactPage() {
                   </div>
 
                   <div>
-                    <Label htmlFor="subject" className="font-semibold text-gray-700">
+                    <Label htmlFor="subject" className="font-semibold text-gray-700 dark:text-gray-300">
                       Subject
                     </Label>
                     <Input
@@ -236,7 +236,7 @@ export function ContactPage() {
                   </div>
 
                   <div>
-                    <Label htmlFor="message" className="font-semibold text-gray-700">
+                    <Label htmlFor="message" className="font-semibold text-gray-700 dark:text-gray-300">
                       Message *
                     </Label>
                     <Textarea
@@ -285,23 +285,23 @@ export function ContactPage() {
 
         {/* FAQ Section */}
         <div className="mt-16 bg-white rounded-3xl border-2 border-gray-200 p-8 md:p-12">
-          <h2 className="text-2xl font-bold text-center text-gray-900 mb-8">Frequently Asked Questions</h2>
+          <h2 className="text-2xl font-bold text-center text-gray-900 dark:text-white mb-8">Frequently Asked Questions</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="p-4 bg-gray-50 rounded-xl">
-              <h3 className="font-bold text-gray-900 mb-2">How long does delivery take?</h3>
-              <p className="text-gray-600 text-sm">Most orders are delivered within 1-24 hours after payment verification.</p>
+              <h3 className="font-bold text-gray-900 dark:text-white mb-2">How long does delivery take?</h3>
+              <p className="text-gray-600 dark:text-gray-400 text-sm">Most orders are delivered within 1-24 hours after payment verification.</p>
             </div>
             <div className="p-4 bg-gray-50 rounded-xl">
-              <h3 className="font-bold text-gray-900 mb-2">What payment methods do you accept?</h3>
-              <p className="text-gray-600 text-sm">We accept UPI payments. Simply scan the QR code during checkout.</p>
+              <h3 className="font-bold text-gray-900 dark:text-white mb-2">What payment methods do you accept?</h3>
+              <p className="text-gray-600 dark:text-gray-400 text-sm">We accept UPI payments. Simply scan the QR code during checkout.</p>
             </div>
             <div className="p-4 bg-gray-50 rounded-xl">
-              <h3 className="font-bold text-gray-900 mb-2">Are the subscriptions genuine?</h3>
-              <p className="text-gray-600 text-sm">Yes! All our subscriptions are 100% genuine and come with warranty.</p>
+              <h3 className="font-bold text-gray-900 dark:text-white mb-2">Are the subscriptions genuine?</h3>
+              <p className="text-gray-600 dark:text-gray-400 text-sm">Yes! All our subscriptions are 100% genuine and come with warranty.</p>
             </div>
             <div className="p-4 bg-gray-50 rounded-xl">
-              <h3 className="font-bold text-gray-900 mb-2">What if I face any issues?</h3>
-              <p className="text-gray-600 text-sm">Contact us on Telegram for instant support. We're here to help!</p>
+              <h3 className="font-bold text-gray-900 dark:text-white mb-2">What if I face any issues?</h3>
+              <p className="text-gray-600 dark:text-gray-400 text-sm">Contact us on Telegram for instant support. We're here to help!</p>
             </div>
           </div>
         </div>

@@ -242,7 +242,7 @@ export default function PremiumContentManager() {
     if (totalPages <= 1) return null;
     return (
       <div className="flex items-center justify-between pt-4 border-t mt-4">
-        <p className="text-xs sm:text-sm text-gray-500">
+        <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
           Page {currentPage} of {totalPages}
         </p>
         <div className="flex items-center gap-1 sm:gap-2">
@@ -315,7 +315,7 @@ export default function PremiumContentManager() {
         <TabsContent value="products" className="space-y-4">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
             <div className="relative w-full sm:flex-1 sm:max-w-sm">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500" />
               <Input
                 placeholder="Search products..."
                 value={searchTerm}
@@ -354,8 +354,8 @@ export default function PremiumContentManager() {
           {filteredProducts.length === 0 ? (
             <Card className="text-center py-8 sm:py-12">
               <CardContent>
-                <Gift className="h-10 w-10 sm:h-12 sm:w-12 text-gray-300 mx-auto mb-3 sm:mb-4" />
-                <p className="text-gray-500 text-sm sm:text-base">
+                <Gift className="h-10 w-10 sm:h-12 sm:w-12 text-gray-300 dark:text-gray-600 mx-auto mb-3 sm:mb-4" />
+                <p className="text-gray-500 dark:text-gray-400 text-sm sm:text-base">
                   {searchTerm ? 'No products match your search' : 'No premium products configured'}
                 </p>
                 {!searchTerm && (
@@ -397,7 +397,7 @@ export default function PremiumContentManager() {
                                   <Badge className="bg-amber-100 text-amber-800 text-[10px] sm:text-xs">Exclusive</Badge>
                                 )}
                               </div>
-                              <p className="text-xs text-gray-500 mt-1">
+                              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                                 Original: ₹{product.salePrice} 
                                 {pp.is_free_for_premium && ' → FREE'}
                                 {pp.premium_discount_percent > 0 && ` → ₹${Math.round(product.salePrice * (1 - pp.premium_discount_percent / 100))}`}
@@ -430,7 +430,7 @@ export default function PremiumContentManager() {
         <TabsContent value="content" className="space-y-4">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
             <div className="relative w-full sm:flex-1 sm:max-w-sm">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500" />
               <Input
                 placeholder="Search content..."
                 value={searchTerm}
@@ -475,8 +475,8 @@ export default function PremiumContentManager() {
           {filteredContent.length === 0 ? (
             <Card className="text-center py-8 sm:py-12">
               <CardContent>
-                <Zap className="h-10 w-10 sm:h-12 sm:w-12 text-gray-300 mx-auto mb-3 sm:mb-4" />
-                <p className="text-gray-500 text-sm sm:text-base">
+                <Zap className="h-10 w-10 sm:h-12 sm:w-12 text-gray-300 dark:text-gray-600 mx-auto mb-3 sm:mb-4" />
+                <p className="text-gray-500 dark:text-gray-400 text-sm sm:text-base">
                   {searchTerm ? 'No content matches your search' : 'No premium content yet'}
                 </p>
                 {!searchTerm && (
@@ -507,7 +507,7 @@ export default function PremiumContentManager() {
                             </div>
                             <div className="min-w-0">
                               <p className="font-medium text-sm sm:text-base truncate">{content.title}</p>
-                              <p className="text-xs text-gray-500 line-clamp-1">{content.description}</p>
+                              <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-1">{content.description}</p>
                               <div className="flex items-center gap-2 mt-1">
                                 <Badge variant="outline" className="text-[10px] sm:text-xs capitalize">
                                   {content.content_type}
@@ -577,7 +577,7 @@ export default function PremiumContentManager() {
                     <SelectItem key={product.id} value={product.id}>
                       <div className="flex items-center gap-2">
                         <span className="truncate">{product.name}</span>
-                        <span className="text-xs text-gray-500">₹{product.salePrice}</span>
+                        <span className="text-xs text-gray-500 dark:text-gray-400">₹{product.salePrice}</span>
                       </div>
                     </SelectItem>
                   ))}
@@ -589,7 +589,7 @@ export default function PremiumContentManager() {
               <div className="flex items-center justify-between">
                 <div>
                   <Label className="text-sm font-medium">Free for Premium</Label>
-                  <p className="text-[10px] sm:text-xs text-gray-500">Premium members get this free</p>
+                  <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">Premium members get this free</p>
                 </div>
                 <Switch checked={isFreeForPremium} onCheckedChange={setIsFreeForPremium} />
               </div>
@@ -597,7 +597,7 @@ export default function PremiumContentManager() {
               <div className="flex items-center justify-between">
                 <div>
                   <Label className="text-sm font-medium">Premium Only</Label>
-                  <p className="text-[10px] sm:text-xs text-gray-500">Only visible to premium members</p>
+                  <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">Only visible to premium members</p>
                 </div>
                 <Switch checked={premiumOnly} onCheckedChange={setPremiumOnly} />
               </div>
@@ -720,7 +720,7 @@ export default function PremiumContentManager() {
             <div className="flex items-center justify-between bg-gray-50 rounded-lg p-3">
               <div>
                 <Label className="text-sm font-medium">Active</Label>
-                <p className="text-[10px] sm:text-xs text-gray-500">Show this content to premium users</p>
+                <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">Show this content to premium users</p>
               </div>
               <Switch checked={contentActive} onCheckedChange={setContentActive} />
             </div>

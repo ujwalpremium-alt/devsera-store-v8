@@ -151,10 +151,10 @@ export default function PremiumExclusivePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-amber-50 to-white">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-amber-50 to-white dark:from-gray-900 dark:to-gray-950">
         <div className="text-center">
           <Loader2 className="h-10 w-10 sm:h-12 sm:w-12 animate-spin text-amber-500 mx-auto mb-4" />
-          <p className="text-gray-500 text-sm sm:text-base">Loading premium content...</p>
+          <p className="text-gray-500 dark:text-gray-400 text-sm sm:text-base">Loading premium content...</p>
         </div>
       </div>
     );
@@ -162,10 +162,10 @@ export default function PremiumExclusivePage() {
 
   if (!user) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-b from-amber-50 to-white">
-        <Lock className="h-12 w-12 sm:h-16 sm:w-16 text-gray-300 mb-4" />
-        <h1 className="text-lg sm:text-xl font-bold mb-2">Login Required</h1>
-        <p className="text-gray-500 text-center mb-4 text-sm sm:text-base">Please login to access premium content</p>
+      <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-b from-amber-50 to-white dark:from-gray-900 dark:to-gray-950">
+        <Lock className="h-12 w-12 sm:h-16 sm:w-16 text-gray-300 dark:text-gray-600 mb-4" />
+        <h1 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2">Login Required</h1>
+        <p className="text-gray-500 dark:text-gray-400 text-center mb-4 text-sm sm:text-base">Please login to access premium content</p>
         <Button onClick={() => navigate('/login')}>Login</Button>
       </div>
     );
@@ -173,13 +173,13 @@ export default function PremiumExclusivePage() {
 
   if (!isPremium) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-b from-amber-50 to-white">
+      <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-b from-amber-50 to-white dark:from-gray-900 dark:to-gray-950">
         <div className="text-center max-w-md">
-          <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-amber-100 mb-4 sm:mb-6">
+          <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-amber-100 dark:bg-amber-900/50 mb-4 sm:mb-6">
             <Crown className="h-8 w-8 sm:h-10 sm:w-10 text-amber-500" />
           </div>
-          <h1 className="text-xl sm:text-2xl font-bold mb-2">Premium Content</h1>
-          <p className="text-gray-500 mb-4 sm:mb-6 text-sm sm:text-base">
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-2">Premium Content</h1>
+          <p className="text-gray-500 dark:text-gray-400 mb-4 sm:mb-6 text-sm sm:text-base">
             This content is exclusively available for premium members. Join premium to unlock all exclusive products, tricks, and offers.
           </p>
           <Button 
@@ -195,7 +195,7 @@ export default function PremiumExclusivePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white pb-24">
+    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white dark:from-gray-900 dark:to-gray-950 pb-24">
       {/* Header */}
       <div className="bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-600 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 md:py-8">
@@ -224,32 +224,32 @@ export default function PremiumExclusivePage() {
       {/* Stats Overview */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 md:gap-4 mb-6">
-          <Card className="bg-green-50 border-green-200">
+          <Card className="bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800">
             <CardContent className="p-2 sm:p-3 md:p-4 text-center">
-              <Gift className="h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8 text-green-600 mx-auto mb-1" />
-              <p className="text-lg sm:text-xl md:text-2xl font-bold text-green-700">{freeProducts.length}</p>
-              <p className="text-[10px] sm:text-xs md:text-sm text-green-600">Free Products</p>
+              <Gift className="h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8 text-green-600 dark:text-green-400 mx-auto mb-1" />
+              <p className="text-lg sm:text-xl md:text-2xl font-bold text-green-700 dark:text-green-300">{freeProducts.length}</p>
+              <p className="text-[10px] sm:text-xs md:text-sm text-green-600 dark:text-green-400">Free Products</p>
             </CardContent>
           </Card>
-          <Card className="bg-amber-50 border-amber-200">
+          <Card className="bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800">
             <CardContent className="p-2 sm:p-3 md:p-4 text-center">
-              <Crown className="h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8 text-amber-600 mx-auto mb-1" />
-              <p className="text-lg sm:text-xl md:text-2xl font-bold text-amber-700">{exclusiveProducts.length}</p>
-              <p className="text-[10px] sm:text-xs md:text-sm text-amber-600">Exclusive</p>
+              <Crown className="h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8 text-amber-600 dark:text-amber-400 mx-auto mb-1" />
+              <p className="text-lg sm:text-xl md:text-2xl font-bold text-amber-700 dark:text-amber-300">{exclusiveProducts.length}</p>
+              <p className="text-[10px] sm:text-xs md:text-sm text-amber-600 dark:text-amber-400">Exclusive</p>
             </CardContent>
           </Card>
-          <Card className="bg-blue-50 border-blue-200">
+          <Card className="bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800">
             <CardContent className="p-2 sm:p-3 md:p-4 text-center">
-              <Tag className="h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8 text-blue-600 mx-auto mb-1" />
-              <p className="text-lg sm:text-xl md:text-2xl font-bold text-blue-700">{discountedProducts.length}</p>
-              <p className="text-[10px] sm:text-xs md:text-sm text-blue-600">Discounted</p>
+              <Tag className="h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8 text-blue-600 dark:text-blue-400 mx-auto mb-1" />
+              <p className="text-lg sm:text-xl md:text-2xl font-bold text-blue-700 dark:text-blue-300">{discountedProducts.length}</p>
+              <p className="text-[10px] sm:text-xs md:text-sm text-blue-600 dark:text-blue-400">Discounted</p>
             </CardContent>
           </Card>
-          <Card className="bg-purple-50 border-purple-200">
+          <Card className="bg-purple-50 dark:bg-purple-900/20 border-purple-200 dark:border-purple-800">
             <CardContent className="p-2 sm:p-3 md:p-4 text-center">
-              <Zap className="h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8 text-purple-600 mx-auto mb-1" />
-              <p className="text-lg sm:text-xl md:text-2xl font-bold text-purple-700">{tricks.length + guides.length}</p>
-              <p className="text-[10px] sm:text-xs md:text-sm text-purple-600">Tricks & Guides</p>
+              <Zap className="h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8 text-purple-600 dark:text-purple-400 mx-auto mb-1" />
+              <p className="text-lg sm:text-xl md:text-2xl font-bold text-purple-700 dark:text-purple-300">{tricks.length + guides.length}</p>
+              <p className="text-[10px] sm:text-xs md:text-sm text-purple-600 dark:text-purple-400">Tricks & Guides</p>
             </CardContent>
           </Card>
         </div>
@@ -273,11 +273,11 @@ export default function PremiumExclusivePage() {
           <TabsContent value="products" className="space-y-6 sm:space-y-8 mt-0">
             {/* Free Products */}
             {freeProducts.length > 0 && (
-              <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/10 dark:to-emerald-900/10 rounded-xl sm:rounded-2xl p-3 sm:p-4 md:p-6">
+              <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl sm:rounded-2xl p-3 sm:p-4 md:p-6">
                 <div className="flex items-center justify-between mb-3 sm:mb-4">
-                  <h2 className="text-base sm:text-lg md:text-xl font-bold flex items-center gap-2">
-                    <div className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-lg sm:rounded-xl bg-green-100 flex items-center justify-center">
-                      <Gift className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5 text-green-600" />
+                  <h2 className="text-base sm:text-lg md:text-xl font-bold flex items-center gap-2 text-gray-900 dark:text-white">
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-lg sm:rounded-xl bg-green-100 dark:bg-green-900/50 flex items-center justify-center">
+                      <Gift className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5 text-green-600 dark:text-green-400" />
                     </div>
                     Free for You
                   </h2>
@@ -310,11 +310,11 @@ export default function PremiumExclusivePage() {
 
             {/* Exclusive Products */}
             {exclusiveProducts.length > 0 && (
-              <div className="bg-gradient-to-br from-amber-50 to-yellow-50 dark:from-amber-900/10 dark:to-yellow-900/10 rounded-xl sm:rounded-2xl p-3 sm:p-4 md:p-6">
+              <div className="bg-gradient-to-br from-amber-50 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/20 rounded-xl sm:rounded-2xl p-3 sm:p-4 md:p-6">
                 <div className="flex items-center justify-between mb-3 sm:mb-4">
-                  <h2 className="text-base sm:text-lg md:text-xl font-bold flex items-center gap-2">
-                    <div className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-lg sm:rounded-xl bg-amber-100 flex items-center justify-center">
-                      <Crown className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5 text-amber-600" />
+                  <h2 className="text-base sm:text-lg md:text-xl font-bold flex items-center gap-2 text-gray-900 dark:text-white">
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-lg sm:rounded-xl bg-amber-100 dark:bg-amber-900/50 flex items-center justify-center">
+                      <Crown className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5 text-amber-600 dark:text-amber-400" />
                     </div>
                     Premium Only
                   </h2>
@@ -347,11 +347,11 @@ export default function PremiumExclusivePage() {
 
             {/* Discounted Products */}
             {discountedProducts.length > 0 && (
-              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/10 dark:to-indigo-900/10 rounded-xl sm:rounded-2xl p-3 sm:p-4 md:p-6">
+              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl sm:rounded-2xl p-3 sm:p-4 md:p-6">
                 <div className="flex items-center justify-between mb-3 sm:mb-4">
-                  <h2 className="text-base sm:text-lg md:text-xl font-bold flex items-center gap-2">
-                    <div className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-lg sm:rounded-xl bg-blue-100 flex items-center justify-center">
-                      <Tag className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5 text-blue-600" />
+                  <h2 className="text-base sm:text-lg md:text-xl font-bold flex items-center gap-2 text-gray-900 dark:text-white">
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-lg sm:rounded-xl bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center">
+                      <Tag className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5 text-blue-600 dark:text-blue-400" />
                     </div>
                     Premium Discounts
                   </h2>
@@ -384,11 +384,11 @@ export default function PremiumExclusivePage() {
             )}
 
             {freeProducts.length === 0 && exclusiveProducts.length === 0 && discountedProducts.length === 0 && (
-              <Card className="text-center py-8 sm:py-12 bg-white/50">
+              <Card className="text-center py-8 sm:py-12 bg-white/50 dark:bg-gray-800/50">
                 <CardContent>
-                  <Gift className="h-12 w-12 sm:h-16 sm:w-16 text-gray-300 mx-auto mb-3 sm:mb-4" />
-                  <p className="text-base sm:text-lg text-gray-500 font-medium">No premium products available yet</p>
-                  <p className="text-xs sm:text-sm text-gray-400 mt-1">Check back soon for exclusive deals!</p>
+                  <Gift className="h-12 w-12 sm:h-16 sm:w-16 text-gray-300 dark:text-gray-600 mx-auto mb-3 sm:mb-4" />
+                  <p className="text-base sm:text-lg text-gray-500 dark:text-gray-400 font-medium">No premium products available yet</p>
+                  <p className="text-xs sm:text-sm text-gray-400 dark:text-gray-500 mt-1">Check back soon for exclusive deals!</p>
                 </CardContent>
               </Card>
             )}
@@ -397,11 +397,11 @@ export default function PremiumExclusivePage() {
           <TabsContent value="tricks" className="space-y-6 sm:space-y-8 mt-0">
             {/* Tricks Section */}
             {tricks.length > 0 && (
-              <div className="bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/10 dark:to-orange-900/10 rounded-xl sm:rounded-2xl p-3 sm:p-4 md:p-6">
+              <div className="bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 rounded-xl sm:rounded-2xl p-3 sm:p-4 md:p-6">
                 <div className="flex items-center justify-between mb-3 sm:mb-4">
-                  <h2 className="text-base sm:text-lg md:text-xl font-bold flex items-center gap-2">
-                    <div className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-lg sm:rounded-xl bg-amber-100 flex items-center justify-center">
-                      <Zap className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5 text-amber-600" />
+                  <h2 className="text-base sm:text-lg md:text-xl font-bold flex items-center gap-2 text-gray-900 dark:text-white">
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-lg sm:rounded-xl bg-amber-100 dark:bg-amber-900/50 flex items-center justify-center">
+                      <Zap className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5 text-amber-600 dark:text-amber-400" />
                     </div>
                     Exclusive Tricks
                   </h2>
@@ -409,24 +409,24 @@ export default function PremiumExclusivePage() {
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
                   {paginate(tricks, tricksPage).map((trick) => (
-                    <Card key={trick.id} className="border-amber-200 bg-white dark:bg-gray-800 hover:shadow-xl transition-all overflow-hidden">
-                      <CardHeader className="p-3 sm:p-4 pb-2 sm:pb-3 bg-gradient-to-r from-amber-500/10 to-orange-500/10">
+                    <Card key={trick.id} className="border-amber-200 dark:border-amber-800 bg-white dark:bg-gray-800 hover:shadow-xl transition-all overflow-hidden">
+                      <CardHeader className="p-3 sm:p-4 pb-2 sm:pb-3 bg-gradient-to-r from-amber-500/10 to-orange-500/10 dark:from-amber-500/20 dark:to-orange-500/20">
                         <div className="flex items-start justify-between gap-2">
                           <div className="flex items-center gap-2 sm:gap-3 min-w-0">
                             <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-lg sm:rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-lg flex-shrink-0">
                               <Zap className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-white" />
                             </div>
                             <div className="min-w-0">
-                              <CardTitle className="text-sm sm:text-base md:text-lg truncate">{trick.title}</CardTitle>
-                              <CardDescription className="text-[10px] sm:text-xs md:text-sm mt-0.5 line-clamp-1">{trick.description}</CardDescription>
+                              <CardTitle className="text-sm sm:text-base md:text-lg truncate text-gray-900 dark:text-white">{trick.title}</CardTitle>
+                              <CardDescription className="text-[10px] sm:text-xs md:text-sm mt-0.5 line-clamp-1 dark:text-gray-400">{trick.description}</CardDescription>
                             </div>
                           </div>
-                          <Badge className="bg-amber-100 text-amber-800 border-amber-200 flex-shrink-0 text-[10px] sm:text-xs">Premium</Badge>
+                          <Badge className="bg-amber-100 dark:bg-amber-900/50 text-amber-800 dark:text-amber-300 border-amber-200 dark:border-amber-700 flex-shrink-0 text-[10px] sm:text-xs">Premium</Badge>
                         </div>
                       </CardHeader>
                       <CardContent className="p-3 sm:p-4 pt-3 sm:pt-4">
                         <div className="relative">
-                          <div className={`bg-gray-50 dark:bg-gray-900 rounded-lg sm:rounded-xl p-2 sm:p-3 md:p-4 text-[11px] sm:text-xs md:text-sm whitespace-pre-wrap ${
+                          <div className={`bg-gray-50 dark:bg-gray-900 rounded-lg sm:rounded-xl p-2 sm:p-3 md:p-4 text-[11px] sm:text-xs md:text-sm whitespace-pre-wrap text-gray-700 dark:text-gray-300 ${
                             expandedTricks.has(trick.id) ? '' : 'max-h-20 sm:max-h-24 md:max-h-32 overflow-hidden'
                           }`}>
                             {trick.content_body}
@@ -468,7 +468,7 @@ export default function PremiumExclusivePage() {
                           </a>
                         )}
                         <div className="flex items-center justify-between mt-3 sm:mt-4 pt-2 sm:pt-3 border-t border-gray-100 dark:border-gray-700">
-                          <span className="text-[10px] sm:text-xs text-gray-500">
+                          <span className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">
                             Added {new Date(trick.created_at || '').toLocaleDateString()}
                           </span>
                           <Button
@@ -503,11 +503,11 @@ export default function PremiumExclusivePage() {
 
             {/* Guides Section */}
             {guides.length > 0 && (
-              <div className="bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-900/10 dark:to-indigo-900/10 rounded-xl sm:rounded-2xl p-3 sm:p-4 md:p-6">
+              <div className="bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 rounded-xl sm:rounded-2xl p-3 sm:p-4 md:p-6">
                 <div className="flex items-center justify-between mb-3 sm:mb-4">
-                  <h2 className="text-base sm:text-lg md:text-xl font-bold flex items-center gap-2">
-                    <div className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-lg sm:rounded-xl bg-purple-100 flex items-center justify-center">
-                      <BookOpen className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5 text-purple-600" />
+                  <h2 className="text-base sm:text-lg md:text-xl font-bold flex items-center gap-2 text-gray-900 dark:text-white">
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-lg sm:rounded-xl bg-purple-100 dark:bg-purple-900/50 flex items-center justify-center">
+                      <BookOpen className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5 text-purple-600 dark:text-purple-400" />
                     </div>
                     Guides & Tutorials
                   </h2>
@@ -515,24 +515,24 @@ export default function PremiumExclusivePage() {
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
                   {paginate(guides, guidesPage).map((guide) => (
-                    <Card key={guide.id} className="border-purple-200 bg-white dark:bg-gray-800 hover:shadow-xl transition-all overflow-hidden">
-                      <CardHeader className="p-3 sm:p-4 pb-2 sm:pb-3 bg-gradient-to-r from-purple-500/10 to-indigo-500/10">
+                    <Card key={guide.id} className="border-purple-200 dark:border-purple-800 bg-white dark:bg-gray-800 hover:shadow-xl transition-all overflow-hidden">
+                      <CardHeader className="p-3 sm:p-4 pb-2 sm:pb-3 bg-gradient-to-r from-purple-500/10 to-indigo-500/10 dark:from-purple-500/20 dark:to-indigo-500/20">
                         <div className="flex items-start justify-between gap-2">
                           <div className="flex items-center gap-2 sm:gap-3 min-w-0">
                             <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-lg sm:rounded-xl bg-gradient-to-br from-purple-500 to-indigo-500 flex items-center justify-center shadow-lg flex-shrink-0">
                               <BookOpen className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-white" />
                             </div>
                             <div className="min-w-0">
-                              <CardTitle className="text-sm sm:text-base md:text-lg truncate">{guide.title}</CardTitle>
-                              <CardDescription className="text-[10px] sm:text-xs md:text-sm mt-0.5 line-clamp-1">{guide.description}</CardDescription>
+                              <CardTitle className="text-sm sm:text-base md:text-lg truncate text-gray-900 dark:text-white">{guide.title}</CardTitle>
+                              <CardDescription className="text-[10px] sm:text-xs md:text-sm mt-0.5 line-clamp-1 dark:text-gray-400">{guide.description}</CardDescription>
                             </div>
                           </div>
-                          <Badge className="bg-purple-100 text-purple-800 border-purple-200 flex-shrink-0 text-[10px] sm:text-xs">Guide</Badge>
+                          <Badge className="bg-purple-100 dark:bg-purple-900/50 text-purple-800 dark:text-purple-300 border-purple-200 dark:border-purple-700 flex-shrink-0 text-[10px] sm:text-xs">Guide</Badge>
                         </div>
                       </CardHeader>
                       <CardContent className="p-3 sm:p-4 pt-3 sm:pt-4">
                         <div className="relative">
-                          <div className={`bg-gray-50 dark:bg-gray-900 rounded-lg sm:rounded-xl p-2 sm:p-3 md:p-4 text-[11px] sm:text-xs md:text-sm whitespace-pre-wrap ${
+                          <div className={`bg-gray-50 dark:bg-gray-900 rounded-lg sm:rounded-xl p-2 sm:p-3 md:p-4 text-[11px] sm:text-xs md:text-sm whitespace-pre-wrap text-gray-700 dark:text-gray-300 ${
                             expandedTricks.has(guide.id) ? '' : 'max-h-20 sm:max-h-24 md:max-h-32 overflow-hidden'
                           }`}>
                             {guide.content_body}
@@ -586,11 +586,11 @@ export default function PremiumExclusivePage() {
             )}
 
             {tricks.length === 0 && guides.length === 0 && (
-              <Card className="text-center py-8 sm:py-12 bg-white/50">
+              <Card className="text-center py-8 sm:py-12 bg-white/50 dark:bg-gray-800/50">
                 <CardContent>
-                  <Zap className="h-12 w-12 sm:h-16 sm:w-16 text-gray-300 mx-auto mb-3 sm:mb-4" />
-                  <p className="text-base sm:text-lg text-gray-500 font-medium">No tricks or guides available yet</p>
-                  <p className="text-xs sm:text-sm text-gray-400 mt-1">Check back soon for exclusive content!</p>
+                  <Zap className="h-12 w-12 sm:h-16 sm:w-16 text-gray-300 dark:text-gray-600 mx-auto mb-3 sm:mb-4" />
+                  <p className="text-base sm:text-lg text-gray-500 dark:text-gray-400 font-medium">No tricks or guides available yet</p>
+                  <p className="text-xs sm:text-sm text-gray-400 dark:text-gray-500 mt-1">Check back soon for exclusive content!</p>
                 </CardContent>
               </Card>
             )}
@@ -598,11 +598,11 @@ export default function PremiumExclusivePage() {
 
           <TabsContent value="offers" className="space-y-4 sm:space-y-6 mt-0">
             {offers.length > 0 ? (
-              <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/10 dark:to-emerald-900/10 rounded-xl sm:rounded-2xl p-3 sm:p-4 md:p-6">
+              <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl sm:rounded-2xl p-3 sm:p-4 md:p-6">
                 <div className="flex items-center justify-between mb-3 sm:mb-4">
-                  <h2 className="text-base sm:text-lg md:text-xl font-bold flex items-center gap-2">
-                    <div className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-lg sm:rounded-xl bg-green-100 flex items-center justify-center">
-                      <Sparkles className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5 text-green-600" />
+                  <h2 className="text-base sm:text-lg md:text-xl font-bold flex items-center gap-2 text-gray-900 dark:text-white">
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-lg sm:rounded-xl bg-green-100 dark:bg-green-900/50 flex items-center justify-center">
+                      <Sparkles className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5 text-green-600 dark:text-green-400" />
                     </div>
                     Exclusive Offers & Coupons
                   </h2>
@@ -610,35 +610,35 @@ export default function PremiumExclusivePage() {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
                   {paginate(offers, offersPage).map((offer) => (
-                    <Card key={offer.id} className="border-green-200 bg-white dark:bg-gray-800 hover:shadow-xl transition-all overflow-hidden">
-                      <CardHeader className="p-3 sm:p-4 pb-2 sm:pb-3 bg-gradient-to-r from-green-500/10 to-emerald-500/10">
+                    <Card key={offer.id} className="border-green-200 dark:border-green-800 bg-white dark:bg-gray-800 hover:shadow-xl transition-all overflow-hidden">
+                      <CardHeader className="p-3 sm:p-4 pb-2 sm:pb-3 bg-gradient-to-r from-green-500/10 to-emerald-500/10 dark:from-green-500/20 dark:to-emerald-500/20">
                         <div className="flex items-start justify-between gap-2">
                           <div className="flex items-center gap-2 sm:gap-3 min-w-0">
                             <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-lg sm:rounded-xl bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center shadow-lg flex-shrink-0">
                               <Sparkles className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-white" />
                             </div>
                             <div className="min-w-0">
-                              <CardTitle className="text-sm sm:text-base md:text-lg truncate">{offer.title}</CardTitle>
-                              <CardDescription className="text-[10px] sm:text-xs md:text-sm mt-0.5 line-clamp-1">{offer.description}</CardDescription>
+                              <CardTitle className="text-sm sm:text-base md:text-lg truncate text-gray-900 dark:text-white">{offer.title}</CardTitle>
+                              <CardDescription className="text-[10px] sm:text-xs md:text-sm mt-0.5 line-clamp-1 dark:text-gray-400">{offer.description}</CardDescription>
                             </div>
                           </div>
-                          <Badge className="bg-green-100 text-green-800 border-green-200 flex-shrink-0 text-[10px] sm:text-xs">Offer</Badge>
+                          <Badge className="bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300 border-green-200 dark:border-green-700 flex-shrink-0 text-[10px] sm:text-xs">Offer</Badge>
                         </div>
                       </CardHeader>
                       <CardContent className="p-3 sm:p-4 pt-3 sm:pt-4">
-                        <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg sm:rounded-xl p-2 sm:p-3 md:p-4 border-2 border-dashed border-green-300 dark:border-green-700">
+                        <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 rounded-lg sm:rounded-xl p-2 sm:p-3 md:p-4 border-2 border-dashed border-green-300 dark:border-green-700">
                           <p className="text-[11px] sm:text-xs md:text-sm whitespace-pre-wrap text-gray-700 dark:text-gray-300">
                             {offer.content_body}
                           </p>
                         </div>
                         <div className="flex items-center justify-between mt-3 sm:mt-4 pt-2 sm:pt-3 border-t border-gray-100 dark:border-gray-700">
-                          <span className="text-[10px] sm:text-xs text-gray-500">
+                          <span className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">
                             Premium Exclusive
                           </span>
                           <Button
                             variant="outline"
                             size="sm"
-                            className="text-[10px] sm:text-xs border-green-300 text-green-700 hover:bg-green-50 h-6 sm:h-7 md:h-8"
+                            className="text-[10px] sm:text-xs border-green-300 dark:border-green-700 text-green-700 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/30 h-6 sm:h-7 md:h-8"
                             onClick={() => {
                               navigator.clipboard.writeText(offer.content_body || '');
                               setCopiedId(offer.id);
@@ -653,7 +653,7 @@ export default function PremiumExclusivePage() {
                             )}
                           </Button>
                         </div>
-                        <p className="text-[10px] sm:text-xs text-amber-600 mt-2 flex items-center gap-1">
+                        <p className="text-[10px] sm:text-xs text-amber-600 dark:text-amber-400 mt-2 flex items-center gap-1">
                           <Crown className="h-3 w-3" />
                           Single use per product - Don't share!
                         </p>
@@ -668,11 +668,11 @@ export default function PremiumExclusivePage() {
                 />
               </div>
             ) : (
-              <Card className="text-center py-8 sm:py-12 bg-white/50">
+              <Card className="text-center py-8 sm:py-12 bg-white/50 dark:bg-gray-800/50">
                 <CardContent>
-                  <Tag className="h-12 w-12 sm:h-16 sm:w-16 text-gray-300 mx-auto mb-3 sm:mb-4" />
-                  <p className="text-base sm:text-lg text-gray-500 font-medium">No special offers available yet</p>
-                  <p className="text-xs sm:text-sm text-gray-400 mt-1">Check back soon for exclusive deals!</p>
+                  <Tag className="h-12 w-12 sm:h-16 sm:w-16 text-gray-300 dark:text-gray-600 mx-auto mb-3 sm:mb-4" />
+                  <p className="text-base sm:text-lg text-gray-500 dark:text-gray-400 font-medium">No special offers available yet</p>
+                  <p className="text-xs sm:text-sm text-gray-400 dark:text-gray-500 mt-1">Check back soon for exclusive deals!</p>
                 </CardContent>
               </Card>
             )}

@@ -120,14 +120,14 @@ export function RewardsManager() {
   const getTierIcon = (tier: string) => {
     if (tier === 'platinum') return <Crown className="h-4 w-4 text-purple-500" />;
     if (tier === 'gold') return <Trophy className="h-4 w-4 text-yellow-500" />;
-    if (tier === 'silver') return <Star className="h-4 w-4 text-gray-400" />;
+    if (tier === 'silver') return <Star className="h-4 w-4 text-gray-400 dark:text-gray-500" />;
     return <Star className="h-4 w-4 text-amber-600" />;
   };
 
   const getTierBadge = (tier: string) => {
     const styles = {
       bronze: 'bg-amber-100 text-amber-700',
-      silver: 'bg-gray-100 text-gray-700',
+      silver: 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300',
       gold: 'bg-yellow-100 text-yellow-700',
       platinum: 'bg-purple-100 text-purple-700',
     };
@@ -191,9 +191,9 @@ export function RewardsManager() {
             <p className="text-xs text-amber-600">Bronze</p>
           </div>
           <div className="bg-gray-50 border-2 border-gray-200 rounded-xl p-3 text-center">
-            <Star className="h-5 w-5 text-gray-500 mx-auto mb-1" />
-            <p className="text-xl font-bold text-gray-700">{totalStats.silverUsers}</p>
-            <p className="text-xs text-gray-600">Silver</p>
+            <Star className="h-5 w-5 text-gray-500 dark:text-gray-400 mx-auto mb-1" />
+            <p className="text-xl font-bold text-gray-700 dark:text-gray-300">{totalStats.silverUsers}</p>
+            <p className="text-xs text-gray-600 dark:text-gray-400">Silver</p>
           </div>
           <div className="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-3 text-center">
             <Trophy className="h-5 w-5 text-yellow-600 mx-auto mb-1" />
@@ -229,10 +229,10 @@ export function RewardsManager() {
             {isLoading ? (
               <div className="text-center py-8">
                 <div className="w-8 h-8 border-4 border-purple-500 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
-                <p className="text-gray-500">Loading members...</p>
+                <p className="text-gray-500 dark:text-gray-400">Loading members...</p>
               </div>
             ) : loyaltyUsers.length === 0 ? (
-              <div className="text-center py-8 text-gray-500">
+              <div className="text-center py-8 text-gray-500 dark:text-gray-400">
                 <Users className="h-12 w-12 mx-auto mb-2 opacity-50" />
                 <p>No loyalty members yet</p>
               </div>
@@ -249,13 +249,13 @@ export function RewardsManager() {
                       </div>
                       <div>
                         <p className="font-semibold">{user.userName}</p>
-                        <p className="text-xs text-gray-500">{user.userEmail}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">{user.userEmail}</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-4">
                       <div className="text-right">
                         <p className="font-bold text-purple-600">{user.lifetimePoints.toLocaleString()} pts</p>
-                        <p className="text-xs text-gray-500">Available: {user.totalPoints}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">Available: {user.totalPoints}</p>
                       </div>
                       {getTierBadge(user.tier)}
                     </div>
@@ -282,7 +282,7 @@ export function RewardsManager() {
             </div>
             <div className="mt-6 p-4 bg-gray-50 rounded-xl">
               <h4 className="font-semibold mb-2">Referral Program Details</h4>
-              <ul className="text-sm text-gray-600 space-y-1">
+              <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
                 <li>• Referrer earns <span className="font-semibold text-purple-600">100 points</span> when friend makes first purchase</li>
                 <li>• Referred user gets <span className="font-semibold text-pink-600">50 bonus points</span></li>
                 <li>• No limit on number of referrals</li>
