@@ -1,0 +1,2 @@
+ALTER TABLE products ADD COLUMN IF NOT EXISTS use_manual_stock BOOLEAN DEFAULT false;
+ALTER TABLE products ADD COLUMN IF NOT EXISTS manual_stock_count INTEGER DEFAULT 0;
