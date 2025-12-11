@@ -13,7 +13,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Plus, Pencil, Trash2, Package, Key, UserCheck, Zap, Search, Filter, RefreshCw, Eye, EyeOff, AlertCircle, CheckCircle, Upload, ImageIcon, X, Calendar, Clock, Layers, Database, Copy, FileUp, AlertTriangle, GripVertical, Sparkles, ListChecks, Shield, User, Mail, Lock, Send } from 'lucide-react';
+import { Plus, Pencil, Trash2, Package, Key, UserCheck, Zap, Search, Filter, RefreshCw, Eye, EyeOff, AlertCircle, CheckCircle, Upload, ImageIcon, X, Calendar, Clock, Layers, Database, Copy, FileUp, AlertTriangle, GripVertical, Sparkles, ListChecks, Shield, User, Mail, Lock, Send, MessageCircle } from 'lucide-react';
 import { isSupabaseConfigured, supabase } from '@/lib/supabase';
 
 // Fulfillment method options - How the product is delivered to customer
@@ -822,10 +822,10 @@ export function ProductManager() {
       <CardHeader className="border-b-2 border-black bg-gradient-to-r from-teal-50 to-white">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div>
-            <CardTitle className="text-2xl font-bold font-['Space_Grotesk'] text-gray-900">
+            <CardTitle className="text-2xl font-bold font-['Space_Grotesk'] text-gray-900 dark:text-white">
               Product Management
             </CardTitle>
-            <p className="text-sm text-gray-600 mt-1">
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
               Manage your product catalog and delivery settings
             </p>
           </div>
@@ -890,15 +890,15 @@ export function ProductManager() {
         {isLoading ? (
           <div className="flex items-center justify-center py-16">
             <RefreshCw className="h-8 w-8 animate-spin text-[#0A7A7A]" />
-            <span className="ml-3 text-gray-600">Loading products...</span>
+            <span className="ml-3 text-gray-600 dark:text-gray-400">Loading products...</span>
           </div>
         ) : filteredProducts.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-16 px-4">
-            <Package className="h-16 w-16 text-gray-300 mb-4" />
-            <h3 className="text-lg font-semibold text-gray-700 mb-2">
+            <Package className="h-16 w-16 text-gray-300 dark:text-gray-600 mb-4" />
+            <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2">
               {products.length === 0 ? 'No products yet' : 'No products found'}
             </h3>
-            <p className="text-gray-500 text-center mb-4">
+            <p className="text-gray-500 dark:text-gray-400 text-center mb-4">
               {products.length === 0 
                 ? 'Get started by adding your first product'
                 : 'Try adjusting your search or filters'}
@@ -942,15 +942,15 @@ export function ProductManager() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between gap-2">
                         <div>
-                          <h3 className="font-semibold text-gray-900 truncate">{product.name}</h3>
-                          <p className="text-xs text-gray-500">{product.duration}</p>
+                          <h3 className="font-semibold text-gray-900 dark:text-white truncate">{product.name}</h3>
+                          <p className="text-xs text-gray-500 dark:text-gray-400">{product.duration}</p>
                         </div>
                         <button
                           onClick={() => handleToggleActive(product)}
                           className={`flex-shrink-0 px-2 py-1 rounded-full text-xs font-semibold ${
                             product.isActive
                               ? 'bg-green-100 text-green-700'
-                              : 'bg-gray-100 text-gray-600'
+                              : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400'
                           }`}
                         >
                           {product.isActive ? 'Active' : 'Hidden'}
@@ -976,7 +976,7 @@ export function ProductManager() {
                           onClick={() => openStockDialog(product)}
                           className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-semibold border ${
                             (product.stockCount || 0) === 0
-                              ? 'bg-gray-100 text-gray-600 border-gray-300'
+                              ? 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 border-gray-300 dark:border-gray-600'
                               : (product.stockCount || 0) <= (product.lowStockAlert || 5)
                               ? 'bg-amber-100 text-amber-700 border-amber-300'
                               : 'bg-green-100 text-green-700 border-green-300'
@@ -1016,13 +1016,13 @@ export function ProductManager() {
             <Table>
               <TableHeader>
                 <TableRow className="bg-gray-50 border-b-2 border-black">
-                  <TableHead className="font-bold text-gray-900">Product</TableHead>
-                  <TableHead className="font-bold text-gray-900">Category</TableHead>
-                  <TableHead className="font-bold text-gray-900">Price</TableHead>
-                  <TableHead className="font-bold text-gray-900">Delivery</TableHead>
-                  <TableHead className="font-bold text-gray-900">Stock</TableHead>
-                  <TableHead className="font-bold text-gray-900">Status</TableHead>
-                  <TableHead className="font-bold text-gray-900 text-right">Actions</TableHead>
+                  <TableHead className="font-bold text-gray-900 dark:text-white">Product</TableHead>
+                  <TableHead className="font-bold text-gray-900 dark:text-white">Category</TableHead>
+                  <TableHead className="font-bold text-gray-900 dark:text-white">Price</TableHead>
+                  <TableHead className="font-bold text-gray-900 dark:text-white">Delivery</TableHead>
+                  <TableHead className="font-bold text-gray-900 dark:text-white">Stock</TableHead>
+                  <TableHead className="font-bold text-gray-900 dark:text-white">Status</TableHead>
+                  <TableHead className="font-bold text-gray-900 dark:text-white text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -1050,8 +1050,8 @@ export function ProductManager() {
                           )}
                         </div>
                         <div>
-                          <p className="font-semibold text-gray-900">{product.name}</p>
-                          <p className="text-xs text-gray-500">{product.duration}</p>
+                          <p className="font-semibold text-gray-900 dark:text-white">{product.name}</p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400">{product.duration}</p>
                         </div>
                       </div>
                     </TableCell>
@@ -1063,7 +1063,7 @@ export function ProductManager() {
                     <TableCell>
                       <div className="space-y-0.5">
                         {product.originalPrice > product.salePrice && (
-                          <span className="line-through text-gray-400 text-sm block">
+                          <span className="line-through text-gray-400 dark:text-gray-500 text-sm block">
                             ₹{product.originalPrice}
                           </span>
                         )}
@@ -1089,7 +1089,7 @@ export function ProductManager() {
                         onClick={() => openStockDialog(product)}
                         className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border-2 transition-all ${
                           (product.stockCount || 0) === 0
-                            ? 'bg-gray-100 text-gray-600 border-gray-300 hover:bg-gray-200'
+                            ? 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 border-gray-300 dark:border-gray-600 hover:bg-gray-200 dark:hover:bg-gray-700'
                             : (product.stockCount || 0) <= (product.lowStockAlert || 5)
                             ? 'bg-amber-100 text-amber-700 border-amber-300 hover:bg-amber-200'
                             : 'bg-green-100 text-green-700 border-green-300 hover:bg-green-200'
@@ -1159,7 +1159,7 @@ export function ProductManager() {
         {/* Stats Footer */}
         {products.length > 0 && (
           <div className="border-t-2 border-black bg-gray-50 px-4 sm:px-6 py-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-sm">
-            <span className="text-gray-600">
+            <span className="text-gray-600 dark:text-gray-400">
               Showing {filteredProducts.length} of {products.length} products
             </span>
             <div className="flex items-center gap-3 sm:gap-4">
@@ -1167,7 +1167,7 @@ export function ProductManager() {
                 <CheckCircle className="h-4 w-4" />
                 {products.filter(p => p.isActive).length} Active
               </span>
-              <span className="flex items-center gap-1.5 text-gray-500">
+              <span className="flex items-center gap-1.5 text-gray-500 dark:text-gray-400">
                 <AlertCircle className="h-4 w-4" />
                 {products.filter(p => !p.isActive).length} Hidden
               </span>
@@ -1206,10 +1206,11 @@ export function ProductManager() {
             </TabsList>
 
             {/* Basic Info Tab */}
-            <TabsContent value="basic" className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="md:col-span-2">
-                  <Label htmlFor="name" className="font-medium">
+            <TabsContent value="basic" className="space-y-6">
+              {/* Product Name & Description */}
+              <div className="space-y-4">
+                <div>
+                  <Label htmlFor="name" className="font-medium text-gray-900 dark:text-white">
                     Product Name <span className="text-red-500">*</span>
                   </Label>
                   <Input
@@ -1217,86 +1218,102 @@ export function ProductManager() {
                     value={editingProduct?.name || ''}
                     onChange={(e) => setEditingProduct({ ...editingProduct, name: e.target.value })}
                     placeholder="e.g., Netflix Premium"
-                    className="mt-1.5 border-2 border-black focus:border-[#0A7A7A]"
+                    className="mt-1.5 border-2 border-gray-300 dark:border-gray-600 focus:border-[#0A7A7A] h-11"
                   />
                 </div>
 
-                <div className="md:col-span-2">
-                  <Label htmlFor="description" className="font-medium">Description</Label>
+                <div>
+                  <Label htmlFor="description" className="font-medium text-gray-900 dark:text-white">Description</Label>
                   <Textarea
                     id="description"
                     value={editingProduct?.description || ''}
                     onChange={(e) => setEditingProduct({ ...editingProduct, description: e.target.value })}
                     placeholder="Brief description of the product"
-                    className="mt-1.5 border-2 border-black focus:border-[#0A7A7A]"
+                    className="mt-1.5 border-2 border-gray-300 dark:border-gray-600 focus:border-[#0A7A7A]"
                     rows={2}
                   />
                 </div>
+              </div>
 
-                <div>
-                  <Label htmlFor="originalPrice" className="font-medium">
-                    Original Price (₹)
-                  </Label>
-                  <Input
-                    id="originalPrice"
-                    type="number"
-                    min="0"
-                    value={editingProduct?.originalPrice || ''}
-                    onChange={(e) => setEditingProduct({ ...editingProduct, originalPrice: Number(e.target.value) })}
-                    placeholder="999"
-                    className="mt-1.5 border-2 border-black focus:border-[#0A7A7A]"
-                    disabled={editingProduct?.hasVariants}
-                  />
+              {/* Pricing Section */}
+              <div className="bg-gray-50 dark:bg-gray-800/50 rounded-xl p-4 border border-gray-200 dark:border-gray-700">
+                <h4 className="font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                  <span className="text-lg">💵</span> Pricing
                   {editingProduct?.hasVariants && (
-                    <p className="text-xs text-amber-600 mt-1">Prices are set per variant</p>
+                    <span className="text-xs font-normal text-amber-600 dark:text-amber-400 bg-amber-100 dark:bg-amber-900/30 px-2 py-0.5 rounded-full">
+                      Set per variant
+                    </span>
                   )}
-                </div>
+                </h4>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <div>
+                    <Label htmlFor="originalPrice" className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      Original Price (₹)
+                    </Label>
+                    <Input
+                      id="originalPrice"
+                      type="number"
+                      min="0"
+                      value={editingProduct?.originalPrice || ''}
+                      onChange={(e) => setEditingProduct({ ...editingProduct, originalPrice: Number(e.target.value) })}
+                      placeholder="999"
+                      className="mt-1.5 border-2 border-gray-300 dark:border-gray-600 focus:border-[#0A7A7A] h-11 bg-white dark:bg-gray-800"
+                      disabled={editingProduct?.hasVariants}
+                    />
+                  </div>
 
-                <div>
-                  <Label htmlFor="salePrice" className="font-medium">
-                    Sale Price (₹) <span className="text-red-500">*</span>
-                  </Label>
-                  <Input
-                    id="salePrice"
-                    type="number"
-                    min="1"
-                    value={editingProduct?.salePrice || ''}
-                    onChange={(e) => setEditingProduct({ ...editingProduct, salePrice: Number(e.target.value) })}
-                    placeholder="499"
-                    className="mt-1.5 border-2 border-black focus:border-[#0A7A7A]"
-                    disabled={editingProduct?.hasVariants}
-                  />
-                </div>
+                  <div>
+                    <Label htmlFor="salePrice" className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      Sale Price (₹) <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="salePrice"
+                      type="number"
+                      min="1"
+                      value={editingProduct?.salePrice || ''}
+                      onChange={(e) => setEditingProduct({ ...editingProduct, salePrice: Number(e.target.value) })}
+                      placeholder="499"
+                      className="mt-1.5 border-2 border-gray-300 dark:border-gray-600 focus:border-[#0A7A7A] h-11 bg-white dark:bg-gray-800"
+                      disabled={editingProduct?.hasVariants}
+                    />
+                  </div>
 
-                <div>
-                  <Label htmlFor="costPrice" className="font-medium">
-                    Cost Price (₹) <span className="text-gray-400 text-xs">(Vendor Price - Admin Only)</span>
-                  </Label>
-                  <Input
-                    id="costPrice"
-                    type="number"
-                    min="0"
-                    value={editingProduct?.costPrice || ''}
-                    onChange={(e) => setEditingProduct({ ...editingProduct, costPrice: Number(e.target.value) })}
-                    placeholder="299"
-                    className="mt-1.5 border-2 border-amber-400 focus:border-amber-600 bg-amber-50"
-                    disabled={editingProduct?.hasVariants}
-                  />
-                  {editingProduct?.salePrice && editingProduct?.costPrice ? (
-                    <p className="text-xs text-green-600 mt-1 font-medium">
-                      Profit: ₹{(editingProduct.salePrice - editingProduct.costPrice).toLocaleString()} per sale
+                  <div>
+                    <Label htmlFor="costPrice" className="text-sm font-medium text-amber-700 dark:text-amber-400 flex items-center gap-1">
+                      <span>💰</span> Vendor Price (₹)
+                    </Label>
+                    <Input
+                      id="costPrice"
+                      type="number"
+                      min="0"
+                      value={editingProduct?.costPrice || ''}
+                      onChange={(e) => setEditingProduct({ ...editingProduct, costPrice: Number(e.target.value) })}
+                      placeholder="299"
+                      className="mt-1.5 border-2 border-amber-400 dark:border-amber-600 focus:border-amber-600 bg-amber-50 dark:bg-amber-900/20 h-11"
+                      disabled={editingProduct?.hasVariants}
+                    />
+                  </div>
+                </div>
+                
+                {editingProduct?.salePrice && editingProduct?.costPrice && !editingProduct?.hasVariants ? (
+                  <div className="mt-4 bg-green-100 dark:bg-green-900/30 border border-green-300 dark:border-green-700 rounded-lg p-3">
+                    <p className="text-sm text-green-700 dark:text-green-400 font-semibold">
+                      💰 Profit: ₹{(editingProduct.salePrice - editingProduct.costPrice).toLocaleString()} per sale ({Math.round(((editingProduct.salePrice - editingProduct.costPrice) / editingProduct.salePrice) * 100)}%)
                     </p>
-                  ) : null}
-                </div>
+                  </div>
+                ) : null}
+              </div>
 
+              {/* Duration & Category */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="duration" className="font-medium">Duration</Label>
+                  <Label htmlFor="duration" className="font-medium text-gray-900 dark:text-white">Duration</Label>
                   <Select
                     value={editingProduct?.duration || '1 Month'}
                     onValueChange={(value) => setEditingProduct({ ...editingProduct, duration: value })}
                     disabled={editingProduct?.hasVariants}
                   >
-                    <SelectTrigger className="mt-1.5 border-2 border-black">
+                    <SelectTrigger className="mt-1.5 border-2 border-gray-300 dark:border-gray-600 h-11">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -1309,191 +1326,196 @@ export function ProductManager() {
                       <SelectItem value="Lifetime">Lifetime</SelectItem>
                     </SelectContent>
                   </Select>
+                  {editingProduct?.hasVariants && (
+                    <p className="text-xs text-amber-600 dark:text-amber-400 mt-1">Duration is set per variant</p>
+                  )}
                 </div>
 
                 <div>
-                  <Label htmlFor="category" className="font-medium">Category</Label>
+                  <Label htmlFor="category" className="font-medium text-gray-900 dark:text-white">Category</Label>
                   <Input
                     id="category"
                     value={editingProduct?.category || ''}
                     onChange={(e) => setEditingProduct({ ...editingProduct, category: e.target.value })}
                     placeholder="e.g., Entertainment"
-                    className="mt-1.5 border-2 border-black focus:border-[#0A7A7A]"
+                    className="mt-1.5 border-2 border-gray-300 dark:border-gray-600 focus:border-[#0A7A7A] h-11"
                   />
                 </div>
+              </div>
 
-                <div className="md:col-span-2">
-                  <Label className="font-medium">Product Image</Label>
-                  <div className="mt-1.5 space-y-3">
-                    {editingProduct?.image && (
-                      <div className="relative inline-block">
-                        <img
-                          src={editingProduct.image}
-                          alt="Product preview"
-                          className="w-32 h-32 object-cover rounded-lg border-2 border-black"
-                          onError={(e) => {
-                            const target = e.target as HTMLImageElement;
-                            target.src = 'https://images.unsplash.com/photo-1557821552-17105176677c?w=800&q=80';
-                          }}
-                        />
-                        <button
-                          type="button"
-                          onClick={() => setEditingProduct({ ...editingProduct, image: '' })}
-                          className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
-                        >
-                          <X className="h-3 w-3" />
-                        </button>
-                      </div>
-                    )}
-                    <div className="flex flex-col sm:flex-row gap-3">
-                      <div className="flex-1">
-                        <input
-                          ref={fileInputRef}
-                          type="file"
-                          accept="image/*"
-                          onChange={handleImageUpload}
-                          className="hidden"
-                          id="product-image-upload"
-                        />
-                        <Button
-                          type="button"
-                          variant="outline"
-                          onClick={() => fileInputRef.current?.click()}
-                          disabled={isUploading}
-                          className="w-full border-2 border-dashed border-gray-400 hover:border-[#0A7A7A] hover:bg-teal-50 h-20 flex flex-col items-center justify-center gap-1"
-                        >
-                          {isUploading ? (
-                            <>
-                              <RefreshCw className="h-5 w-5 animate-spin text-[#0A7A7A]" />
-                              <span className="text-sm">Uploading...</span>
-                            </>
-                          ) : (
-                            <>
-                              <Upload className="h-5 w-5 text-gray-500" />
-                              <span className="text-sm text-gray-600">Click to upload image</span>
-                            </>
-                          )}
-                        </Button>
-                        {isUploading && <Progress value={uploadProgress} className="mt-2 h-2" />}
-                      </div>
-                    </div>
-                    <div className="flex gap-2">
-                      <div className="relative flex-1">
-                        <ImageIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-                        <Input
-                          value={editingProduct?.image || ''}
-                          onChange={(e) => setEditingProduct({ ...editingProduct, image: e.target.value })}
-                          placeholder="Or paste image URL..."
-                          className="pl-10 border-2 border-black focus:border-[#0A7A7A]"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="md:col-span-2">
-                  <div className="flex items-center justify-between mb-2">
-                    <Label htmlFor="features" className="font-medium flex items-center gap-2">
-                      <ListChecks className="h-4 w-4 text-teal-600" />
-                      Product Features
-                    </Label>
-                    <span className="text-xs text-gray-500">
-                      {featuresText.split('\n').filter(f => f.trim()).length} features
-                    </span>
-                  </div>
-                  
-                  {/* Features Preview */}
-                  {featuresText.split('\n').filter(f => f.trim()).length > 0 && (
-                    <div className="mb-3 p-3 bg-gray-50 rounded-lg border border-gray-200">
-                      <p className="text-xs text-gray-500 mb-2 font-medium">Preview:</p>
-                      <div className="flex flex-wrap gap-2">
-                        {featuresText.split('\n').filter(f => f.trim()).map((feature, idx) => (
-                          <span 
-                            key={idx}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-gray-200 rounded-full text-sm text-gray-700 shadow-sm"
-                          >
-                            <CheckCircle className="h-3.5 w-3.5 text-teal-500" />
-                            {feature.trim()}
-                            <button
-                              type="button"
-                              onClick={() => {
-                                const features = featuresText.split('\n').filter(f => f.trim());
-                                features.splice(idx, 1);
-                                setFeaturesText(features.join('\n'));
-                              }}
-                              className="ml-1 text-gray-400 hover:text-red-500 transition-colors"
-                            >
-                              <X className="h-3 w-3" />
-                            </button>
-                          </span>
-                        ))}
-                      </div>
+              {/* Product Image */}
+              <div className="bg-gray-50 dark:bg-gray-800/50 rounded-xl p-4 border border-gray-200 dark:border-gray-700">
+                <h4 className="font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                  <ImageIcon className="h-5 w-5 text-[#0A7A7A]" /> Product Image
+                </h4>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  {editingProduct?.image && (
+                    <div className="relative flex-shrink-0">
+                      <img
+                        src={editingProduct.image}
+                        alt="Product preview"
+                        className="w-28 h-28 object-cover rounded-lg border-2 border-gray-300 dark:border-gray-600"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = 'https://images.unsplash.com/photo-1557821552-17105176677c?w=800&q=80';
+                        }}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setEditingProduct({ ...editingProduct, image: '' })}
+                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
                     </div>
                   )}
-                  
-                  <Textarea
-                    id="features"
-                    value={featuresText}
-                    onChange={(e) => setFeaturesText(e.target.value)}
-                    placeholder="Enter features (one per line):&#10;• 4K Ultra HD Streaming&#10;• 5 Profiles&#10;• Ad-free Experience&#10;• Download for offline"
-                    className="border-2 border-gray-300 focus:border-[#0A7A7A] font-mono text-sm min-h-[120px] resize-y"
-                    rows={5}
-                  />
-                  <p className="text-xs text-gray-400 mt-1.5">
-                    Enter each feature on a new line. These will be displayed to customers on the product page.
-                  </p>
+                  <div className="flex-1 space-y-3">
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      className="hidden"
+                      id="product-image-upload"
+                    />
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => fileInputRef.current?.click()}
+                      disabled={isUploading}
+                      className="w-full border-2 border-dashed border-gray-300 dark:border-gray-600 hover:border-[#0A7A7A] hover:bg-teal-50 dark:hover:bg-teal-900/20 h-16 flex items-center justify-center gap-2"
+                    >
+                      {isUploading ? (
+                        <>
+                          <RefreshCw className="h-5 w-5 animate-spin text-[#0A7A7A]" />
+                          <span className="text-sm">Uploading...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Upload className="h-5 w-5 text-gray-500" />
+                          <span className="text-sm text-gray-600 dark:text-gray-400">Click to upload image</span>
+                        </>
+                      )}
+                    </Button>
+                    {isUploading && <Progress value={uploadProgress} className="h-2" />}
+                    <div className="relative">
+                      <ImageIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                      <Input
+                        value={editingProduct?.image || ''}
+                        onChange={(e) => setEditingProduct({ ...editingProduct, image: e.target.value })}
+                        placeholder="Or paste image URL..."
+                        className="pl-10 border-2 border-gray-300 dark:border-gray-600 focus:border-[#0A7A7A] h-11"
+                      />
+                    </div>
+                  </div>
                 </div>
+              </div>
+
+              {/* Product Features */}
+              <div className="bg-gray-50 dark:bg-gray-800/50 rounded-xl p-4 border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center justify-between mb-4">
+                  <h4 className="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                    <ListChecks className="h-5 w-5 text-[#0A7A7A]" /> Product Features
+                  </h4>
+                  <span className="text-xs text-gray-500 dark:text-gray-400 bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded-full">
+                    {featuresText.split('\n').filter(f => f.trim()).length} features
+                  </span>
+                </div>
+                
+                {/* Features Preview */}
+                {featuresText.split('\n').filter(f => f.trim()).length > 0 && (
+                  <div className="mb-4 p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-600">
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mb-2 font-medium">Preview:</p>
+                    <div className="flex flex-wrap gap-2">
+                      {featuresText.split('\n').filter(f => f.trim()).map((feature, idx) => (
+                        <span 
+                          key={idx}
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-full text-sm text-gray-700 dark:text-gray-300"
+                        >
+                          <CheckCircle className="h-3.5 w-3.5 text-teal-500" />
+                          {feature.trim()}
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const features = featuresText.split('\n').filter(f => f.trim());
+                              features.splice(idx, 1);
+                              setFeaturesText(features.join('\n'));
+                            }}
+                            className="ml-1 text-gray-400 hover:text-red-500 transition-colors"
+                          >
+                            <X className="h-3 w-3" />
+                          </button>
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                
+                <Textarea
+                  id="features"
+                  value={featuresText}
+                  onChange={(e) => setFeaturesText(e.target.value)}
+                  placeholder="Enter features (one per line):&#10;• 4K Ultra HD Streaming&#10;• 5 Profiles&#10;• Ad-free Experience&#10;• Download for offline"
+                  className="border-2 border-gray-300 dark:border-gray-600 focus:border-[#0A7A7A] font-mono text-sm min-h-[100px] resize-y bg-white dark:bg-gray-800"
+                  rows={4}
+                />
+                <p className="text-xs text-gray-400 mt-2">
+                  Enter each feature on a new line. These will be displayed to customers on the product page.
+                </p>
               </div>
             </TabsContent>
 
             {/* Variants Tab */}
-            <TabsContent value="variants" className="space-y-4">
-              <div className="flex items-center gap-3 p-4 bg-purple-50 border-2 border-purple-200 rounded-lg">
-                <Switch
-                  checked={editingProduct?.hasVariants || false}
-                  onCheckedChange={(checked) => {
-                    setEditingProduct({ ...editingProduct, hasVariants: checked });
-                    if (checked && variants.length === 0) {
-                      addVariant();
-                    }
-                  }}
-                />
-                <div>
-                  <Label className="font-medium">Enable Product Variants</Label>
-                  <p className="text-xs text-gray-500">Allow multiple duration/price options for this product</p>
+            <TabsContent value="variants" className="space-y-6">
+              <div className="flex items-center justify-between p-4 bg-purple-50 dark:bg-purple-900/20 border-2 border-purple-200 dark:border-purple-700 rounded-xl">
+                <div className="flex items-center gap-3">
+                  <Switch
+                    checked={editingProduct?.hasVariants || false}
+                    onCheckedChange={(checked) => {
+                      setEditingProduct({ ...editingProduct, hasVariants: checked });
+                      if (checked && variants.length === 0) {
+                        addVariant();
+                      }
+                    }}
+                  />
+                  <div>
+                    <Label className="font-semibold text-gray-900 dark:text-white">Enable Product Variants</Label>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">Allow multiple duration/price options for this product</p>
+                  </div>
                 </div>
+                {editingProduct?.hasVariants && (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={addVariant}
+                    className="border-2 border-purple-400 text-purple-600 dark:text-purple-400 hover:bg-purple-100 dark:hover:bg-purple-900/30"
+                  >
+                    <Plus className="h-4 w-4 mr-1" />
+                    Add Variant
+                  </Button>
+                )}
               </div>
 
               {editingProduct?.hasVariants && (
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <h4 className="font-semibold text-gray-900">Price Variants</h4>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      onClick={addVariant}
-                      className="border-2 border-purple-300 text-purple-600 hover:bg-purple-50"
-                    >
-                      <Plus className="h-4 w-4 mr-1" />
-                      Add Variant
-                    </Button>
-                  </div>
-
                   {variants.map((variant, index) => (
-                    <div key={index} className="p-4 border-2 border-gray-200 rounded-lg space-y-4">
+                    <div key={index} className="bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
                       {/* Variant Header */}
-                      <div className="flex items-center justify-between">
-                        <span className="font-medium text-sm text-gray-700">Variant {index + 1}</span>
-                        <div className="flex items-center gap-2">
-                          <label className="flex items-center gap-2 text-sm">
+                      <div className="flex items-center justify-between px-4 py-3 bg-gray-50 dark:bg-gray-800/50 border-b border-gray-200 dark:border-gray-700">
+                        <span className="font-semibold text-sm text-gray-900 dark:text-white flex items-center gap-2">
+                          <Layers className="h-4 w-4 text-purple-500" />
+                          Variant {index + 1}
+                        </span>
+                        <div className="flex items-center gap-3">
+                          <label className="flex items-center gap-2 text-sm cursor-pointer">
                             <input
                               type="checkbox"
                               checked={variant.isDefault}
                               onChange={(e) => updateVariant(index, 'isDefault', e.target.checked)}
-                              className="rounded border-gray-300"
+                              className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
                             />
-                            Default
+                            <span className="text-gray-600 dark:text-gray-400">Default</span>
                           </label>
                           {variants.length > 1 && (
                             <Button
@@ -1501,7 +1523,7 @@ export function ProductManager() {
                               variant="ghost"
                               size="sm"
                               onClick={() => removeVariant(index)}
-                              className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                              className="text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20 h-8 w-8 p-0"
                             >
                               <Trash2 className="h-4 w-4" />
                             </Button>
@@ -1509,123 +1531,134 @@ export function ProductManager() {
                         </div>
                       </div>
 
-                      {/* Basic Info Row */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div>
-                          <Label className="text-xs">Name (optional)</Label>
-                          <Input
-                            value={variant.name}
-                            onChange={(e) => updateVariant(index, 'name', e.target.value)}
-                            placeholder="e.g., Basic Plan"
-                            className="mt-1 border-2 border-gray-300 text-sm"
-                          />
+                      <div className="p-4 space-y-4">
+                        {/* Basic Info Row */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                          <div>
+                            <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">Name (optional)</Label>
+                            <Input
+                              value={variant.name}
+                              onChange={(e) => updateVariant(index, 'name', e.target.value)}
+                              placeholder="e.g., Basic Plan"
+                              className="mt-1.5 border-2 border-gray-300 dark:border-gray-600 h-10"
+                            />
+                          </div>
+                          <div>
+                            <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">Duration</Label>
+                            <Select
+                              value={variant.duration}
+                              onValueChange={(value) => updateVariant(index, 'duration', value)}
+                            >
+                              <SelectTrigger className="mt-1.5 border-2 border-gray-300 dark:border-gray-600 h-10">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="1 Week">1 Week</SelectItem>
+                                <SelectItem value="1 Month">1 Month</SelectItem>
+                                <SelectItem value="2 Months">2 Months</SelectItem>
+                                <SelectItem value="3 Months">3 Months</SelectItem>
+                                <SelectItem value="6 Months">6 Months</SelectItem>
+                                <SelectItem value="1 Year">1 Year</SelectItem>
+                                <SelectItem value="Lifetime">Lifetime</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
                         </div>
+
+                        {/* Pricing Row */}
+                        <div className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+                          <h5 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2">
+                            💵 Pricing
+                          </h5>
+                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div>
+                              <Label className="text-xs font-medium text-gray-600 dark:text-gray-400">Original Price (₹)</Label>
+                              <Input
+                                type="number"
+                                min="0"
+                                value={variant.originalPrice || ''}
+                                onChange={(e) => updateVariant(index, 'originalPrice', Number(e.target.value))}
+                                placeholder="999"
+                                className="mt-1.5 border-2 border-gray-300 dark:border-gray-600 h-10 bg-white dark:bg-gray-800"
+                              />
+                            </div>
+                            <div>
+                              <Label className="text-xs font-medium text-gray-600 dark:text-gray-400">Sale Price (₹) <span className="text-red-500">*</span></Label>
+                              <Input
+                                type="number"
+                                min="1"
+                                value={variant.salePrice || ''}
+                                onChange={(e) => updateVariant(index, 'salePrice', Number(e.target.value))}
+                                placeholder="499"
+                                className="mt-1.5 border-2 border-gray-300 dark:border-gray-600 h-10 bg-white dark:bg-gray-800"
+                              />
+                            </div>
+                            <div>
+                              <Label className="text-xs font-medium text-amber-700 dark:text-amber-400 flex items-center gap-1">
+                                <span>💰</span> Vendor Price (₹)
+                              </Label>
+                              <Input
+                                type="number"
+                                min="0"
+                                value={variant.costPrice || ''}
+                                onChange={(e) => updateVariant(index, 'costPrice', Number(e.target.value))}
+                                placeholder="299"
+                                className="mt-1.5 border-2 border-amber-400 dark:border-amber-600 bg-amber-50 dark:bg-amber-900/20 h-10"
+                              />
+                            </div>
+                          </div>
+                          {variant.salePrice && variant.costPrice ? (
+                            <div className="mt-3 bg-green-100 dark:bg-green-900/30 border border-green-300 dark:border-green-700 rounded-lg p-2.5">
+                              <p className="text-xs text-green-700 dark:text-green-400 font-semibold">
+                                💰 Profit: ₹{(variant.salePrice - variant.costPrice).toLocaleString()} ({Math.round(((variant.salePrice - variant.costPrice) / variant.salePrice) * 100)}%)
+                              </p>
+                            </div>
+                          ) : null}
+                        </div>
+
+                        {/* Variant Delivery Type */}
                         <div>
-                          <Label className="text-xs">Duration</Label>
+                          <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">Delivery Type (optional)</Label>
+                          <p className="text-xs text-gray-500 dark:text-gray-400 mb-1.5">Overrides product default if set</p>
                           <Select
-                            value={variant.duration}
-                            onValueChange={(value) => updateVariant(index, 'duration', value)}
+                            value={variant.deliveryType || ''}
+                            onValueChange={(value) => updateVariant(index, 'deliveryType', value === 'DEFAULT' ? undefined : value as DeliveryType)}
                           >
-                            <SelectTrigger className="mt-1 border-2 border-gray-300 text-sm">
-                              <SelectValue />
+                            <SelectTrigger className="border-2 border-gray-300 dark:border-gray-600 h-10">
+                              <SelectValue placeholder="Use product default" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="1 Week">1 Week</SelectItem>
-                              <SelectItem value="1 Month">1 Month</SelectItem>
-                              <SelectItem value="2 Months">2 Months</SelectItem>
-                              <SelectItem value="3 Months">3 Months</SelectItem>
-                              <SelectItem value="6 Months">6 Months</SelectItem>
-                              <SelectItem value="1 Year">1 Year</SelectItem>
-                              <SelectItem value="Lifetime">Lifetime</SelectItem>
+                              <SelectItem value="DEFAULT">Use product default</SelectItem>
+                              <SelectItem value="CREDENTIALS">Login Credentials</SelectItem>
+                              <SelectItem value="COUPON_CODE">Coupon/License Key</SelectItem>
+                              <SelectItem value="MANUAL_ACTIVATION">Manual Activation</SelectItem>
+                              <SelectItem value="INSTANT_KEY">Instant Key</SelectItem>
                             </SelectContent>
                           </Select>
                         </div>
-                      </div>
 
-                      {/* Pricing Row */}
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        <div>
-                          <Label className="text-xs">Original Price (₹)</Label>
-                          <Input
-                            type="number"
-                            min="0"
-                            value={variant.originalPrice || ''}
-                            onChange={(e) => updateVariant(index, 'originalPrice', Number(e.target.value))}
-                            placeholder="999"
-                            className="mt-1 border-2 border-gray-300 text-sm"
+                        {/* Variant Features */}
+                        <div className="pt-3 border-t border-gray-200 dark:border-gray-700">
+                          <div className="flex items-center justify-between mb-2">
+                            <Label className="text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center gap-1.5">
+                              <ListChecks className="h-4 w-4 text-purple-500" />
+                              Variant-Specific Features
+                            </Label>
+                            <span className="text-xs text-gray-400 bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+                              {variant.featuresText?.split('\n').filter((f: string) => f.trim()).length || 0} features
+                            </span>
+                          </div>
+                          <Textarea
+                            value={variant.featuresText || ''}
+                            onChange={(e) => updateVariant(index, 'featuresText', e.target.value)}
+                            placeholder="Enter features specific to this variant (one per line)&#10;e.g., 4K Ultra HD&#10;5 Profiles&#10;Ad-free Experience"
+                            className="border-2 border-gray-200 dark:border-gray-600 focus:border-purple-400 font-mono text-sm min-h-[80px] resize-y bg-white dark:bg-gray-800"
+                            rows={3}
                           />
+                          <p className="text-xs text-gray-400 mt-1.5">
+                            Leave empty to use product's default features
+                          </p>
                         </div>
-                        <div>
-                          <Label className="text-xs">Sale Price (₹)</Label>
-                          <Input
-                            type="number"
-                            min="1"
-                            value={variant.salePrice || ''}
-                            onChange={(e) => updateVariant(index, 'salePrice', Number(e.target.value))}
-                            placeholder="499"
-                            className="mt-1 border-2 border-gray-300 text-sm"
-                          />
-                        </div>
-                        <div>
-                          <Label className="text-xs flex items-center gap-1">
-                            <span className="text-amber-600">💰</span>
-                            Cost/Vendor Price (₹)
-                          </Label>
-                          <Input
-                            type="number"
-                            min="0"
-                            value={variant.costPrice || ''}
-                            onChange={(e) => updateVariant(index, 'costPrice', Number(e.target.value))}
-                            placeholder="299"
-                            className="mt-1 border-2 border-amber-300 bg-amber-50 text-sm"
-                          />
-                          {variant.salePrice && variant.costPrice ? (
-                            <p className="text-xs text-green-600 mt-1 font-medium">
-                              Profit: ₹{(variant.salePrice - variant.costPrice).toLocaleString()}
-                            </p>
-                          ) : null}
-                        </div>
-                      </div>
-                      {/* Variant Delivery Type */}
-                      <div className="mt-3">
-                        <Label className="text-xs">Delivery Type (optional - overrides product default)</Label>
-                        <Select
-                          value={variant.deliveryType || ''}
-                          onValueChange={(value) => updateVariant(index, 'deliveryType', value === 'DEFAULT' ? undefined : value as DeliveryType)}
-                        >
-                          <SelectTrigger className="mt-1 border-2 border-gray-300 text-sm">
-                            <SelectValue placeholder="Use product default" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="DEFAULT">Use product default</SelectItem>
-                            <SelectItem value="CREDENTIALS">Login Credentials</SelectItem>
-                            <SelectItem value="COUPON_CODE">Coupon/License Key</SelectItem>
-                            <SelectItem value="MANUAL_ACTIVATION">Manual Activation</SelectItem>
-                            <SelectItem value="INSTANT_KEY">Instant Key</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      {/* Variant Features */}
-                      <div className="mt-4 pt-3 border-t border-gray-200">
-                        <div className="flex items-center justify-between mb-2">
-                          <Label className="text-xs font-medium text-gray-600 flex items-center gap-1.5">
-                            <ListChecks className="h-4 w-4 text-purple-500" />
-                            Variant-Specific Features
-                          </Label>
-                          <span className="text-xs text-gray-400">
-                            {variant.featuresText?.split('\n').filter((f: string) => f.trim()).length || 0} features
-                          </span>
-                        </div>
-                        <Textarea
-                          value={variant.featuresText || ''}
-                          onChange={(e) => updateVariant(index, 'featuresText', e.target.value)}
-                          placeholder="Enter features specific to this variant (one per line)&#10;e.g., 4K Ultra HD&#10;5 Profiles&#10;Ad-free Experience"
-                          className="border-2 border-gray-200 focus:border-purple-400 font-mono text-sm min-h-[80px] resize-y"
-                          rows={3}
-                        />
-                        <p className="text-xs text-gray-400 mt-1">
-                          Leave empty to use product's default features
-                        </p>
                       </div>
                     </div>
                   ))}
@@ -1634,221 +1667,234 @@ export function ProductManager() {
             </TabsContent>
 
             {/* Delivery Tab */}
-            <TabsContent value="delivery" className="space-y-4">
-              <div className="p-3 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
-                <h4 className="font-semibold text-blue-800 dark:text-blue-300 text-sm mb-1">📦 How will customers receive this product?</h4>
-                <p className="text-xs text-blue-600 dark:text-blue-400">
-                  Select the delivery method that matches how you'll fulfill orders for this product
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {(Object.keys(deliveryTypeInfo) as DeliveryType[]).map((type) => (
-                  <button
-                    key={type}
-                    type="button"
-                    onClick={() => setEditingProduct({
-                      ...editingProduct,
-                      deliveryType: type,
-                      requiresUserInput: type === 'MANUAL_ACTIVATION'
-                    })}
-                    className={`p-4 border-2 rounded-lg text-left transition-all ${
-                      editingProduct?.deliveryType === type
-                        ? 'border-[#0A7A7A] bg-teal-50 dark:bg-teal-900/30 shadow-[2px_2px_0px_0px_rgba(10,122,122,0.5)]'
-                        : 'border-gray-200 dark:border-gray-700 hover:border-gray-400 bg-white dark:bg-gray-800'
-                    }`}
-                  >
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className={editingProduct?.deliveryType === type ? 'text-[#0A7A7A]' : 'text-gray-600 dark:text-gray-400'}>
-                        {deliveryTypeInfo[type].icon}
-                      </span>
-                      <span className="font-semibold text-sm dark:text-white">{deliveryTypeInfo[type].label}</span>
-                    </div>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
-                      {deliveryTypeInfo[type].description}
-                    </p>
-                    {editingProduct?.deliveryType === type && (
-                      <div className="mt-2 pt-2 border-t border-teal-200 dark:border-teal-700 space-y-1">
-                        <p className="text-xs text-teal-700 dark:text-teal-400 flex items-start gap-1">
-                          <span className="font-semibold">📋 Requirements:</span>
-                          <span>{deliveryTypeInfo[type].defaultRequirements}</span>
-                        </p>
-                        <p className="text-xs text-teal-600 dark:text-teal-500 flex items-start gap-1">
-                          <span className="font-semibold">👁️ Customer sees:</span>
-                          <span>{deliveryTypeInfo[type].defaultUserSees}</span>
-                        </p>
+            <TabsContent value="delivery" className="space-y-6">
+              {/* Section 1: Product Type Selection */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 pb-2 border-b border-gray-200 dark:border-gray-700">
+                  <Package className="h-5 w-5 text-[#0A7A7A]" />
+                  <h3 className="font-bold text-gray-900 dark:text-white">Step 1: What type of activation is this?</h3>
+                </div>
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {(Object.keys(deliveryTypeInfo) as DeliveryType[]).map((type) => (
+                    <button
+                      key={type}
+                      type="button"
+                      onClick={() => setEditingProduct({
+                        ...editingProduct,
+                        deliveryType: type,
+                        requiresUserInput: type === 'MANUAL_ACTIVATION'
+                      })}
+                      className={`p-4 border-2 rounded-xl text-left transition-all ${
+                        editingProduct?.deliveryType === type
+                          ? 'border-[#0A7A7A] bg-teal-50 dark:bg-teal-900/30 ring-2 ring-[#0A7A7A]/20'
+                          : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 bg-white dark:bg-gray-800'
+                      }`}
+                    >
+                      <div className="flex items-start gap-3">
+                        <div className={`p-2 rounded-lg ${
+                          editingProduct?.deliveryType === type 
+                            ? 'bg-[#0A7A7A] text-white' 
+                            : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400'
+                        }`}>
+                          {deliveryTypeInfo[type].icon}
+                        </div>
+                        <div className="flex-1">
+                          <span className={`font-semibold text-sm block ${
+                            editingProduct?.deliveryType === type 
+                              ? 'text-[#0A7A7A] dark:text-teal-400' 
+                              : 'text-gray-900 dark:text-white'
+                          }`}>
+                            {deliveryTypeInfo[type].label}
+                          </span>
+                          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                            {deliveryTypeInfo[type].description}
+                          </p>
+                        </div>
+                        {editingProduct?.deliveryType === type && (
+                          <CheckCircle className="h-5 w-5 text-[#0A7A7A] flex-shrink-0" />
+                        )}
                       </div>
-                    )}
-                  </button>
-                ))}
+                    </button>
+                  ))}
+                </div>
               </div>
 
-              {/* Selected Delivery Type Info Box with Editable Fields */}
+              {/* Section 2: Selected Type Details (Only show when type is selected) */}
               {editingProduct?.deliveryType && (
-                <div className={`p-4 rounded-lg border-2 ${deliveryTypeInfo[editingProduct.deliveryType as DeliveryType].color}`}>
-                  <div className="flex items-center gap-2 mb-3">
-                    {deliveryTypeInfo[editingProduct.deliveryType as DeliveryType].icon}
-                    <span className="font-bold">{deliveryTypeInfo[editingProduct.deliveryType as DeliveryType].label}</span>
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2 pb-2 border-b border-gray-200 dark:border-gray-700">
+                    <ListChecks className="h-5 w-5 text-[#0A7A7A]" />
+                    <h3 className="font-bold text-gray-900 dark:text-white">Step 2: Customer Requirements Message</h3>
+                    <span className="text-xs text-gray-500 dark:text-gray-400">(What users need to know before purchase)</span>
                   </div>
-                  
-                  <div className="space-y-3">
-                    {/* Editable Requirements Label */}
-                    <div>
-                      <Label className="text-sm font-semibold flex items-center gap-1 mb-1">
-                        📋 Requirements (Admin Note)
-                        <span className="text-xs font-normal text-gray-500">(Edit to customize)</span>
-                      </Label>
-                      <Input
-                        value={editingProduct?.customRequirementsLabel || deliveryTypeInfo[editingProduct.deliveryType as DeliveryType].defaultRequirements}
-                        onChange={(e) => setEditingProduct({ ...editingProduct, customRequirementsLabel: e.target.value })}
-                        placeholder={deliveryTypeInfo[editingProduct.deliveryType as DeliveryType].defaultRequirements}
-                        className="text-sm border-2 bg-white/50 dark:bg-gray-800/50"
-                      />
+
+                  <div className={`p-4 rounded-xl border-2 ${deliveryTypeInfo[editingProduct.deliveryType as DeliveryType].color} bg-opacity-50`}>
+                    <div className="flex items-center gap-2 mb-4">
+                      <div className="p-1.5 rounded-lg bg-white/50 dark:bg-black/20">
+                        {deliveryTypeInfo[editingProduct.deliveryType as DeliveryType].icon}
+                      </div>
+                      <span className="font-bold">{deliveryTypeInfo[editingProduct.deliveryType as DeliveryType].label}</span>
                     </div>
                     
-                    {/* Editable Customer Sees Label */}
-                    <div>
-                      <Label className="text-sm font-semibold flex items-center gap-1 mb-1">
-                        👁️ What Customer Sees
-                        <span className="text-xs font-normal text-gray-500">(Edit to customize)</span>
+                    {/* Customer Requirements Message */}
+                    <div className="bg-white/60 dark:bg-gray-800/60 rounded-lg p-3">
+                      <Label className="text-xs font-semibold flex items-center gap-1.5 mb-2 text-gray-700 dark:text-gray-300">
+                        📋 Customer Requirements Message
                       </Label>
-                      <Input
-                        value={editingProduct?.customUserSeesLabel || deliveryTypeInfo[editingProduct.deliveryType as DeliveryType].defaultUserSees}
+                      <textarea
+                        value={editingProduct?.customUserSeesLabel || ''}
                         onChange={(e) => setEditingProduct({ ...editingProduct, customUserSeesLabel: e.target.value })}
-                        placeholder={deliveryTypeInfo[editingProduct.deliveryType as DeliveryType].defaultUserSees}
-                        className="text-sm border-2 bg-white/50 dark:bg-gray-800/50"
+                        placeholder="e.g., You need to provide your Netflix email and password. Please create an account first if you don't have one."
+                        className="w-full text-sm border bg-white dark:bg-gray-800 rounded-md p-2 min-h-[80px] resize-y"
+                        rows={3}
                       />
+                      <p className="text-xs text-gray-500 mt-1.5">
+                        This message will be shown to customers on the product page. Explain what they need to do or provide.
+                      </p>
                     </div>
                   </div>
                 </div>
               )}
 
-              {/* Fulfillment Method Selection */}
-              <div className="p-4 bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 border-2 border-indigo-200 dark:border-indigo-700 rounded-lg">
-                <Label className="font-semibold text-indigo-800 dark:text-indigo-300 flex items-center gap-2 mb-3">
-                  <Send className="h-4 w-4" />
-                  How will you deliver this product?
-                </Label>
-                <p className="text-xs text-indigo-600 dark:text-indigo-400 mb-3">
-                  Select how the credentials/codes will be sent to the customer
-                </p>
+              {/* Section 3: Fulfillment Method */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 pb-2 border-b border-gray-200 dark:border-gray-700">
+                  <Send className="h-5 w-5 text-[#0A7A7A]" />
+                  <h3 className="font-bold text-gray-900 dark:text-white">Step 3: How will you deliver?</h3>
+                </div>
                 
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
                   {(Object.keys(fulfillmentMethodInfo) as FulfillmentMethod[]).map((method) => (
                     <button
                       key={method}
                       type="button"
                       onClick={() => setEditingProduct({ ...editingProduct, fulfillmentMethod: method })}
-                      className={`p-3 border-2 rounded-lg text-left transition-all ${
+                      className={`p-3 border-2 rounded-xl text-center transition-all ${
                         editingProduct?.fulfillmentMethod === method
-                          ? 'border-indigo-500 bg-indigo-100 dark:bg-indigo-900/50 shadow-md'
-                          : 'border-gray-200 dark:border-gray-600 hover:border-indigo-300 bg-white dark:bg-gray-800'
+                          ? 'border-[#0A7A7A] bg-teal-50 dark:bg-teal-900/30 ring-2 ring-[#0A7A7A]/20'
+                          : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 bg-white dark:bg-gray-800'
                       }`}
                     >
-                      <div className="flex items-center gap-2">
-                        <span className={editingProduct?.fulfillmentMethod === method ? 'text-indigo-600 dark:text-indigo-400' : 'text-gray-500 dark:text-gray-400'}>
-                          {fulfillmentMethodInfo[method].icon}
-                        </span>
-                        <span className={`font-medium text-sm ${editingProduct?.fulfillmentMethod === method ? 'text-indigo-700 dark:text-indigo-300' : 'text-gray-700 dark:text-gray-300'}`}>
-                          {fulfillmentMethodInfo[method].label}
-                        </span>
+                      <div className={`mx-auto w-8 h-8 rounded-lg flex items-center justify-center mb-2 ${
+                        editingProduct?.fulfillmentMethod === method 
+                          ? 'bg-[#0A7A7A] text-white' 
+                          : 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400'
+                      }`}>
+                        {fulfillmentMethodInfo[method].icon}
                       </div>
+                      <span className={`font-medium text-xs block ${
+                        editingProduct?.fulfillmentMethod === method 
+                          ? 'text-[#0A7A7A] dark:text-teal-400' 
+                          : 'text-gray-700 dark:text-gray-300'
+                      }`}>
+                        {fulfillmentMethodInfo[method].label}
+                      </span>
                     </button>
                   ))}
                 </div>
 
                 {/* Fulfillment Details */}
                 {editingProduct?.fulfillmentMethod && (
-                  <div className="mt-3">
-                    <Label className="text-sm font-medium text-indigo-700 dark:text-indigo-300 mb-1 block">
-                      Additional Delivery Details (Optional)
+                  <div className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-3">
+                    <Label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block">
+                      Delivery Timeline (Optional)
                     </Label>
                     <Input
                       value={editingProduct?.fulfillmentDetails || ''}
                       onChange={(e) => setEditingProduct({ ...editingProduct, fulfillmentDetails: e.target.value })}
-                      placeholder={`e.g., Sent within 2 hours via ${fulfillmentMethodInfo[editingProduct.fulfillmentMethod as FulfillmentMethod]?.label || 'selected method'}`}
-                      className="text-sm border-2 border-indigo-200 dark:border-indigo-600 bg-white dark:bg-gray-800"
+                      placeholder={`e.g., Delivered within 2 hours via ${fulfillmentMethodInfo[editingProduct.fulfillmentMethod as FulfillmentMethod]?.label || 'selected method'}`}
+                      className="text-sm border bg-white dark:bg-gray-800"
                     />
                   </div>
                 )}
               </div>
 
-              <div className="space-y-4 mt-4">
+              {/* Section 4: Customer Instructions */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 pb-2 border-b border-gray-200 dark:border-gray-700">
+                  <MessageCircle className="h-5 w-5 text-[#0A7A7A]" />
+                  <h3 className="font-bold text-gray-900 dark:text-white">Step 4: Post-Purchase Instructions</h3>
+                </div>
+                
                 <div>
-                  <Label htmlFor="deliveryInstructions" className="font-medium dark:text-white">
-                    📝 Additional Instructions for Customer
+                  <Label htmlFor="deliveryInstructions" className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block">
+                    Instructions shown to customer after purchase
                   </Label>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mb-1.5">
-                    These instructions will be shown to the customer after purchase (e.g., how to use the credentials)
-                  </p>
                   <Textarea
                     id="deliveryInstructions"
                     value={editingProduct?.deliveryInstructions || ''}
                     onChange={(e) => setEditingProduct({ ...editingProduct, deliveryInstructions: e.target.value })}
                     placeholder="e.g., Login at netflix.com with the provided credentials. Do not change the password."
-                    className="mt-1.5 border-2 border-gray-300 dark:border-gray-600 focus:border-[#0A7A7A] dark:bg-gray-800"
+                    className="border-2 border-gray-200 dark:border-gray-700 focus:border-[#0A7A7A] dark:bg-gray-800 rounded-lg"
                     rows={3}
                   />
                 </div>
+              </div>
 
-                {editingProduct?.deliveryType === 'MANUAL_ACTIVATION' && (
-                  <div className="space-y-4 p-4 bg-amber-50 dark:bg-amber-900/20 border-2 border-amber-200 dark:border-amber-700 rounded-lg">
-                    <div className="flex items-center gap-2 mb-2">
-                      <UserCheck className="h-5 w-5 text-amber-600 dark:text-amber-400" />
-                      <span className="font-semibold text-amber-700 dark:text-amber-300">Manual Activation Settings</span>
-                    </div>
-                    
-                    <div className="p-3 bg-amber-100 dark:bg-amber-800/30 rounded-lg">
+              {/* Section 5: Manual Activation Settings (Only for MANUAL_ACTIVATION type) */}
+              {editingProduct?.deliveryType === 'MANUAL_ACTIVATION' && (
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2 pb-2 border-b border-amber-300 dark:border-amber-700">
+                    <UserCheck className="h-5 w-5 text-amber-600 dark:text-amber-400" />
+                    <h3 className="font-bold text-amber-700 dark:text-amber-300">Step 5: Manual Activation Settings</h3>
+                  </div>
+                  
+                  <div className="bg-amber-50 dark:bg-amber-900/20 rounded-xl p-4 border border-amber-200 dark:border-amber-700">
+                    <div className="flex items-start gap-3 mb-4 p-3 bg-amber-100/50 dark:bg-amber-800/30 rounded-lg">
+                      <AlertCircle className="h-5 w-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
                       <p className="text-sm text-amber-800 dark:text-amber-200">
                         <strong>How it works:</strong> Customer provides their account details during checkout. 
                         You manually activate their subscription and mark the order as complete.
                       </p>
                     </div>
 
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center justify-between p-3 bg-white dark:bg-gray-800 rounded-lg border border-amber-200 dark:border-amber-700">
+                      <div>
+                        <Label className="font-medium text-gray-900 dark:text-white">Collect Customer Account Details</Label>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">Enable to ask customer for their account info at checkout</p>
+                      </div>
                       <Switch
                         checked={editingProduct?.requiresUserInput || false}
                         onCheckedChange={(checked) => setEditingProduct({ ...editingProduct, requiresUserInput: checked })}
                       />
-                      <div>
-                        <Label className="font-medium dark:text-white">Collect Customer Account Details</Label>
-                        <p className="text-xs text-gray-500 dark:text-gray-400">Enable to ask customer for their account info at checkout</p>
-                      </div>
                     </div>
 
                     {editingProduct?.requiresUserInput && (
-                      <div className="space-y-4 pt-3 border-t border-amber-300 dark:border-amber-600">
-                        <div>
-                          <Label htmlFor="userInputLabel" className="font-medium dark:text-white flex items-center gap-2">
-                            📝 Input Field Label <span className="text-red-500">*</span>
-                          </Label>
-                          <p className="text-xs text-gray-500 dark:text-gray-400 mb-1.5">
-                            This label will be shown to the customer (e.g., "Your Netflix Email", "Your Spotify Account Email")
-                          </p>
-                          <Input
-                            id="userInputLabel"
-                            value={editingProduct?.userInputLabel || ''}
-                            onChange={(e) => setEditingProduct({ ...editingProduct, userInputLabel: e.target.value })}
-                            placeholder="e.g., Your Netflix Email, Your Account ID"
-                            className="border-2 border-amber-300 dark:border-amber-600 focus:border-[#0A7A7A] dark:bg-gray-800"
-                          />
-                        </div>
-                        
-                        <div className="flex items-center gap-3 p-3 bg-white dark:bg-gray-800 rounded-lg border border-amber-200 dark:border-amber-700">
-                          <Switch
-                            checked={editingProduct?.requiresPassword !== false}
-                            onCheckedChange={(checked) => setEditingProduct({ ...editingProduct, requiresPassword: checked })}
-                          />
-                          <div>
-                            <Label className="font-medium dark:text-white">Also Require Password</Label>
-                            <p className="text-xs text-gray-500 dark:text-gray-400">Turn off if you only need email/username from customer</p>
+                      <div className="mt-4 space-y-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div className="bg-white dark:bg-gray-800 rounded-lg p-3 border border-amber-200 dark:border-amber-700">
+                            <Label htmlFor="userInputLabel" className="text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center gap-1 mb-2">
+                              Input Field Label <span className="text-red-500">*</span>
+                            </Label>
+                            <Input
+                              id="userInputLabel"
+                              value={editingProduct?.userInputLabel || ''}
+                              onChange={(e) => setEditingProduct({ ...editingProduct, userInputLabel: e.target.value })}
+                              placeholder="e.g., Your Netflix Email"
+                              className="border bg-white dark:bg-gray-800"
+                            />
+                            <p className="text-xs text-gray-500 mt-1.5">Label shown to customer</p>
+                          </div>
+                          
+                          <div className="bg-white dark:bg-gray-800 rounded-lg p-3 border border-amber-200 dark:border-amber-700">
+                            <Label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block">Password Required?</Label>
+                            <div className="flex items-center justify-between">
+                              <p className="text-xs text-gray-500">Also collect password from customer</p>
+                              <Switch
+                                checked={editingProduct?.requiresPassword !== false}
+                                onCheckedChange={(checked) => setEditingProduct({ ...editingProduct, requiresPassword: checked })}
+                              />
+                            </div>
                           </div>
                         </div>
 
-                        {/* Preview of what customer will see */}
-                        <div className="p-3 bg-white dark:bg-gray-800 rounded-lg border-2 border-dashed border-amber-300 dark:border-amber-600">
-                          <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2">👁️ PREVIEW: What customer will see at checkout</p>
-                          <div className="space-y-2">
+                        {/* Preview */}
+                        <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border-2 border-dashed border-amber-300 dark:border-amber-600">
+                          <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-3 flex items-center gap-1">
+                            <Eye className="h-3.5 w-3.5" /> PREVIEW: Customer checkout form
+                          </p>
+                          <div className="space-y-3 max-w-sm">
                             <div>
                               <Label className="text-sm text-gray-700 dark:text-gray-300">
                                 {editingProduct?.userInputLabel || 'Your Account Email'} <span className="text-red-500">*</span>
@@ -1856,7 +1902,7 @@ export function ProductManager() {
                               <Input 
                                 disabled 
                                 placeholder="customer@example.com" 
-                                className="mt-1 bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600"
+                                className="mt-1 bg-gray-50 dark:bg-gray-700"
                               />
                             </div>
                             {editingProduct?.requiresPassword !== false && (
@@ -1868,7 +1914,7 @@ export function ProductManager() {
                                   disabled 
                                   type="password" 
                                   placeholder="••••••••" 
-                                  className="mt-1 bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600"
+                                  className="mt-1 bg-gray-50 dark:bg-gray-700"
                                 />
                               </div>
                             )}
@@ -1877,31 +1923,39 @@ export function ProductManager() {
                       </div>
                     )}
                   </div>
-                )}
+                </div>
+              )}
 
-                {editingProduct?.deliveryType === 'INSTANT_KEY' && (
-                  <div className="p-4 bg-green-50 border-2 border-green-200 rounded-lg">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Database className="h-5 w-5 text-green-600" />
-                      <span className="font-semibold text-green-700">Stock Management</span>
+              {/* Section 5: Instant Key Settings (Only for INSTANT_KEY type) */}
+              {editingProduct?.deliveryType === 'INSTANT_KEY' && (
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2 pb-2 border-b border-green-300 dark:border-green-700">
+                    <Database className="h-5 w-5 text-green-600 dark:text-green-400" />
+                    <h3 className="font-bold text-green-700 dark:text-green-300">Step 5: Stock Management</h3>
+                  </div>
+                  
+                  <div className="bg-green-50 dark:bg-green-900/20 rounded-xl p-4 border border-green-200 dark:border-green-700">
+                    <div className="flex items-start gap-3 mb-4 p-3 bg-green-100/50 dark:bg-green-800/30 rounded-lg">
+                      <Zap className="h-5 w-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
+                      <p className="text-sm text-green-800 dark:text-green-200">
+                        Pre-load license keys/credentials that will be auto-delivered when orders are completed.
+                      </p>
                     </div>
-                    <p className="text-sm text-green-600 mb-3">
-                      Pre-load license keys/credentials that will be auto-delivered when orders are completed.
-                    </p>
-                    <div>
-                      <Label className="font-medium">Low Stock Alert Threshold</Label>
+                    
+                    <div className="bg-white dark:bg-gray-800 rounded-lg p-3 border border-green-200 dark:border-green-700">
+                      <Label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block">Low Stock Alert Threshold</Label>
                       <Input
                         type="number"
                         min="1"
                         value={editingProduct?.lowStockAlert || 5}
                         onChange={(e) => setEditingProduct({ ...editingProduct, lowStockAlert: Number(e.target.value) })}
-                        className="mt-1.5 border-2 border-green-300 w-32"
+                        className="w-32 border bg-white dark:bg-gray-800"
                       />
-                      <p className="text-xs text-gray-500 mt-1">Alert when stock falls below this number</p>
+                      <p className="text-xs text-gray-500 mt-1.5">Alert when stock falls below this number</p>
                     </div>
                   </div>
-                )}
-              </div>
+                </div>
+              )}
             </TabsContent>
 
             {/* Schedule Tab */}

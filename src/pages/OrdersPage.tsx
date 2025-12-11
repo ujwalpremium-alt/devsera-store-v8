@@ -283,7 +283,7 @@ export function OrdersPage() {
                 <Card className="border-2 border-gray-200 dark:border-gray-700">
                   <CardContent className="p-4">
                     <h3 className="font-bold mb-4 flex items-center gap-2 text-gray-900 dark:text-white">
-                      <FileText className="h-5 w-5 text-gray-500" />
+                      <FileText className="h-5 w-5 text-gray-500 dark:text-gray-400" />
                       Order Timeline
                     </h3>
                     <OrderStatusStepper 

@@ -147,7 +147,7 @@ export function ProductDetailPage() {
       <div className="container mx-auto px-4 py-16 text-center pb-20 md:pb-0">
         <div className="max-w-md mx-auto">
           <div className="w-24 h-24 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-6">
-            <Package className="h-10 w-10 text-gray-400" />
+            <Package className="h-10 w-10 text-gray-400 dark:text-gray-500" />
           </div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Product not found</h1>
           <p className="text-gray-500 dark:text-gray-400 mb-6">The product you're looking for doesn't exist or has been removed.</p>
@@ -462,27 +462,29 @@ export function ProductDetailPage() {
             {/* Delivery Type Info - Use variant's delivery type if selected */}
             {(() => {
               const effectiveDeliveryType = selectedVariant?.deliveryType || product.deliveryType;
-              const showUserInputNote = effectiveDeliveryType === 'MANUAL_ACTIVATION' && product.requiresUserInput;
               const customUserSees = (product as any).customUserSeesLabel;
               return effectiveDeliveryType && (
-                <div className={`rounded-xl p-4 border-2 ${deliveryTypeInfo[effectiveDeliveryType].color}`}>
-                  <div className="flex items-center gap-2 mb-2">
-                    {deliveryTypeInfo[effectiveDeliveryType].icon}
-                    <span className="font-semibold text-sm sm:text-base">{deliveryTypeInfo[effectiveDeliveryType].label}</span>
-                  </div>
-                  <p className="text-sm opacity-90 mb-2">
-                    {product.deliveryInstructions || deliveryTypeInfo[effectiveDeliveryType].description}
-                  </p>
-                  <div className="bg-white/50 dark:bg-black/20 rounded-lg p-2 sm:p-3 mt-2">
-                    <p className="text-xs sm:text-sm font-medium">
-                      📋 {customUserSees || deliveryTypeInfo[effectiveDeliveryType].userAction}
+                <div className={`rounded-xl overflow-hidden border-2 ${deliveryTypeInfo[effectiveDeliveryType].color}`}>
+                  <div className="p-4">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="p-2 rounded-lg bg-white/50 dark:bg-black/20">
+                        {deliveryTypeInfo[effectiveDeliveryType].icon}
+                      </div>
+                      <div>
+                        <span className="font-bold text-sm sm:text-base block">{deliveryTypeInfo[effectiveDeliveryType].label}</span>
+                        <p className="text-xs opacity-75">Delivery Method</p>
+                      </div>
+                    </div>
+                    <p className="text-sm opacity-90">
+                      {product.deliveryInstructions || deliveryTypeInfo[effectiveDeliveryType].description}
                     </p>
                   </div>
-                  {showUserInputNote && (
-                    <p className="text-xs sm:text-sm mt-2 font-medium opacity-75 bg-yellow-100 dark:bg-yellow-900/30 p-2 sm:p-3 rounded-lg">
-                      ⚠️ You'll need to provide your {product.userInputLabel || 'account details'} during checkout
+                  <div className="bg-white/60 dark:bg-black/30 p-3 border-t border-current/10">
+                    <p className="text-xs sm:text-sm font-medium flex items-start gap-2">
+                      <span className="text-lg leading-none">📋</span>
+                      <span className="whitespace-pre-wrap">{customUserSees || deliveryTypeInfo[effectiveDeliveryType].userAction}</span>
                     </p>
-                  )}
+                  </div>
                 </div>
               );
             })()}
@@ -494,7 +496,7 @@ export function ProductDetailPage() {
                   <MessageCircle className="h-5 w-5 text-white" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-600">Have questions?</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Have questions?</p>
                   <a
                     href={`https://t.me/${(settings?.telegramUsername || '@karthik_nkn').replace('@', '')}`}
                     target="_blank"
@@ -626,7 +628,7 @@ export function ProductDetailPage() {
 
           {!user && (
             <div className="bg-gray-50 rounded-xl p-6 border border-gray-200 mb-6 text-center">
-              <p className="text-gray-600 mb-3">Login to write a review</p>
+              <p className="text-gray-600 dark:text-gray-400 mb-3">Login to write a review</p>
               <Button
                 onClick={() => navigate('/login')}
                 variant="outline"
@@ -678,14 +680,14 @@ export function ProductDetailPage() {
                       ))}
                     </div>
                   </div>
-                  <p className="text-gray-600">{review.comment}</p>
+                  <p className="text-gray-600 dark:text-gray-400">{review.comment}</p>
                 </div>
               ))}
             </div>
           ) : (
             <div className="bg-gray-50 rounded-xl p-8 text-center">
-              <Star className="h-12 w-12 text-gray-300 mx-auto mb-3" />
-              <p className="text-gray-500">No reviews yet. Be the first to review!</p>
+              <Star className="h-12 w-12 text-gray-300 dark:text-gray-600 mx-auto mb-3" />
+              <p className="text-gray-500 dark:text-gray-400">No reviews yet. Be the first to review!</p>
             </div>
           )}
         </div>

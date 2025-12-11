@@ -99,7 +99,7 @@ export function HomePage() {
           />
           <div className="flex items-center justify-between text-xs sm:text-sm">
             <span className="font-mono bg-gray-100 dark:bg-gray-800 px-2 sm:px-3 py-0.5 sm:py-1 rounded-lg">₹{priceRange[0]}</span>
-            <span className="text-gray-400">to</span>
+            <span className="text-gray-400 dark:text-gray-500">to</span>
             <span className="font-mono bg-gray-100 dark:bg-gray-800 px-2 sm:px-3 py-0.5 sm:py-1 rounded-lg">₹{priceRange[1]}</span>
           </div>
         </div>
@@ -119,7 +119,7 @@ export function HomePage() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 pb-20 lg:pb-0 overflow-x-hidden">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 pb-20 lg:pb-0">
       <HeroBanner />
       <TrustBadges />
       <FlashSales products={products} />
@@ -153,12 +153,12 @@ export function HomePage() {
         </section>
       )}
 
-      <section className="container mx-auto px-3 sm:px-4 py-6 sm:py-8 md:py-12 lg:py-16">
-        <div className="text-center mb-6 sm:mb-8">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2 sm:mb-4">
+      <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 md:py-16 lg:py-20">
+        <div className="text-center mb-8 sm:mb-12">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-teal-600 to-emerald-600 dark:from-teal-400 dark:to-emerald-400 bg-clip-text text-transparent mb-3 sm:mb-4">
             Featured Products
           </h2>
-          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 max-w-2xl mx-auto px-4">
+          <p className="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto px-4">
             Browse our collection of premium subscriptions at unbeatable prices
           </p>
         </div>
@@ -171,21 +171,21 @@ export function HomePage() {
           />
         </div>
 
-        <div className="mb-6 sm:mb-8">
+        <div className="mb-8 sm:mb-10">
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-stretch sm:items-center">
             <div className="relative flex-1">
-              <Search className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-gray-400" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 dark:text-gray-500" />
               <Input
                 type="text"
                 placeholder="Search products..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 sm:pl-12 pr-10 h-10 sm:h-12 text-sm sm:text-base border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 bg-white dark:bg-gray-800 shadow-sm"
+                className="pl-12 pr-10 h-12 sm:h-14 text-sm sm:text-base border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 bg-white dark:bg-gray-800 shadow-sm hover:shadow-md transition-shadow"
               />
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery('')}
-                  className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300"
                 >
                   <X className="h-4 w-4" />
                 </button>
@@ -214,8 +214,8 @@ export function HomePage() {
             </Sheet>
           </div>
 
-          <div className="hidden sm:block mt-4 sm:mt-6">
-            <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl border-2 border-gray-100 dark:border-gray-700 p-4 sm:p-6 shadow-sm">
+          <div className="hidden sm:block mt-6">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm hover:shadow-md transition-shadow">
               <FilterContent />
             </div>
           </div>
@@ -234,9 +234,9 @@ export function HomePage() {
 
         {/* Recently Added Section */}
         {!hasActiveFilters && recentlyAddedProducts.length > 0 && (
-          <section className="mb-8 sm:mb-12">
-            <div className="flex items-center justify-between mb-4 sm:mb-6">
-              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
+          <section className="mb-12 sm:mb-16">
+            <div className="flex items-center justify-between mb-6 sm:mb-8">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
                 Recently Added
               </h2>
             </div>
@@ -247,8 +247,8 @@ export function HomePage() {
         {/* All Products Section */}
         <section>
           {!hasActiveFilters && (
-            <div className="flex items-center justify-between mb-4 sm:mb-6">
-              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
+            <div className="flex items-center justify-between mb-6 sm:mb-8">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
                 All Products
               </h2>
             </div>
@@ -290,7 +290,7 @@ export function HomePage() {
                           </Button>
                         );
                       } else if (page === currentPage - 2 || page === currentPage + 2) {
-                        return <span key={page} className="px-1 sm:px-2 text-gray-400 text-sm">...</span>;
+                        return <span key={page} className="px-1 sm:px-2 text-gray-400 dark:text-gray-500 text-sm">...</span>;
                       }
                       return null;
                     })}
@@ -329,7 +329,7 @@ export function HomePage() {
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2 sm:mb-4">
               Why Choose Devsera Store?
             </h2>
-            <p className="text-sm sm:text-base text-gray-400 max-w-2xl mx-auto px-4">
+            <p className="text-sm sm:text-base text-gray-400 dark:text-gray-500 max-w-2xl mx-auto px-4">
               We provide the best premium subscription sharing service with unmatched quality and support.
             </p>
           </div>
@@ -340,7 +340,7 @@ export function HomePage() {
                 <Clock className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 text-white" />
               </div>
               <h3 className="text-base sm:text-lg md:text-xl font-bold text-white mb-1 sm:mb-2">Fast Delivery</h3>
-              <p className="text-gray-400 text-xs sm:text-sm">Get your credentials within 2 hours</p>
+              <p className="text-gray-400 dark:text-gray-500 text-xs sm:text-sm">Get your credentials within 2 hours</p>
             </div>
             
             <div className="bg-white/5 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-white/10 hover:bg-white/10 transition-all duration-300 group">
@@ -348,7 +348,7 @@ export function HomePage() {
                 <Shield className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 text-white" />
               </div>
               <h3 className="text-base sm:text-lg md:text-xl font-bold text-white mb-1 sm:mb-2">100% Secure</h3>
-              <p className="text-gray-400 text-xs sm:text-sm">All accounts verified & monitored</p>
+              <p className="text-gray-400 dark:text-gray-500 text-xs sm:text-sm">All accounts verified & monitored</p>
             </div>
             
             <div className="bg-white/5 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-white/10 hover:bg-white/10 transition-all duration-300 group">
@@ -356,7 +356,7 @@ export function HomePage() {
                 <HeadphonesIcon className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 text-white" />
               </div>
               <h3 className="text-base sm:text-lg md:text-xl font-bold text-white mb-1 sm:mb-2">24/7 Support</h3>
-              <p className="text-gray-400 text-xs sm:text-sm">Always available via Telegram</p>
+              <p className="text-gray-400 dark:text-gray-500 text-xs sm:text-sm">Always available via Telegram</p>
             </div>
             
             <div className="bg-white/5 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-white/10 hover:bg-white/10 transition-all duration-300 group">
@@ -364,7 +364,7 @@ export function HomePage() {
                 <Sparkles className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 text-white" />
               </div>
               <h3 className="text-base sm:text-lg md:text-xl font-bold text-white mb-1 sm:mb-2">Best Prices</h3>
-              <p className="text-gray-400 text-xs sm:text-sm">Save up to 85% on subscriptions</p>
+              <p className="text-gray-400 dark:text-gray-500 text-xs sm:text-sm">Save up to 85% on subscriptions</p>
             </div>
           </div>
         </div>

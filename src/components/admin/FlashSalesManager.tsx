@@ -158,8 +158,8 @@ export function FlashSalesManager() {
               <Flame className="h-6 w-6 text-white" />
             </div>
             <div>
-              <CardTitle className="text-xl font-bold text-gray-900">Flash Sales Manager</CardTitle>
-              <p className="text-sm text-gray-600">Set fixed discounts on products for limited time</p>
+              <CardTitle className="text-xl font-bold text-gray-900 dark:text-white">Flash Sales Manager</CardTitle>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Set fixed discounts on products for limited time</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
@@ -168,7 +168,7 @@ export function FlashSalesManager() {
                 checked={config.enabled}
                 onCheckedChange={(checked) => setConfig(prev => ({ ...prev, enabled: checked }))}
               />
-              <span className="text-sm font-medium text-gray-700">
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
                 {config.enabled ? 'Enabled' : 'Disabled'}
               </span>
             </div>
@@ -188,8 +188,8 @@ export function FlashSalesManager() {
         {/* Settings Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <div className="space-y-2">
-            <Label className="text-sm font-medium text-gray-700 flex items-center gap-2">
-              <Clock className="h-4 w-4 text-gray-500" />
+            <Label className="text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center gap-2">
+              <Clock className="h-4 w-4 text-gray-500 dark:text-gray-400" />
               Duration (hours)
             </Label>
             <Input
@@ -202,8 +202,8 @@ export function FlashSalesManager() {
             />
           </div>
           <div className="space-y-2">
-            <Label className="text-sm font-medium text-gray-700 flex items-center gap-2">
-              <Package className="h-4 w-4 text-gray-500" />
+            <Label className="text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center gap-2">
+              <Package className="h-4 w-4 text-gray-500 dark:text-gray-400" />
               Max Products
             </Label>
             <Input
@@ -230,8 +230,8 @@ export function FlashSalesManager() {
               <IndianRupee className="h-5 w-5 text-orange-600" />
             </div>
             <div>
-              <h4 className="font-semibold text-gray-900">Fixed Discount System</h4>
-              <p className="text-sm text-gray-600 mt-1">
+              <h4 className="font-semibold text-gray-900 dark:text-white">Fixed Discount System</h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                 Select products and choose a fixed discount amount (₹50 - ₹350). 
                 The discount will be applied during the flash sale period. 
                 When the timer ends, prices automatically revert to original.
@@ -243,7 +243,7 @@ export function FlashSalesManager() {
         {/* Product Selection */}
         <div className="space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-            <h3 className="font-semibold text-gray-900">Select Products & Set Discounts</h3>
+            <h3 className="font-semibold text-gray-900 dark:text-white">Select Products & Set Discounts</h3>
             <Badge variant="outline" className="w-fit border-orange-300 text-orange-600">
               {selectedProducts.length} / {config.max_products} selected
             </Badge>
@@ -252,13 +252,13 @@ export function FlashSalesManager() {
           {productsLoading ? (
             <div className="text-center py-8">
               <RefreshCw className="h-8 w-8 animate-spin text-orange-500 mx-auto mb-2" />
-              <p className="text-gray-500">Loading products...</p>
+              <p className="text-gray-500 dark:text-gray-400">Loading products...</p>
             </div>
           ) : products.length === 0 ? (
             <div className="text-center py-8 bg-gray-50 rounded-xl">
-              <Package className="h-12 w-12 text-gray-300 mx-auto mb-2" />
-              <p className="text-gray-500">No products available</p>
-              <p className="text-sm text-gray-400">Add products to enable flash sales</p>
+              <Package className="h-12 w-12 text-gray-300 dark:text-gray-600 mx-auto mb-2" />
+              <p className="text-gray-500 dark:text-gray-400">No products available</p>
+              <p className="text-sm text-gray-400 dark:text-gray-500">Add products to enable flash sales</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 max-h-[500px] overflow-y-auto p-1">
@@ -290,15 +290,15 @@ export function FlashSalesManager() {
                       />
                       <div className="flex-1 min-w-0">
                         <h4 
-                          className="font-semibold text-gray-900 text-sm truncate cursor-pointer"
+                          className="font-semibold text-gray-900 dark:text-white text-sm truncate cursor-pointer"
                           onClick={() => toggleProductSelection(product.id)}
                         >
                           {product.name}
                         </h4>
                         <div className="flex items-center gap-2 mt-1">
-                          <span className="text-sm font-bold text-gray-900">₹{product.salePrice}</span>
+                          <span className="text-sm font-bold text-gray-900 dark:text-white">₹{product.salePrice}</span>
                           {product.originalPrice > product.salePrice && (
-                            <span className="text-xs text-gray-400 line-through">₹{product.originalPrice}</span>
+                            <span className="text-xs text-gray-400 dark:text-gray-500 line-through">₹{product.originalPrice}</span>
                           )}
                         </div>
                         
@@ -342,7 +342,7 @@ export function FlashSalesManager() {
                             <div className="flex items-center justify-between">
                               <span className="text-xs text-red-600 font-medium">Flash Sale Price:</span>
                               <div className="flex items-center gap-2">
-                                <span className="text-sm line-through text-gray-400">₹{product.salePrice}</span>
+                                <span className="text-sm line-through text-gray-400 dark:text-gray-500">₹{product.salePrice}</span>
                                 <span className="text-lg font-bold text-red-600">₹{flashPrice}</span>
                               </div>
                             </div>
@@ -362,7 +362,7 @@ export function FlashSalesManager() {
 
         {/* Save Button */}
         <div className="flex justify-between items-center pt-4 border-t border-gray-200">
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-gray-500 dark:text-gray-400">
             {selectedProducts.length > 0 
               ? `Total savings: ₹${selectedProducts.reduce((sum, p) => sum + p.discountAmount, 0)} across ${selectedProducts.length} products`
               : 'Select products to start flash sale'

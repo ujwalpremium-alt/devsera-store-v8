@@ -25,14 +25,17 @@ export function PremiumBadge({ size = 'md', showText = true, expiresAt, classNam
     if (!expiresAt) return 'Lifetime';
     const expiry = new Date(expiresAt);
     const now = new Date();
-    const diffDays = Math.ceil((expiry.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+    const diffMs = expiry.getTime() - now.getTime();
+    const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+    
+    if (diffDays <= 0) return 'Expired';
     
     if (diffDays > 365) {
-      const years = Math.floor(diffDays / 365);
+      const years = Math.round(diffDays / 365);
       return `${years} year${years > 1 ? 's' : ''} left`;
     }
     if (diffDays > 30) {
-      const months = Math.floor(diffDays / 30);
+      const months = Math.round(diffDays / 30);
       return `${months} month${months > 1 ? 's' : ''} left`;
     }
     return `${diffDays} day${diffDays > 1 ? 's' : ''} left`;
@@ -43,18 +46,18 @@ export function PremiumBadge({ size = 'md', showText = true, expiresAt, classNam
       className={cn(
         'inline-flex items-center gap-1.5 rounded-full font-semibold',
         'bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-600',
-        'text-amber-950 shadow-lg shadow-amber-500/30',
+        'text-white shadow-lg shadow-amber-500/30',
         'animate-pulse-slow',
         sizeClasses[size],
         className
       )}
     >
-      <Crown size={iconSizes[size]} className="fill-amber-950" />
+      <Crown size={iconSizes[size]} className="fill-white" />
       {showText && (
-        <span>Premium</span>
+        <span className="text-white drop-shadow-sm">Premium</span>
       )}
       {showText && expiresAt !== undefined && (
-        <span className="opacity-80 text-[0.85em]">• {getExpiryText()}</span>
+        <span className="opacity-90 text-[0.85em] text-white drop-shadow-sm">• {getExpiryText()}</span>
       )}
     </div>
   );

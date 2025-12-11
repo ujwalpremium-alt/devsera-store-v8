@@ -106,7 +106,7 @@ export function BundleOffersPage() {
 
                     {/* Products Included */}
                     <div className="mb-4">
-                      <p className="text-xs font-semibold text-gray-500 uppercase mb-2">Includes:</p>
+                      <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase mb-2">Includes:</p>
                       <div className="flex flex-wrap gap-2">
                         {bundle.products.slice(0, 3).map((product) => (
                           <Badge 
@@ -118,7 +118,7 @@ export function BundleOffersPage() {
                           </Badge>
                         ))}
                         {bundle.products.length > 3 && (
-                          <Badge variant="outline" className="bg-gray-50 text-gray-600 text-xs">
+                          <Badge variant="outline" className="bg-gray-50 dark:bg-gray-800 text-gray-600 dark:text-gray-400 text-xs">
                             +{bundle.products.length - 3} more
                           </Badge>
                         )}

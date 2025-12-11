@@ -94,7 +94,7 @@ export function TicketManager() {
       open: { class: 'bg-blue-100 text-blue-700', icon: Clock },
       in_progress: { class: 'bg-amber-100 text-amber-700', icon: AlertCircle },
       resolved: { class: 'bg-green-100 text-green-700', icon: CheckCircle },
-      closed: { class: 'bg-gray-100 text-gray-700', icon: XCircle },
+      closed: { class: 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300', icon: XCircle },
     };
     const { class: className, icon: Icon } = config[status as keyof typeof config] || config.open;
     return (
@@ -107,7 +107,7 @@ export function TicketManager() {
 
   const getPriorityBadge = (priority: string) => {
     const styles = {
-      low: 'bg-gray-100 text-gray-600',
+      low: 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400',
       medium: 'bg-blue-100 text-blue-600',
       high: 'bg-orange-100 text-orange-600',
       urgent: 'bg-red-100 text-red-600 animate-pulse',
@@ -174,7 +174,7 @@ export function TicketManager() {
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mt-4">
           <div className="bg-white rounded-lg p-3 border-2 border-gray-200">
-            <p className="text-xs text-gray-500">Total</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">Total</p>
             <p className="text-2xl font-bold">{stats.total}</p>
           </div>
           <div className="bg-blue-50 rounded-lg p-3 border-2 border-blue-200">
@@ -190,8 +190,8 @@ export function TicketManager() {
             <p className="text-2xl font-bold text-green-700">{stats.resolved}</p>
           </div>
           <div className="bg-gray-50 rounded-lg p-3 border-2 border-gray-200">
-            <p className="text-xs text-gray-600">Closed</p>
-            <p className="text-2xl font-bold text-gray-700">{stats.closed}</p>
+            <p className="text-xs text-gray-600 dark:text-gray-400">Closed</p>
+            <p className="text-2xl font-bold text-gray-700 dark:text-gray-300">{stats.closed}</p>
           </div>
         </div>
       </CardHeader>
@@ -200,10 +200,10 @@ export function TicketManager() {
         {isLoading ? (
           <div className="text-center py-12">
             <div className="w-10 h-10 border-4 border-teal-500 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
-            <p className="text-gray-500">Loading tickets...</p>
+            <p className="text-gray-500 dark:text-gray-400">Loading tickets...</p>
           </div>
         ) : filteredTickets.length === 0 ? (
-          <div className="text-center py-12 text-gray-500">
+          <div className="text-center py-12 text-gray-500 dark:text-gray-400">
             <Ticket className="h-16 w-16 mx-auto mb-4 opacity-30" />
             <p className="text-lg font-medium">No tickets found</p>
             <p className="text-sm">Adjust filters or wait for new tickets</p>
@@ -230,9 +230,9 @@ export function TicketManager() {
                         {ticket.category}
                       </Badge>
                     </div>
-                    <h3 className="font-bold text-gray-900 mb-1">{ticket.subject}</h3>
-                    <p className="text-sm text-gray-600 line-clamp-2 mb-2">{ticket.description}</p>
-                    <div className="flex items-center gap-4 text-xs text-gray-500">
+                    <h3 className="font-bold text-gray-900 dark:text-white mb-1">{ticket.subject}</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2 mb-2">{ticket.description}</p>
+                    <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
                       <span className="flex items-center gap-1">
                         <User className="h-3 w-3" />
                         {ticket.userName}
@@ -307,21 +307,21 @@ export function TicketManager() {
                   {getStatusBadge(selectedTicket.status)}
                   {getPriorityBadge(selectedTicket.priority)}
                 </div>
-                <h3 className="font-bold text-gray-900">{selectedTicket.subject}</h3>
-                <p className="text-sm text-gray-500 mt-1">
+                <h3 className="font-bold text-gray-900 dark:text-white">{selectedTicket.subject}</h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                   From: {selectedTicket.userName} ({selectedTicket.userEmail})
                 </p>
               </div>
 
               <div>
-                <p className="text-sm font-medium text-gray-700 mb-2">Customer Message:</p>
+                <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Customer Message:</p>
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-sm">
                   {selectedTicket.description}
                 </div>
               </div>
 
               <div>
-                <p className="text-sm font-medium text-gray-700 mb-2">Your Response:</p>
+                <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Your Response:</p>
                 <Textarea
                   value={response}
                   onChange={(e) => setResponse(e.target.value)}

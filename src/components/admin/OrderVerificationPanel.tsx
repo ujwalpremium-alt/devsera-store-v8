@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/components/ui/use-toast';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { CheckCircle2, XCircle, Eye, Key, Package, UserCheck, Zap, User, Clock, AlertCircle, Mail, Trash2, RefreshCw, Database } from 'lucide-react';
+import { CheckCircle2, XCircle, Eye, Key, Package, UserCheck, Zap, User, Clock, AlertCircle, Mail, Trash2, RefreshCw, Database, Copy } from 'lucide-react';
 import { Order, OrderCredentials, DeliveryType, OrderStatus } from '@/types';
 import { isSupabaseConfigured, supabase } from '@/lib/supabase';
 
@@ -504,19 +504,33 @@ export function OrderVerificationPanel() {
                       </span>
                     </div>
                     {order.userProvidedInput && (() => {
+                      const copyToClipboard = (text: string, label: string) => {
+                        navigator.clipboard.writeText(text);
+                        toast({ title: 'Copied!', description: `${label} copied to clipboard` });
+                      };
                       try {
                         const parsed = JSON.parse(order.userProvidedInput);
                         if (parsed.email && parsed.password) {
                           return (
-                            <div className="mt-2 p-2 bg-blue-50 border border-blue-200 rounded text-sm space-y-1">
-                              <span className="flex items-center gap-1 text-blue-700">
-                                <User className="h-3 w-3" />
-                                Email: <span className="font-mono font-semibold">{parsed.email}</span>
-                              </span>
-                              <span className="flex items-center gap-1 text-blue-700">
-                                <Key className="h-3 w-3" />
-                                Password: <span className="font-mono font-semibold">{parsed.password}</span>
-                              </span>
+                            <div className="mt-2 p-2 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded text-sm space-y-1">
+                              <div className="flex items-center justify-between gap-2 text-blue-700 dark:text-blue-300">
+                                <span className="flex items-center gap-1">
+                                  <User className="h-3 w-3" />
+                                  Email: <span className="font-mono font-semibold">{parsed.email}</span>
+                                </span>
+                                <button onClick={() => copyToClipboard(parsed.email, 'Email')} className="p-1 hover:bg-blue-100 dark:hover:bg-blue-800 rounded" title="Copy email">
+                                  <Copy className="h-3 w-3" />
+                                </button>
+                              </div>
+                              <div className="flex items-center justify-between gap-2 text-blue-700 dark:text-blue-300">
+                                <span className="flex items-center gap-1">
+                                  <Key className="h-3 w-3" />
+                                  Password: <span className="font-mono font-semibold">{parsed.password}</span>
+                                </span>
+                                <button onClick={() => copyToClipboard(parsed.password, 'Password')} className="p-1 hover:bg-blue-100 dark:hover:bg-blue-800 rounded" title="Copy password">
+                                  <Copy className="h-3 w-3" />
+                                </button>
+                              </div>
                             </div>
                           );
                         }
@@ -524,11 +538,16 @@ export function OrderVerificationPanel() {
                         // Not JSON, show as plain text
                       }
                       return (
-                        <div className="mt-2 p-2 bg-blue-50 border border-blue-200 rounded text-sm">
-                          <span className="flex items-center gap-1 text-blue-700">
-                            <User className="h-3 w-3" />
-                            User's Account: <span className="font-mono font-semibold">{order.userProvidedInput}</span>
-                          </span>
+                        <div className="mt-2 p-2 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded text-sm">
+                          <div className="flex items-center justify-between gap-2 text-blue-700 dark:text-blue-300">
+                            <span className="flex items-center gap-1">
+                              <User className="h-3 w-3" />
+                              User's Account: <span className="font-mono font-semibold">{order.userProvidedInput}</span>
+                            </span>
+                            <button onClick={() => copyToClipboard(order.userProvidedInput!, 'Account')} className="p-1 hover:bg-blue-100 dark:hover:bg-blue-800 rounded" title="Copy">
+                              <Copy className="h-3 w-3" />
+                            </button>
+                          </div>
                         </div>
                       );
                     })()}
@@ -631,22 +650,36 @@ export function OrderVerificationPanel() {
                       </span>
                     </div>
                     {selectedOrder.userProvidedInput && (() => {
+                      const copyToClipboard = (text: string, label: string) => {
+                        navigator.clipboard.writeText(text);
+                        toast({ title: 'Copied!', description: `${label} copied to clipboard` });
+                      };
                       try {
                         const parsed = JSON.parse(selectedOrder.userProvidedInput);
                         if (parsed.email && parsed.password) {
                           return (
                             <div className="pt-2 border-t space-y-2">
-                              <div>
-                                <span className="text-muted-foreground">User's Email:</span>
-                                <p className="font-mono font-semibold text-blue-600 mt-1">
-                                  {parsed.email}
-                                </p>
+                              <div className="flex items-center justify-between">
+                                <div>
+                                  <span className="text-muted-foreground">User's Email:</span>
+                                  <p className="font-mono font-semibold text-blue-600 dark:text-blue-400 mt-1">
+                                    {parsed.email}
+                                  </p>
+                                </div>
+                                <button onClick={() => copyToClipboard(parsed.email, 'Email')} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors" title="Copy email">
+                                  <Copy className="h-4 w-4 text-gray-500 hover:text-blue-600" />
+                                </button>
                               </div>
-                              <div>
-                                <span className="text-muted-foreground">User's Password:</span>
-                                <p className="font-mono font-semibold text-blue-600 mt-1">
-                                  {parsed.password}
-                                </p>
+                              <div className="flex items-center justify-between">
+                                <div>
+                                  <span className="text-muted-foreground">User's Password:</span>
+                                  <p className="font-mono font-semibold text-blue-600 dark:text-blue-400 mt-1">
+                                    {parsed.password}
+                                  </p>
+                                </div>
+                                <button onClick={() => copyToClipboard(parsed.password, 'Password')} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors" title="Copy password">
+                                  <Copy className="h-4 w-4 text-gray-500 hover:text-blue-600" />
+                                </button>
                               </div>
                             </div>
                           );
@@ -656,10 +689,17 @@ export function OrderVerificationPanel() {
                       }
                       return (
                         <div className="pt-2 border-t">
-                          <span className="text-muted-foreground">User's Account:</span>
-                          <p className="font-mono font-semibold text-blue-600 mt-1">
-                            {selectedOrder.userProvidedInput}
-                          </p>
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <span className="text-muted-foreground">User's Account:</span>
+                              <p className="font-mono font-semibold text-blue-600 dark:text-blue-400 mt-1">
+                                {selectedOrder.userProvidedInput}
+                              </p>
+                            </div>
+                            <button onClick={() => copyToClipboard(selectedOrder.userProvidedInput!, 'Account')} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors" title="Copy">
+                              <Copy className="h-4 w-4 text-gray-500 hover:text-blue-600" />
+                            </button>
+                          </div>
                         </div>
                       );
                     })()}

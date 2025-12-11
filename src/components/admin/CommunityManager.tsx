@@ -186,10 +186,10 @@ export function CommunityManager() {
             {isLoadingPosts ? (
               <div className="text-center py-8">
                 <div className="w-8 h-8 border-4 border-purple-500 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
-                <p className="text-gray-500">Loading posts...</p>
+                <p className="text-gray-500 dark:text-gray-400">Loading posts...</p>
               </div>
             ) : posts.length === 0 ? (
-              <div className="text-center py-8 text-gray-500">
+              <div className="text-center py-8 text-gray-500 dark:text-gray-400">
                 <MessageSquare className="h-12 w-12 mx-auto mb-2 opacity-50" />
                 <p>No community posts yet</p>
               </div>
@@ -209,10 +209,10 @@ export function CommunityManager() {
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-1">
                             <span className="font-semibold">{post.userName}</span>
-                            <span className="text-xs text-gray-500">{formatTimeAgo(post.createdAt)}</span>
+                            <span className="text-xs text-gray-500 dark:text-gray-400">{formatTimeAgo(post.createdAt)}</span>
                           </div>
-                          <p className="text-gray-700 text-sm">{post.content}</p>
-                          <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
+                          <p className="text-gray-700 dark:text-gray-300 text-sm">{post.content}</p>
+                          <div className="flex items-center gap-4 mt-2 text-xs text-gray-500 dark:text-gray-400">
                             <span className="flex items-center gap-1">
                               <Heart className="h-3 w-3" /> {post.likes}
                             </span>
@@ -241,10 +241,10 @@ export function CommunityManager() {
             {isLoadingReviews ? (
               <div className="text-center py-8">
                 <div className="w-8 h-8 border-4 border-amber-500 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
-                <p className="text-gray-500">Loading reviews...</p>
+                <p className="text-gray-500 dark:text-gray-400">Loading reviews...</p>
               </div>
             ) : reviews.length === 0 ? (
-              <div className="text-center py-8 text-gray-500">
+              <div className="text-center py-8 text-gray-500 dark:text-gray-400">
                 <Star className="h-12 w-12 mx-auto mb-2 opacity-50" />
                 <p>No product reviews yet</p>
               </div>
@@ -270,7 +270,7 @@ export function CommunityManager() {
                                 Verified
                               </Badge>
                             )}
-                            <span className="text-xs text-gray-500">{formatTimeAgo(review.createdAt)}</span>
+                            <span className="text-xs text-gray-500 dark:text-gray-400">{formatTimeAgo(review.createdAt)}</span>
                           </div>
                           {review.productName && (
                             <p className="text-xs text-purple-600 font-medium mb-1">
@@ -284,12 +284,12 @@ export function CommunityManager() {
                                 className={`h-4 w-4 ${
                                   star <= review.rating
                                     ? 'fill-amber-400 text-amber-400'
-                                    : 'text-gray-300'
+                                    : 'text-gray-300 dark:text-gray-600'
                                 }`}
                               />
                             ))}
                           </div>
-                          <p className="text-gray-700 text-sm">{review.comment}</p>
+                          <p className="text-gray-700 dark:text-gray-300 text-sm">{review.comment}</p>
                         </div>
                       </div>
                       <div className="flex flex-col gap-2">
@@ -298,7 +298,7 @@ export function CommunityManager() {
                           size="sm"
                           onClick={() => handleVerifyReview(review.id, !review.verified)}
                           className={review.verified 
-                            ? "text-gray-500 hover:text-gray-700 hover:bg-gray-50" 
+                            ? "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:text-gray-300 hover:bg-gray-50" 
                             : "text-green-500 hover:text-green-700 hover:bg-green-50"
                           }
                         >

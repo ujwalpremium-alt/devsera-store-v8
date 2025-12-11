@@ -137,11 +137,31 @@ export function OrderConfirmationPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 pb-20 md:pb-8">
       <div className="container mx-auto px-4 py-8 max-w-3xl">
+        {/* Progress Steps */}
+        <div className="mb-8">
+          <div className="flex items-center justify-center gap-2 md:gap-4 mb-6">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center text-sm font-bold">✓</div>
+              <span className="text-sm font-medium text-emerald-600 dark:text-emerald-400 hidden sm:inline">Product</span>
+            </div>
+            <div className="w-8 md:w-16 h-0.5 bg-emerald-500"></div>
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center text-sm font-bold">✓</div>
+              <span className="text-sm font-medium text-emerald-600 dark:text-emerald-400 hidden sm:inline">Checkout</span>
+            </div>
+            <div className="w-8 md:w-16 h-0.5 bg-emerald-500"></div>
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center text-sm font-bold">✓</div>
+              <span className="text-sm font-medium text-emerald-600 dark:text-emerald-400 hidden sm:inline">Confirmed</span>
+            </div>
+          </div>
+        </div>
+
         {/* Success Header */}
         <div className="text-center mb-8">
           <div className="relative inline-block mb-6">
-            <div className="w-24 h-24 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full flex items-center justify-center mx-auto shadow-2xl shadow-emerald-500/30 animate-bounce">
-              <CheckCircle2 className="h-12 w-12 text-white" />
+            <div className="w-28 h-28 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full flex items-center justify-center mx-auto shadow-2xl shadow-emerald-500/30">
+              <CheckCircle2 className="h-14 w-14 text-white" />
             </div>
             <div className="absolute -top-2 -right-2">
               <Sparkles className="h-8 w-8 text-amber-400 animate-pulse" />
@@ -149,54 +169,62 @@ export function OrderConfirmationPage() {
           </div>
           
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-3">
-            Order Placed Successfully! 🎉
+            Order Confirmed! 🎉
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-400 max-w-md mx-auto">
-            Thank you for your purchase. Your order is being processed.
+            Thank you for your purchase. We're processing your order now.
           </p>
         </div>
 
-        {/* Order ID Card */}
-        <Card className="mb-6 border-2 border-emerald-200 dark:border-emerald-800 bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 shadow-lg">
+        {/* Order Summary Card */}
+        <Card className="mb-6 border-0 shadow-xl shadow-gray-200/50 dark:shadow-none overflow-hidden">
+          <div className="bg-gradient-to-r from-emerald-500 to-teal-500 p-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Package className="h-5 w-5 text-white" />
+                <span className="font-bold text-white">Order Summary</span>
+              </div>
+              <Badge className="bg-white/20 text-white border-0 backdrop-blur-sm">
+                Processing
+              </Badge>
+            </div>
+          </div>
           <CardContent className="p-6">
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="text-center sm:text-left">
-                <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">Order ID</p>
-                <p className="font-mono text-lg font-bold text-gray-900 dark:text-white">
+            <div className="flex items-center gap-4 pb-4 border-b border-gray-100 dark:border-gray-700">
+              <img
+                src={productImage || 'https://images.unsplash.com/photo-1557821552-17105176677c?w=200&q=80'}
+                alt={productName}
+                className="w-20 h-20 object-cover rounded-xl bg-gray-100 dark:bg-gray-700"
+              />
+              <div className="flex-1">
+                <h3 className="font-bold text-lg text-gray-900 dark:text-white">{productName}</h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400">{order?.product?.duration || 'Subscription'}</p>
+              </div>
+              <div className="text-right">
+                <p className="text-sm text-gray-500 dark:text-gray-400">Amount Paid</p>
+                <p className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">
+                  ₹{amount.toLocaleString()}
+                </p>
+              </div>
+            </div>
+            
+            {/* Order ID */}
+            <div className="pt-4 flex items-center justify-between">
+              <div>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Order ID</p>
+                <p className="font-mono text-sm font-bold text-gray-900 dark:text-white">
                   {orderId?.slice(0, 8)}...{orderId?.slice(-4)}
                 </p>
               </div>
               <Button
                 onClick={handleCopyOrderId}
                 variant="outline"
-                className="rounded-xl border-2 border-emerald-300 dark:border-emerald-700 hover:bg-emerald-100 dark:hover:bg-emerald-900/30"
+                size="sm"
+                className="rounded-xl border-emerald-200 dark:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400"
               >
                 <Copy className="h-4 w-4 mr-2" />
-                Copy Full ID
+                Copy ID
               </Button>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Product Summary */}
-        <Card className="mb-6 border-2 border-gray-200 dark:border-gray-700 shadow-lg">
-          <CardContent className="p-6">
-            <div className="flex items-center gap-4">
-              <img
-                src={productImage || 'https://images.unsplash.com/photo-1557821552-17105176677c?w=200&q=80'}
-                alt={productName}
-                className="w-20 h-20 object-cover rounded-xl border-2 border-gray-200 dark:border-gray-700"
-              />
-              <div className="flex-1">
-                <h3 className="font-bold text-lg text-gray-900 dark:text-white">{productName}</h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400">{order?.product?.duration || 'Subscription'}</p>
-                <p className="text-2xl font-bold text-emerald-600 dark:text-emerald-400 mt-1">
-                  ₹{amount.toLocaleString()}
-                </p>
-              </div>
-              <Badge className="bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 border-0">
-                Paid
-              </Badge>
             </div>
           </CardContent>
         </Card>

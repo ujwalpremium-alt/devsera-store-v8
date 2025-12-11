@@ -6,7 +6,7 @@ import { useAdminBundles } from '@/hooks/useBundles';
 import { usePremium } from '@/hooks/usePremium';
 import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { DollarSign, ShoppingBag, Clock, CheckCircle2, XCircle, Users, MessageSquare, Package, Ticket, TrendingUp, Activity, BarChart3, ArrowUpRight, ArrowDownRight, Gift, Flame, Crown, Shield, Image as ImageIcon } from 'lucide-react';
+import { DollarSign, ShoppingBag, Clock, CheckCircle2, XCircle, Users, MessageSquare, Package, Ticket, TrendingUp, Activity, BarChart3, ArrowUpRight, ArrowDownRight, Gift, Flame, Crown, Shield, Image as ImageIcon, Database } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { OrderVerificationPanel } from '@/components/admin/OrderVerificationPanel';
 import { SettingsPanel } from '@/components/admin/SettingsPanel';
@@ -18,6 +18,7 @@ import { TicketManager } from '@/components/admin/TicketManager';
 import { RewardsManager } from '@/components/admin/RewardsManager';
 import { FlashSalesManager } from '@/components/admin/FlashSalesManager';
 import { BannerManager } from '@/components/admin/BannerManager';
+import { StockUsageManager } from '@/components/admin/StockUsageManager';
 import PremiumManager from '@/components/admin/PremiumManager';
 import PremiumContentManager from '@/components/admin/PremiumContentManager';
 import AdminManager from '@/components/admin/AdminManager';
@@ -158,15 +159,20 @@ export function AdminDashboard() {
         {/* Header */}
         <div className="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-1">
-              Admin Dashboard
-            </h1>
-            <p className="text-gray-500 dark:text-gray-400 text-sm sm:text-base">
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-12 h-12 bg-gradient-to-br from-teal-500 to-emerald-600 rounded-2xl flex items-center justify-center shadow-lg shadow-teal-500/25">
+                <BarChart3 className="h-6 w-6 text-white" />
+              </div>
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-teal-600 to-emerald-600 dark:from-teal-400 dark:to-emerald-400 bg-clip-text text-transparent">
+                Admin Dashboard
+              </h1>
+            </div>
+            <p className="text-gray-500 dark:text-gray-400 text-sm sm:text-base ml-15">
               Welcome back, <span className="font-semibold text-teal-600 dark:text-teal-400">{profile?.full_name || profile?.email?.split('@')[0] || 'Admin'}</span>! Here's what's happening with your store.
             </p>
           </div>
           <div className="flex items-center gap-3">
-            <div className="bg-white dark:bg-gray-800 rounded-xl border-2 border-gray-200 dark:border-gray-700 px-4 py-2">
+            <div className="bg-white dark:bg-gray-800 rounded-xl border-2 border-gray-200 dark:border-gray-700 px-4 py-2 shadow-sm">
               <p className="text-xs text-gray-500 dark:text-gray-400">Today's Date</p>
               <p className="font-semibold text-gray-900 dark:text-white">{new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</p>
             </div>
@@ -328,11 +334,11 @@ export function AdminDashboard() {
         {/* Admin Tabs */}
         <Tabs defaultValue={getDefaultTab()} className="space-y-6">
           <div className="overflow-x-auto -mx-4 px-4 pb-2">
-            <TabsList className="bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 h-auto p-1.5 flex flex-nowrap md:flex-wrap rounded-xl shadow-sm min-w-max md:min-w-0 gap-1">
+            <TabsList className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 h-auto p-2 flex flex-nowrap md:flex-wrap rounded-2xl shadow-sm min-w-max md:min-w-0 gap-1.5">
             {(isSuperAdmin || hasPermission('can_view_orders')) && (
               <TabsTrigger
                 value="orders"
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-teal-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white font-semibold rounded-lg text-xs sm:text-sm whitespace-nowrap"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-teal-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-teal-500/25 font-semibold rounded-xl text-xs sm:text-sm whitespace-nowrap px-4 py-2.5 transition-all"
               >
                 <ShoppingBag className="h-4 w-4 mr-1.5" />
                 Orders
@@ -341,12 +347,12 @@ export function AdminDashboard() {
             {(isSuperAdmin || hasPermission('can_view_tickets')) && (
               <TabsTrigger
                 value="tickets"
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-teal-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white font-semibold rounded-lg relative"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-teal-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-teal-500/25 font-semibold rounded-xl relative px-4 py-2.5 transition-all"
               >
                 <Ticket className="h-4 w-4 mr-1.5" />
                 Tickets
                 {ticketStats.open > 0 && (
-                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center animate-pulse">
                     {ticketStats.open}
                   </span>
                 )}
@@ -355,7 +361,7 @@ export function AdminDashboard() {
             {(isSuperAdmin || hasPermission('can_view_products')) && (
               <TabsTrigger
                 value="products"
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-teal-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white font-semibold rounded-lg text-xs sm:text-sm whitespace-nowrap"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-teal-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-teal-500/25 font-semibold rounded-xl text-xs sm:text-sm whitespace-nowrap px-4 py-2.5 transition-all"
               >
                 Products
               </TabsTrigger>
@@ -363,7 +369,7 @@ export function AdminDashboard() {
             {(isSuperAdmin || hasPermission('can_view_customers')) && (
               <TabsTrigger
                 value="customers"
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-teal-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white font-semibold rounded-lg text-xs sm:text-sm whitespace-nowrap"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-teal-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-teal-500/25 font-semibold rounded-xl text-xs sm:text-sm whitespace-nowrap px-4 py-2.5 transition-all"
               >
                 Customers
               </TabsTrigger>
@@ -371,7 +377,7 @@ export function AdminDashboard() {
             {(isSuperAdmin || hasPermission('can_view_bundles')) && (
               <TabsTrigger
                 value="bundles"
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-teal-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white font-semibold rounded-lg text-xs sm:text-sm whitespace-nowrap"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-teal-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-teal-500/25 font-semibold rounded-xl text-xs sm:text-sm whitespace-nowrap px-4 py-2.5 transition-all"
               >
                 <Package className="h-4 w-4 mr-1.5" />
                 Bundles
@@ -380,7 +386,7 @@ export function AdminDashboard() {
             {(isSuperAdmin || hasPermission('can_view_flash_sales')) && (
               <TabsTrigger
                 value="flashsales"
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-red-500 data-[state=active]:to-orange-500 data-[state=active]:text-white font-semibold rounded-lg text-xs sm:text-sm whitespace-nowrap"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-red-500 data-[state=active]:to-orange-500 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-red-500/25 font-semibold rounded-xl text-xs sm:text-sm whitespace-nowrap px-4 py-2.5 transition-all"
               >
                 <Flame className="h-4 w-4 mr-1.5" />
                 Flash Sales
@@ -389,21 +395,30 @@ export function AdminDashboard() {
             {(isSuperAdmin || hasPermission('can_view_flash_sales')) && (
               <TabsTrigger
                 value="banners"
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500 data-[state=active]:to-blue-500 data-[state=active]:text-white font-semibold rounded-lg text-xs sm:text-sm whitespace-nowrap"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500 data-[state=active]:to-blue-500 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-cyan-500/25 font-semibold rounded-xl text-xs sm:text-sm whitespace-nowrap px-4 py-2.5 transition-all"
               >
                 <ImageIcon className="h-4 w-4 mr-1.5" />
                 Banners
               </TabsTrigger>
             )}
+            {(isSuperAdmin || hasPermission('can_view_products')) && (
+              <TabsTrigger
+                value="stockusage"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-violet-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-violet-500/25 font-semibold rounded-xl text-xs sm:text-sm whitespace-nowrap px-4 py-2.5 transition-all"
+              >
+                <Database className="h-4 w-4 mr-1.5" />
+                Stock Usage
+              </TabsTrigger>
+            )}
             {(isSuperAdmin || hasPermission('can_view_premium')) && (
               <TabsTrigger
                 value="premium"
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-amber-500 data-[state=active]:to-yellow-500 data-[state=active]:text-white font-semibold rounded-lg relative"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-amber-500 data-[state=active]:to-yellow-500 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-amber-500/25 font-semibold rounded-xl relative px-4 py-2.5 transition-all"
               >
                 <Crown className="h-4 w-4 mr-1.5" />
                 Premium
                 {pendingRequests.length > 0 && (
-                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-amber-500 text-white text-xs rounded-full flex items-center justify-center">
+                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-amber-500 text-white text-xs rounded-full flex items-center justify-center animate-pulse">
                     {pendingRequests.length}
                   </span>
                 )}
@@ -412,7 +427,7 @@ export function AdminDashboard() {
             {(isSuperAdmin || hasPermission('can_view_rewards')) && (
               <TabsTrigger
                 value="rewards"
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-teal-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white font-semibold rounded-lg text-xs sm:text-sm whitespace-nowrap"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-teal-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-teal-500/25 font-semibold rounded-xl text-xs sm:text-sm whitespace-nowrap px-4 py-2.5 transition-all"
               >
                 <Gift className="h-4 w-4 mr-1.5" />
                 Rewards
@@ -421,7 +436,7 @@ export function AdminDashboard() {
             {(isSuperAdmin || hasPermission('can_view_community')) && (
               <TabsTrigger
                 value="community"
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-teal-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white font-semibold rounded-lg text-xs sm:text-sm whitespace-nowrap"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-teal-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-teal-500/25 font-semibold rounded-xl text-xs sm:text-sm whitespace-nowrap px-4 py-2.5 transition-all"
               >
                 <MessageSquare className="h-4 w-4 mr-1.5" />
                 Community
@@ -430,7 +445,7 @@ export function AdminDashboard() {
             {(isSuperAdmin || hasPermission('can_view_settings')) && (
               <TabsTrigger
                 value="settings"
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-teal-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white font-semibold rounded-lg text-xs sm:text-sm whitespace-nowrap"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-teal-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-teal-500/25 font-semibold rounded-xl text-xs sm:text-sm whitespace-nowrap px-4 py-2.5 transition-all"
               >
                 Settings
               </TabsTrigger>
@@ -438,7 +453,7 @@ export function AdminDashboard() {
             {(isSuperAdmin || hasPermission('can_manage_admins')) && (
               <TabsTrigger
                 value="admins"
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-indigo-600 data-[state=active]:text-white font-semibold rounded-lg text-xs sm:text-sm whitespace-nowrap"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-indigo-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-purple-500/25 font-semibold rounded-xl text-xs sm:text-sm whitespace-nowrap px-4 py-2.5 transition-all"
               >
                 <Shield className="h-4 w-4 mr-1.5" />
                 Admins
@@ -473,6 +488,10 @@ export function AdminDashboard() {
 
           <TabsContent value="banners">
             <BannerManager />
+          </TabsContent>
+
+          <TabsContent value="stockusage">
+            <StockUsageManager />
           </TabsContent>
 
           <TabsContent value="premium">

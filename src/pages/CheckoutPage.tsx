@@ -141,7 +141,7 @@ export function CheckoutPage() {
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-teal-50 via-white to-amber-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 pb-20 md:pb-0">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-lg font-medium text-gray-600">Loading checkout...</p>
+          <p className="text-lg font-medium text-gray-600 dark:text-gray-400">Loading checkout...</p>
         </div>
       </div>
     );
@@ -283,416 +283,216 @@ export function CheckoutPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 pb-20 md:pb-0">
-      <div className="container mx-auto px-4 py-6 md:py-8 max-w-5xl">
-        <Button
-          variant="ghost"
-          onClick={() => navigate(`/product/${id}`)}
-          className="mb-6 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400"
-        >
-          <ArrowLeft className="h-4 w-4 mr-2" />
-          Back
-        </Button>
-
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
-          Complete Your Purchase
-        </h1>
-        <p className="text-gray-500 dark:text-gray-400 mb-8">
-          Review your order and complete payment to get instant access
-        </p>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-          {/* Order Summary */}
-          <div className="space-y-6">
-            <div className="bg-white dark:bg-gray-800 rounded-2xl border-2 border-black dark:border-gray-600 p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(75,85,99,1)]">
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
-                Order Summary
-              </h2>
-              <div className="flex items-start gap-4">
-                <img
-                  src={product.image || 'https://images.unsplash.com/photo-1557821552-17105176677c?w=800&q=80'}
-                  alt={product.name}
-                  className="w-20 h-20 object-cover rounded-xl bg-gray-100 dark:bg-gray-700 border-2 border-black dark:border-gray-600"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.src = 'https://images.unsplash.com/photo-1557821552-17105176677c?w=800&q=80';
-                  }}
-                />
-                <div className="flex-1">
-                  <h3 className="font-bold text-gray-900 dark:text-white text-lg">{product.name}</h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">{effectiveDuration}</p>
-                  {/* Premium Badge */}
-                  {(isPremiumFree || premiumDiscountPercent > 0) && (
-                    <div className="mt-1 inline-flex items-center px-2 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-amber-500 to-yellow-500 text-white mr-2">
-                      <Crown className="h-3 w-3 mr-1" />
-                      {isPremiumFree ? 'FREE for Premium' : `${premiumDiscountPercent}% Premium Discount`}
-                    </div>
-                  )}
-                  {flashSaleInfo.isOnFlashSale && (
-                    <div className="mt-1 inline-flex items-center px-2 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-red-600 to-orange-500 text-white">
-                      <Flame className="h-3 w-3 mr-1" />
-                      FLASH SALE -₹{flashSaleInfo.discountAmount}
-                    </div>
-                  )}
-                  <div className="mt-2">
-                    {effectiveOriginalPrice > effectivePrice && (
-                      <span className="line-through text-gray-400 text-sm mr-2">
-                        ₹{effectiveOriginalPrice.toLocaleString()}
-                      </span>
-                    )}
-                    {isPremiumFree ? (
-                      <span className="text-2xl font-bold text-green-600">FREE</span>
-                    ) : (
-                      <span className={`text-2xl font-bold ${flashSaleInfo.isOnFlashSale ? 'text-red-600' : premiumDiscountPercent > 0 ? 'text-amber-600' : 'text-[#0A7A7A]'}`}>
-                        ₹{effectivePrice.toLocaleString()}
-                      </span>
-                    )}
-                  </div>
-                </div>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50/20 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 pb-20 md:pb-0">
+      {/* Sticky Header with Progress */}
+      <div className="sticky top-0 z-20 bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border-b border-gray-200 dark:border-gray-800">
+        <div className="container mx-auto px-4 py-4 max-w-6xl">
+          <div className="flex items-center justify-between">
+            <Button
+              variant="ghost"
+              onClick={() => navigate(`/product/${id}`)}
+              className="rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400 -ml-2"
+            >
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              <span className="hidden sm:inline">Back to Product</span>
+              <span className="sm:hidden">Back</span>
+            </Button>
+            
+            {/* Progress Indicator */}
+            <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
+                <div className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
+                <span className="text-xs font-semibold text-blue-700 dark:text-blue-400">Step 1 of 2</span>
               </div>
-
-              {/* Variant Selection */}
-              {product.hasVariants && product.variants && product.variants.length > 1 && (
-                <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
-                  <Label className="font-semibold text-gray-900 dark:text-white flex items-center gap-2 mb-3">
-                    <Layers className="h-4 w-4 text-purple-600 dark:text-purple-400" />
-                    Select Plan
-                  </Label>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    {product.variants.map((variant) => (
-                      <button
-                        key={variant.id}
-                        onClick={() => setSelectedVariantId(variant.id)}
-                        className={`p-3 rounded-xl border-2 text-left transition-all ${
-                          selectedVariantId === variant.id
-                            ? flashSaleInfo.isOnFlashSale ? 'border-red-500 bg-red-50 dark:bg-red-900/20 shadow-md' : 'border-[#0A7A7A] bg-teal-50 dark:bg-teal-900/20 shadow-md'
-                            : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 bg-white dark:bg-gray-800'
-                        }`}
-                      >
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <p className="font-semibold text-gray-900 dark:text-white text-sm">
-                              {variant.name || variant.duration}
-                            </p>
-                            <p className="text-xs text-gray-500 dark:text-gray-400">{variant.duration}</p>
-                          </div>
-                          <div className="text-right">
-                            {flashSaleInfo.isOnFlashSale ? (
-                              <>
-                                <p className="text-xs text-gray-400 line-through">
-                                  ₹{variant.salePrice.toLocaleString()}
-                                </p>
-                                <p className={`font-bold ${selectedVariantId === variant.id ? 'text-red-600 dark:text-red-400' : 'text-gray-900 dark:text-white'}`}>
-                                  ₹{Math.max(0, variant.salePrice - flashSaleInfo.discountAmount).toLocaleString()}
-                                </p>
-                              </>
-                            ) : (
-                              <>
-                                {variant.originalPrice > variant.salePrice && (
-                                  <p className="text-xs text-gray-400 line-through">
-                                    ₹{variant.originalPrice.toLocaleString()}
-                                  </p>
-                                )}
-                                <p className={`font-bold ${selectedVariantId === variant.id ? 'text-[#0A7A7A] dark:text-teal-400' : 'text-gray-900 dark:text-white'}`}>
-                                  ₹{variant.salePrice.toLocaleString()}
-                                </p>
-                              </>
-                            )}
-                          </div>
-                        </div>
-                        {variant.isDefault && (
-                          <span className="inline-block mt-1 text-xs bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full">
-                            Popular
-                          </span>
-                        )}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Coupon Code Section */}
-            <div className="bg-white rounded-2xl border-2 border-gray-200 p-4 md:p-6">
-              <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
-                <Ticket className="h-5 w-5 text-green-600" />
-                Have a Coupon?
-              </h3>
-              {appliedCoupon ? (
-                <div className="flex items-center justify-between bg-green-50 border-2 border-green-200 rounded-xl p-3">
-                  <div>
-                    <p className="font-semibold text-green-700">Coupon Applied!</p>
-                    <p className="text-sm text-green-600">₹{appliedCoupon.discountAmount} discount</p>
-                  </div>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setAppliedCoupon(null)}
-                    className="text-red-500 hover:text-red-700"
-                  >
-                    <X className="h-4 w-4" />
-                  </Button>
-                </div>
-              ) : (
-                <div className="flex gap-2">
-                  <Input
-                    placeholder="Enter coupon code"
-                    value={couponCode}
-                    onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
-                    className="border-2 rounded-xl uppercase"
-                  />
-                  <Button
-                    onClick={async () => {
-                      if (!couponCode.trim()) return;
-                      setIsValidatingCoupon(true);
-                      try {
-                        const coupon = await validateCoupon(couponCode);
-                        setAppliedCoupon(coupon);
-                        toast({ title: 'Coupon applied!', description: `₹${coupon.discountAmount} discount` });
-                      } catch (error: any) {
-                        toast({ title: 'Invalid coupon', description: error.message, variant: 'destructive' });
-                      } finally {
-                        setIsValidatingCoupon(false);
-                      }
-                    }}
-                    disabled={isValidatingCoupon || !couponCode.trim()}
-                    className="rounded-xl"
-                  >
-                    {isValidatingCoupon ? '...' : 'Apply'}
-                  </Button>
-                </div>
-              )}
-              {availableCoupons.length > 0 && !appliedCoupon && (
-                <p className="text-xs text-green-600 mt-2">
-                  You have {availableCoupons.length} coupon{availableCoupons.length > 1 ? 's' : ''} available!
-                </p>
-              )}
-            </div>
-
-            {/* Premium Pricing Display */}
-            {(isPremiumFree || premiumDiscountPercent > 0) && !appliedCoupon && !flashSaleInfo.isOnFlashSale && (
-              <div className="bg-gradient-to-r from-amber-50 to-yellow-50 rounded-2xl border-2 border-amber-200 p-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <Crown className="h-5 w-5 text-amber-600" />
-                  <span className="font-bold text-amber-600">Premium Member Pricing!</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Regular Price:</span>
-                  <span className="text-gray-500 line-through">₹{baseEffectivePrice.toLocaleString()}</span>
-                </div>
-                <div className="flex justify-between items-center text-amber-600">
-                  <span>Premium {isPremiumFree ? 'Benefit' : 'Discount'}:</span>
-                  <span>{isPremiumFree ? 'FREE' : `-₹${(baseEffectivePrice - premiumAdjustedPrice).toLocaleString()}`}</span>
-                </div>
-                <div className="flex justify-between items-center mt-2 pt-2 border-t border-amber-200">
-                  <span className="font-bold text-gray-900">You Pay:</span>
-                  <span className={`text-2xl font-bold ${isPremiumFree ? 'text-green-600' : 'text-amber-600'}`}>
-                    {isPremiumFree ? 'FREE' : `₹${effectivePrice.toLocaleString()}`}
-                  </span>
-                </div>
-              </div>
-            )}
-
-            {/* Flash Sale Discount Display */}
-            {flashSaleInfo.isOnFlashSale && !appliedCoupon && (
-              <div className="bg-red-50 rounded-2xl border-2 border-red-200 p-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <Flame className="h-5 w-5 text-red-600" />
-                  <span className="font-bold text-red-600">Flash Sale Active!</span>
-                </div>
-                {(isPremiumFree || premiumDiscountPercent > 0) && (
-                  <>
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Regular Price:</span>
-                      <span className="text-gray-500 line-through">₹{baseEffectivePrice.toLocaleString()}</span>
-                    </div>
-                    <div className="flex justify-between items-center text-amber-600">
-                      <span>Premium Discount:</span>
-                      <span>-₹{(baseEffectivePrice - premiumAdjustedPrice).toLocaleString()}</span>
-                    </div>
-                  </>
-                )}
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">{(isPremiumFree || premiumDiscountPercent > 0) ? 'Premium Price:' : 'Original Price:'}</span>
-                  <span className="text-gray-500 line-through">₹{premiumAdjustedPrice.toLocaleString()}</span>
-                </div>
-                <div className="flex justify-between items-center text-red-600">
-                  <span>Flash Sale Discount:</span>
-                  <span>-₹{flashSaleInfo.discountAmount}</span>
-                </div>
-                <div className="flex justify-between items-center mt-2 pt-2 border-t border-red-200">
-                  <span className="font-bold text-gray-900">You Pay:</span>
-                  <span className="text-2xl font-bold text-red-600">
-                    ₹{effectivePrice.toLocaleString()}
-                  </span>
-                </div>
-              </div>
-            )}
-
-            {/* Final Price */}
-            {appliedCoupon && (
-              <div className="bg-green-50 rounded-2xl border-2 border-green-200 p-4">
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">{flashSaleInfo.isOnFlashSale ? 'Flash Sale Price:' : 'Original Price:'}</span>
-                  <span className="text-gray-500 line-through">₹{effectivePrice.toLocaleString()}</span>
-                </div>
-                {flashSaleInfo.isOnFlashSale && (
-                  <div className="flex justify-between items-center text-red-600">
-                    <span>Flash Sale Discount:</span>
-                    <span>-₹{flashSaleInfo.discountAmount}</span>
-                  </div>
-                )}
-                <div className="flex justify-between items-center text-green-600">
-                  <span>Coupon Discount:</span>
-                  <span>-₹{appliedCoupon.discountAmount}</span>
-                </div>
-                <div className="flex justify-between items-center mt-2 pt-2 border-t border-green-200">
-                  <span className="font-bold text-gray-900">Final Price:</span>
-                  <span className="text-2xl font-bold text-green-600">
-                    ₹{Math.max(0, effectivePrice - appliedCoupon.discountAmount).toLocaleString()}
-                  </span>
-                </div>
-              </div>
-            )}
-
-            {/* Payment Instructions */}
-            <div className="bg-amber-50 rounded-2xl border border-amber-200 p-6">
-              <h3 className="font-bold text-amber-800 mb-3 flex items-center">
-                <span className="text-xl mr-2">⚠️</span>
-                Important Instructions
-              </h3>
-              <ul className="space-y-2 text-sm text-amber-900">
-                <li className="flex items-start">
-                  <span className="w-6 h-6 bg-amber-200 rounded-full flex items-center justify-center text-xs font-bold mr-3 flex-shrink-0">1</span>
-                  <span>Scan the QR code or use the UPI ID to make payment</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="w-6 h-6 bg-amber-200 rounded-full flex items-center justify-center text-xs font-bold mr-3 flex-shrink-0">2</span>
-                  <span>Take a screenshot of the successful payment</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="w-6 h-6 bg-amber-200 rounded-full flex items-center justify-center text-xs font-bold mr-3 flex-shrink-0">3</span>
-                  <span>Upload the screenshot below and submit</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="w-6 h-6 bg-amber-200 rounded-full flex items-center justify-center text-xs font-bold mr-3 flex-shrink-0">4</span>
-                  <span>You'll receive credentials within 2 hours after verification</span>
-                </li>
-              </ul>
             </div>
           </div>
+          
+          {/* Progress Bar */}
+          <div className="mt-3 flex items-center gap-2">
+            <div className="flex-1 h-1.5 bg-gradient-to-r from-blue-600 to-blue-500 rounded-full shadow-sm shadow-blue-500/50" />
+            <div className="flex-1 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full" />
+          </div>
+        </div>
+      </div>
 
-          {/* Payment Section */}
-          <div className="space-y-6">
-            {/* Loading state for payment settings */}
-            {!settings && (
-              <div className="bg-yellow-50 border-2 border-yellow-300 rounded-xl p-4 text-center">
-                <p className="text-sm text-yellow-700">Loading payment settings...</p>
+      <div className="container mx-auto px-4 py-8 md:py-12 max-w-6xl">
+        {/* Hero Section */}
+        <div className="text-center mb-10">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 mb-4">
+            <CheckCircle2 className="h-4 w-4 text-green-600 dark:text-green-400" />
+            <span className="text-sm font-medium text-green-700 dark:text-green-400">Secure Payment Gateway</span>
+          </div>
+          <h1 className="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white mb-3">
+            Complete Your Order
+          </h1>
+          <p className="text-gray-600 dark:text-gray-400 text-lg max-w-2xl mx-auto">
+            You're one step away from instant access. Review your order and complete the payment securely.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+          {/* Left Column - Payment Section (2/3 width) */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Payment Method Card */}
+            <div className="bg-white dark:bg-gray-800 rounded-2xl border-2 border-gray-200 dark:border-gray-700 overflow-hidden shadow-lg">
+              <div className="bg-gradient-to-r from-blue-600 to-blue-500 p-6">
+                <h2 className="text-xl font-bold text-white flex items-center gap-2">
+                  <Package className="h-5 w-5" />
+                  Payment Details
+                </h2>
+                <p className="text-blue-100 text-sm mt-1">Scan QR or use UPI ID to complete payment</p>
               </div>
-            )}
-            
-            {/* QR Code */}
-            <div className="bg-white rounded-2xl border-2 border-black p-6 text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">
-                Scan QR Code
-              </h2>
-              <div className="inline-block rounded-xl overflow-hidden border-4 border-black shadow-lg">
-                {settings?.qrCodeUrl && settings.qrCodeUrl.length > 0 ? (
-                  <img
-                    src={settings.qrCodeUrl}
-                    alt="Payment QR Code"
-                    className="w-64 h-64 object-contain bg-white"
-                    onError={(e) => {
-                      console.error('QR Code image failed to load');
-                      const target = e.target as HTMLImageElement;
-                      target.style.display = 'none';
-                      target.parentElement!.innerHTML = '<div class="w-64 h-64 bg-gray-100 flex flex-col items-center justify-center"><p class="text-sm text-gray-500">QR Code failed to load</p></div>';
-                    }}
-                  />
-                ) : (
-                  <div className="w-64 h-64 bg-gray-100 flex flex-col items-center justify-center">
-                    <Package className="h-12 w-12 text-gray-400 mb-2" />
-                    <p className="text-sm text-gray-500">QR Code not available</p>
-                    <p className="text-xs text-gray-400">Use UPI ID below</p>
+              <div className="p-6 md:p-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {/* QR Code */}
+                  <div className="flex flex-col items-center">
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl blur-xl opacity-20" />
+                      <div className="relative bg-white dark:bg-gray-900 p-5 rounded-2xl border-2 border-gray-200 dark:border-gray-700 shadow-xl">
+                        {settings?.qrCodeUrl && settings.qrCodeUrl.length > 0 ? (
+                          <img
+                            src={settings.qrCodeUrl}
+                            alt="Payment QR Code"
+                            className="w-48 h-48 md:w-56 md:h-56 object-contain"
+                            onError={(e) => {
+                              console.error('QR Code image failed to load');
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = 'none';
+                            }}
+                          />
+                        ) : (
+                          <div className="w-48 h-48 md:w-56 md:h-56 bg-gray-100 dark:bg-gray-800 flex flex-col items-center justify-center rounded-xl">
+                            <Package className="h-12 w-12 text-gray-400 mb-2" />
+                            <p className="text-sm text-gray-500">QR Code not available</p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div className="mt-4 text-center">
+                      <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Scan with any UPI app
+                      </p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                        GPay, PhonePe, Paytm, etc.
+                      </p>
+                    </div>
                   </div>
-                )}
+
+                  {/* Payment Info */}
+                  <div className="flex flex-col justify-center space-y-5">
+                    {/* Amount Card */}
+                    <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-2xl p-5 border-2 border-blue-200 dark:border-blue-800">
+                      <div className="flex items-center justify-between mb-2">
+                        <p className="text-sm font-semibold text-blue-700 dark:text-blue-400">Total Amount</p>
+                        {appliedCoupon && (
+                          <Badge className="bg-green-500 text-white text-xs">
+                            Coupon Applied
+                          </Badge>
+                        )}
+                      </div>
+                      <p className="text-4xl font-bold text-gray-900 dark:text-white">
+                        {isPremiumFree ? (
+                          <span className="text-green-600 dark:text-green-400">FREE</span>
+                        ) : (
+                          `₹${appliedCoupon 
+                            ? Math.max(0, effectivePrice - appliedCoupon.discountAmount).toLocaleString()
+                            : effectivePrice.toLocaleString()
+                          }`
+                        )}
+                      </p>
+                      {appliedCoupon && !isPremiumFree && (
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                          <span className="line-through">₹{effectivePrice.toLocaleString()}</span>
+                          <span className="ml-2 text-green-600 dark:text-green-400 font-semibold">
+                            Saved ₹{appliedCoupon.discountAmount.toLocaleString()}
+                          </span>
+                        </p>
+                      )}
+                    </div>
+
+                    {/* UPI ID */}
+                    <div>
+                      <Label className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 block">
+                        UPI ID
+                      </Label>
+                      <div className="flex items-center gap-2">
+                        <div className="flex-1 font-mono text-sm font-semibold p-4 rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white border-2 border-gray-200 dark:border-gray-600 truncate">
+                          {settings?.upiId && settings.upiId.length > 0 ? settings.upiId : 'Loading...'}
+                        </div>
+                        <Button
+                          onClick={handleCopyUPI}
+                          disabled={!settings?.upiId || settings.upiId.length === 0}
+                          size="lg"
+                          className="rounded-xl bg-blue-600 hover:bg-blue-700 text-white px-4 shadow-lg shadow-blue-500/30"
+                        >
+                          <Copy className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </div>
+
+                    {/* Estimated Delivery */}
+                    <div className="flex items-center gap-3 p-3 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl border border-emerald-100 dark:border-emerald-800">
+                      <Clock className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+                      <div>
+                        <p className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">Delivery Time</p>
+                        <p className="text-sm font-bold text-gray-900 dark:text-white">Within 2 Hours</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
-            {/* UPI ID */}
-            <div className="bg-white rounded-2xl border-2 border-black p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-              <Label className="text-sm font-semibold text-gray-700 mb-2 block">
-                Or Pay Using UPI ID
-              </Label>
-              <div className="flex items-center gap-2">
-                <div className={`flex-1 font-mono text-lg font-bold p-4 rounded-xl border-2 ${
-                  settings?.upiId && settings.upiId.length > 0
-                    ? 'bg-teal-50 text-[#0A7A7A] border-teal-200'
-                    : 'bg-gray-100 text-gray-500 border-gray-200'
-                }`}>
-                  {settings?.upiId && settings.upiId.length > 0 ? settings.upiId : 'Loading UPI ID...'}
-                </div>
-                <Button
-                  onClick={handleCopyUPI}
-                  disabled={!settings?.upiId || settings.upiId.length === 0}
-                  variant="outline"
-                  className="rounded-xl border-2 border-black hover:bg-teal-50 hover:text-[#0A7A7A] h-14 px-4"
-                >
-                  <Copy className="h-5 w-5" />
-                </Button>
-              </div>
-              {settings?.upiId && settings.upiId.length > 0 && (
-                <p className="text-xs text-gray-500 mt-2">
-                  Click the copy button to copy UPI ID to clipboard
-                </p>
-              )}
-            </div>
-
-            {/* Delivery Info */}
-            {product.deliveryType && (
-              <div className={`bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-4 shadow-sm`}>
-                <div className="flex items-center gap-2 mb-2">
-                  <div className={`${deliveryTypeInfo[product.deliveryType].color}`}>
-                    {deliveryTypeInfo[product.deliveryType].icon}
+            {/* Payment Instructions */}
+            <div className="bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/10 dark:to-orange-900/10 rounded-2xl border border-amber-200 dark:border-amber-800 p-5">
+              <h3 className="font-bold text-amber-800 dark:text-amber-300 mb-4 flex items-center gap-2">
+                <span className="w-6 h-6 rounded-full bg-amber-200 dark:bg-amber-800 flex items-center justify-center text-sm">💡</span>
+                How to Complete Payment
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {[
+                  { step: '1', text: 'Scan QR code or copy UPI ID' },
+                  { step: '2', text: 'Pay the exact amount shown' },
+                  { step: '3', text: 'Take a screenshot of payment' },
+                  { step: '4', text: 'Upload screenshot & submit' }
+                ].map((item) => (
+                  <div key={item.step} className="flex items-center gap-3 bg-white/60 dark:bg-gray-800/60 rounded-xl p-3">
+                    <span className="w-7 h-7 bg-amber-200 dark:bg-amber-800 rounded-full flex items-center justify-center text-xs font-bold text-amber-900 dark:text-amber-200 flex-shrink-0">
+                      {item.step}
+                    </span>
+                    <span className="text-sm text-amber-900 dark:text-amber-200">{item.text}</span>
                   </div>
-                  <span className="font-semibold text-gray-900 dark:text-white">Delivery Method</span>
-                </div>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  {product.deliveryInstructions || 'You will receive your access within 2 hours of payment verification.'}
-                </p>
-              </div>
-            )}
-
-            {/* Estimated Delivery Time */}
-            <div className="bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-2xl border border-emerald-200 dark:border-emerald-800 p-4">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/30 rounded-xl flex items-center justify-center">
-                  <Clock className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
-                </div>
-                <div>
-                  <p className="text-sm text-emerald-700 dark:text-emerald-400 font-medium">Estimated Delivery</p>
-                  <p className="text-lg font-bold text-gray-900 dark:text-white">Within 2 Hours</p>
-                </div>
+                ))}
               </div>
             </div>
 
             {/* User Input for Manual Activation */}
             {requiresUserInput && (
-              <div className="bg-blue-50 rounded-2xl border border-blue-200 p-6">
+              <div className="bg-blue-50 dark:bg-blue-900/20 rounded-2xl border border-blue-200 dark:border-blue-700 p-6">
                 <div className="flex items-center gap-2 mb-3">
-                  <Info className="h-5 w-5 text-blue-600" />
-                  <h3 className="font-bold text-blue-800">
+                  <Info className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                  <h3 className="font-bold text-blue-800 dark:text-blue-300">
                     Your Account {product.requiresPassword !== false ? 'Credentials' : 'Details'} Required
                   </h3>
                 </div>
-                <p className="text-sm text-blue-700 mb-4">
+                
+                {/* Show custom requirements message if set by admin */}
+                {product.customUserSeesLabel && (
+                  <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-xl p-4 mb-4">
+                    <p className="text-sm text-amber-800 dark:text-amber-200 whitespace-pre-wrap">
+                      {product.customUserSeesLabel}
+                    </p>
+                  </div>
+                )}
+                
+                <p className="text-sm text-blue-700 dark:text-blue-300 mb-4">
                   {product.requiresPassword !== false 
-                    ? 'We need your account credentials to activate the service on your existing account. Your credentials are securely stored and only used for activation.'
+                    ? 'We need your account credentials to activate the service on your existing account.'
                     : 'We need your account details to activate the service on your existing account.'}
                 </p>
                 <div className="space-y-4">
                   <div>
-                    <Label htmlFor="userInput" className="font-semibold text-blue-800">
+                    <Label htmlFor="userInput" className="font-semibold text-blue-800 dark:text-blue-300">
                       {product.userInputLabel || 'Your Account Email'} *
                     </Label>
                     <Input
@@ -701,12 +501,12 @@ export function CheckoutPage() {
                       placeholder={`Enter your ${product.userInputLabel?.toLowerCase() || 'account email'}`}
                       value={userInput}
                       onChange={(e) => setUserInput(e.target.value)}
-                      className="border-2 border-blue-200 rounded-xl mt-2 focus:border-blue-500"
+                      className="border-2 border-blue-200 dark:border-blue-700 rounded-xl mt-2 focus:border-blue-500 bg-white dark:bg-gray-800"
                     />
                   </div>
                   {product.requiresPassword !== false && (
                     <div>
-                      <Label htmlFor="userPassword" className="font-semibold text-blue-800">
+                      <Label htmlFor="userPassword" className="font-semibold text-blue-800 dark:text-blue-300">
                         Account Password *
                       </Label>
                       <Input
@@ -715,9 +515,9 @@ export function CheckoutPage() {
                         placeholder="Enter your account password"
                         value={userPassword}
                         onChange={(e) => setUserPassword(e.target.value)}
-                        className="border-2 border-blue-200 rounded-xl mt-2 focus:border-blue-500"
+                        className="border-2 border-blue-200 dark:border-blue-700 rounded-xl mt-2 focus:border-blue-500 bg-white dark:bg-gray-800"
                       />
-                      <p className="text-xs text-blue-600 mt-1">
+                      <p className="text-xs text-blue-600 dark:text-blue-400 mt-1">
                         🔒 Your password is encrypted and only used for activation purposes
                       </p>
                     </div>
@@ -727,14 +527,15 @@ export function CheckoutPage() {
             )}
 
             {/* Upload Screenshot */}
-            <div className="bg-white rounded-2xl border-2 border-black p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-              <Label className="text-sm font-semibold text-gray-700 mb-3 block">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6 shadow-lg shadow-gray-100/50 dark:shadow-none">
+              <Label className="text-sm font-bold text-gray-900 dark:text-white mb-3 block flex items-center gap-2">
+                <Upload className="h-4 w-4 text-teal-500" />
                 Upload Payment Screenshot <span className="text-red-500">*</span>
               </Label>
-              <div className={`border-2 border-dashed rounded-xl p-6 text-center transition-all ${
+              <div className={`border-2 border-dashed rounded-2xl p-8 text-center transition-all ${
                 screenshot 
-                  ? 'border-emerald-400 bg-emerald-50' 
-                  : 'border-gray-300 hover:border-[#0A7A7A] hover:bg-teal-50'
+                  ? 'border-emerald-400 dark:border-emerald-600 bg-emerald-50 dark:bg-emerald-900/20' 
+                  : 'border-gray-200 dark:border-gray-600 hover:border-teal-400 dark:hover:border-teal-500 hover:bg-teal-50/50 dark:hover:bg-teal-900/10'
               }`}>
                 <input
                   type="file"
@@ -745,23 +546,28 @@ export function CheckoutPage() {
                 />
                 <label
                   htmlFor="screenshot-upload"
-                  className="cursor-pointer flex flex-col items-center space-y-2"
+                  className="cursor-pointer flex flex-col items-center space-y-3"
                 >
                   {screenshot ? (
                     <>
-                      <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center border-2 border-emerald-300">
-                        <CheckCircle2 className="h-8 w-8 text-emerald-600" />
+                      <div className="w-16 h-16 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center">
+                        <CheckCircle2 className="h-8 w-8 text-emerald-600 dark:text-emerald-400" />
                       </div>
-                      <p className="font-semibold text-emerald-700">{screenshot.name}</p>
-                      <p className="text-xs text-emerald-600">Click to change file</p>
+                      <div>
+                        <p className="font-semibold text-emerald-700 dark:text-emerald-400">{screenshot.name}</p>
+                        <p className="text-xs text-emerald-600 dark:text-emerald-500 mt-1">Click to change file</p>
+                      </div>
                     </>
                   ) : (
                     <>
-                      <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center border-2 border-gray-200">
-                        <Upload className="h-8 w-8 text-gray-400" />
+                      <div className="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center">
+                        <Upload className="h-8 w-8 text-gray-400 dark:text-gray-500" />
                       </div>
-                      <p className="font-semibold text-gray-700">Click to upload screenshot</p>
-                      <p className="text-xs text-gray-500">PNG, JPG up to 10MB</p>
+                      <div>
+                        <p className="font-semibold text-gray-700 dark:text-gray-300">Drop your screenshot here</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">or click to browse</p>
+                        <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">PNG, JPG up to 10MB</p>
+                      </div>
                     </>
                   )}
                 </label>
@@ -770,67 +576,304 @@ export function CheckoutPage() {
               {isUploading && (
                 <div className="mt-4">
                   <Progress value={uploadProgress} className="h-2" />
-                  <p className="text-sm text-center mt-2 text-gray-500">
-                    Uploading... {uploadProgress}%
+                  <p className="text-sm text-center mt-2 text-gray-500 dark:text-gray-400">
+                    Processing... {uploadProgress}%
                   </p>
                 </div>
               )}
             </div>
 
-            <Button
-              onClick={handleSubmit}
-              disabled={!screenshot || isUploading || (requiresUserInput && !userInput.trim()) || (requiresUserInput && product.requiresPassword !== false && !userPassword.trim())}
-              className="w-full h-14 text-lg font-bold rounded-xl bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600 text-white shadow-lg shadow-teal-500/25 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isUploading ? (
-                <>
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
-                  Processing Order...
-                </>
-              ) : (
-                <>
-                  <CheckCircle2 className="h-5 w-5 mr-2" />
-                  Place Order - {isPremiumFree ? 'FREE' : `₹${appliedCoupon 
-                    ? Math.max(0, effectivePrice - appliedCoupon.discountAmount).toLocaleString()
-                    : effectivePrice.toLocaleString()
-                  }`}
-                </>
-              )}
-            </Button>
-
-            {/* Contact Support */}
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 border border-blue-100">
-              <p className="text-sm text-center text-gray-600">
-                Need help?{' '}
-                {settings?.telegramUsername ? (
-                  <a
-                    href={`https://t.me/${settings.telegramUsername.replace('@', '')}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[#0088cc] font-bold hover:underline"
-                  >
-                    Contact {settings.telegramUsername} on Telegram
-                  </a>
-                ) : settings?.telegramLink ? (
-                  <a
-                    href={settings.telegramLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[#0088cc] font-bold hover:underline"
-                  >
-                    Contact us on Telegram
-                  </a>
-                ) : settings?.contactEmail ? (
-                  <a
-                    href={`mailto:${settings.contactEmail}`}
-                    className="text-[#0A7A7A] font-bold hover:underline"
-                  >
-                    Email us at {settings.contactEmail}
-                  </a>
+            {/* Submit Button - Mobile */}
+            <div className="lg:hidden">
+              <Button
+                onClick={handleSubmit}
+                disabled={!screenshot || isUploading || (requiresUserInput && !userInput.trim()) || (requiresUserInput && product.requiresPassword !== false && !userPassword.trim())}
+                className="w-full h-14 text-lg font-bold rounded-2xl bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600 text-white shadow-lg shadow-teal-500/25 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isUploading ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
+                    Processing...
+                  </>
                 ) : (
-                  <span className="text-gray-500">Contact support</span>
+                  <>
+                    <CheckCircle2 className="h-5 w-5 mr-2" />
+                    Complete Order
+                  </>
                 )}
-              </p>
+              </Button>
+            </div>
+          </div>
+
+          {/* Right Column - Order Summary */}
+          <div className="lg:col-span-1 order-1 lg:order-2">
+            <div className="lg:sticky lg:top-6 space-y-4">
+              {/* Order Summary Card */}
+              <div className="bg-white dark:bg-gray-800 rounded-3xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-xl shadow-gray-200/50 dark:shadow-none">
+                <div className="bg-gradient-to-r from-gray-900 to-gray-800 dark:from-gray-700 dark:to-gray-600 p-4">
+                  <h2 className="text-lg font-bold text-white flex items-center gap-2">
+                    <Package className="h-5 w-5" />
+                    Order Summary
+                  </h2>
+                </div>
+                
+                <div className="p-5">
+                  {/* Product Info */}
+                  <div className="flex gap-4 pb-4 border-b border-gray-100 dark:border-gray-700">
+                    <img
+                      src={product.image || 'https://images.unsplash.com/photo-1557821552-17105176677c?w=800&q=80'}
+                      alt={product.name}
+                      className="w-20 h-20 object-cover rounded-xl bg-gray-100 dark:bg-gray-700"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = 'https://images.unsplash.com/photo-1557821552-17105176677c?w=800&q=80';
+                      }}
+                    />
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-bold text-gray-900 dark:text-white truncate">{product.name}</h3>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">{effectiveDuration}</p>
+                      <div className="flex flex-wrap gap-1 mt-2">
+                        {(isPremiumFree || premiumDiscountPercent > 0) && (
+                          <Badge className="bg-gradient-to-r from-amber-500 to-yellow-500 text-white border-0 text-xs">
+                            <Crown className="h-3 w-3 mr-1" />
+                            {isPremiumFree ? 'FREE' : `${premiumDiscountPercent}% OFF`}
+                          </Badge>
+                        )}
+                        {flashSaleInfo.isOnFlashSale && (
+                          <Badge className="bg-gradient-to-r from-red-600 to-orange-500 text-white border-0 text-xs">
+                            <Flame className="h-3 w-3 mr-1" />
+                            FLASH SALE
+                          </Badge>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+
+                  {/* Variant Selection */}
+                  {product.hasVariants && product.variants && product.variants.length > 1 && (
+                    <div className="pt-4 border-t border-gray-100 dark:border-gray-700">
+                      <Label className="font-semibold text-gray-900 dark:text-white flex items-center gap-2 mb-3 text-sm">
+                        <Layers className="h-4 w-4 text-purple-600 dark:text-purple-400" />
+                        Select Plan
+                      </Label>
+                      <div className="space-y-2">
+                        {product.variants.map((variant) => (
+                          <button
+                            key={variant.id}
+                            onClick={() => setSelectedVariantId(variant.id)}
+                            className={`w-full p-3 rounded-xl border-2 text-left transition-all ${
+                              selectedVariantId === variant.id
+                                ? 'border-teal-500 bg-teal-50 dark:bg-teal-900/20'
+                                : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
+                            }`}
+                          >
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-2">
+                                <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
+                                  selectedVariantId === variant.id 
+                                    ? 'border-teal-500 bg-teal-500' 
+                                    : 'border-gray-300 dark:border-gray-600'
+                                }`}>
+                                  {selectedVariantId === variant.id && (
+                                    <div className="w-2 h-2 bg-white rounded-full" />
+                                  )}
+                                </div>
+                                <div>
+                                  <p className="font-medium text-gray-900 dark:text-white text-sm">
+                                    {variant.name || variant.duration}
+                                  </p>
+                                  {variant.isDefault && (
+                                    <span className="text-xs text-purple-600 dark:text-purple-400">Popular</span>
+                                  )}
+                                </div>
+                              </div>
+                              <p className={`font-bold ${selectedVariantId === variant.id ? 'text-teal-600 dark:text-teal-400' : 'text-gray-900 dark:text-white'}`}>
+                                ₹{flashSaleInfo.isOnFlashSale 
+                                  ? Math.max(0, variant.salePrice - flashSaleInfo.discountAmount).toLocaleString()
+                                  : variant.salePrice.toLocaleString()
+                                }
+                              </p>
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Price Breakdown */}
+                  <div className="pt-4 space-y-2 text-sm">
+                    <div className="flex justify-between text-gray-600 dark:text-gray-400">
+                      <span>Subtotal</span>
+                      <span>₹{effectiveOriginalPrice.toLocaleString()}</span>
+                    </div>
+                    {effectiveOriginalPrice > effectivePrice && (
+                      <div className="flex justify-between text-green-600 dark:text-green-400">
+                        <span>Discount</span>
+                        <span>-₹{(effectiveOriginalPrice - effectivePrice).toLocaleString()}</span>
+                      </div>
+                    )}
+                    {appliedCoupon && (
+                      <div className="flex justify-between text-green-600 dark:text-green-400">
+                        <span>Coupon</span>
+                        <span>-₹{appliedCoupon.discountAmount.toLocaleString()}</span>
+                      </div>
+                    )}
+                    <div className="flex justify-between font-bold text-lg pt-2 border-t border-gray-100 dark:border-gray-700 text-gray-900 dark:text-white">
+                      <span>Total</span>
+                      <span className={isPremiumFree ? 'text-green-600' : flashSaleInfo.isOnFlashSale ? 'text-red-600' : 'text-teal-600'}>
+                        {isPremiumFree ? 'FREE' : `₹${appliedCoupon 
+                          ? Math.max(0, effectivePrice - appliedCoupon.discountAmount).toLocaleString()
+                          : effectivePrice.toLocaleString()
+                        }`}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Coupon Code Section */}
+              <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-4 shadow-sm">
+                <h3 className="font-bold text-gray-900 dark:text-white mb-3 flex items-center gap-2 text-sm">
+                  <Ticket className="h-4 w-4 text-green-600" />
+                  Have a Coupon?
+                </h3>
+                {appliedCoupon ? (
+                  <div className="flex items-center justify-between bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-xl p-3">
+                    <div>
+                      <p className="font-semibold text-green-700 dark:text-green-400 text-sm">Coupon Applied!</p>
+                      <p className="text-xs text-green-600 dark:text-green-500">₹{appliedCoupon.discountAmount} off</p>
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setAppliedCoupon(null)}
+                      className="text-red-500 hover:text-red-700 h-8 w-8 p-0"
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="flex gap-2">
+                    <Input
+                      placeholder="Enter code"
+                      value={couponCode}
+                      onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                      className="border rounded-xl uppercase text-sm h-10"
+                    />
+                    <Button
+                      onClick={async () => {
+                        if (!couponCode.trim()) return;
+                        setIsValidatingCoupon(true);
+                        try {
+                          const coupon = await validateCoupon(couponCode);
+                          setAppliedCoupon(coupon);
+                          toast({ title: 'Coupon applied!', description: `₹${coupon.discountAmount} discount` });
+                        } catch (error: any) {
+                          toast({ title: 'Invalid coupon', description: error.message, variant: 'destructive' });
+                        } finally {
+                          setIsValidatingCoupon(false);
+                        }
+                      }}
+                      disabled={isValidatingCoupon || !couponCode.trim()}
+                      size="sm"
+                      className="rounded-xl h-10 px-4"
+                    >
+                      {isValidatingCoupon ? '...' : 'Apply'}
+                    </Button>
+                  </div>
+                )}
+                {availableCoupons.length > 0 && !appliedCoupon && (
+                  <p className="text-xs text-green-600 dark:text-green-400 mt-2">
+                    {availableCoupons.length} coupon{availableCoupons.length > 1 ? 's' : ''} available!
+                  </p>
+                )}
+              </div>
+
+              {/* Delivery Info */}
+              {product.deliveryType && (
+                <div className="bg-gray-50 dark:bg-gray-800/50 rounded-2xl border border-gray-200 dark:border-gray-700 p-4">
+                  <div className="flex items-center gap-3">
+                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
+                      product.deliveryType === 'CREDENTIALS' ? 'bg-blue-100 dark:bg-blue-900/30' :
+                      product.deliveryType === 'COUPON_CODE' ? 'bg-purple-100 dark:bg-purple-900/30' :
+                      product.deliveryType === 'INSTANT_KEY' ? 'bg-amber-100 dark:bg-amber-900/30' :
+                      'bg-emerald-100 dark:bg-emerald-900/30'
+                    }`}>
+                      <div className={deliveryTypeInfo[product.deliveryType].color}>
+                        {deliveryTypeInfo[product.deliveryType].icon}
+                      </div>
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900 dark:text-white text-sm">Delivery Method</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                        {product.customUserSeesLabel || (
+                          product.deliveryType === 'CREDENTIALS' ? 'Login credentials' :
+                          product.deliveryType === 'COUPON_CODE' ? 'Activation code' :
+                          product.deliveryType === 'INSTANT_KEY' ? 'Instant delivery' :
+                          'Manual activation'
+                        )}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Submit Button - Desktop */}
+              <div className="hidden lg:block">
+                <Button
+                  onClick={handleSubmit}
+                  disabled={!screenshot || isUploading || (requiresUserInput && !userInput.trim()) || (requiresUserInput && product.requiresPassword !== false && !userPassword.trim())}
+                  className="w-full h-14 text-lg font-bold rounded-2xl bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600 text-white shadow-lg shadow-teal-500/25 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isUploading ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
+                      Processing...
+                    </>
+                  ) : (
+                    <>
+                      <CheckCircle2 className="h-5 w-5 mr-2" />
+                      Complete Order
+                    </>
+                  )}
+                </Button>
+              </div>
+
+              {/* Trust Badges */}
+              <div className="flex items-center justify-center gap-4 pt-2">
+                <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
+                  <CheckCircle2 className="h-3 w-3 text-green-500" />
+                  <span>Secure</span>
+                </div>
+                <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
+                  <Clock className="h-3 w-3 text-blue-500" />
+                  <span>Fast Delivery</span>
+                </div>
+                <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
+                  <Package className="h-3 w-3 text-purple-500" />
+                  <span>Verified</span>
+                </div>
+              </div>
+
+              {/* Contact Support */}
+              <div className="text-center pt-2">
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  Need help?{' '}
+                  {settings?.telegramUsername ? (
+                    <a
+                      href={`https://t.me/${settings.telegramUsername.replace('@', '')}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-teal-600 dark:text-teal-400 font-medium hover:underline"
+                    >
+                      Contact Support
+                    </a>
+                  ) : (
+                    <span className="text-teal-600 dark:text-teal-400 font-medium">Contact Support</span>
+                  )}
+                </p>
+              </div>
             </div>
           </div>
         </div>

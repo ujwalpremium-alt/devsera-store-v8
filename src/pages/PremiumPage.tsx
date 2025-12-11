@@ -159,7 +159,7 @@ export default function PremiumPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white pb-24">
+    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white dark:from-gray-900 dark:to-gray-950 pb-24">
       {/* Hero Section */}
       <div className="relative overflow-hidden bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-600 text-white">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4xIj48cGF0aCBkPSJNMzYgMzRjMC0yIDItNCAyLTRzLTItMi00LTJjLTIgMC00IDItNCAyczIgNCA0IDRjMiAwIDQtMiA0LTJ6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-30" />
@@ -177,20 +177,20 @@ export default function PremiumPage() {
       <div className="px-3 sm:px-4 md:px-6 lg:px-8 max-w-7xl mx-auto -mt-6 sm:-mt-8 relative z-10 pb-24">
         {/* Status Cards */}
         {isPremium && membership && (
-          <Card className="mb-6 sm:mb-8 border-2 border-amber-300 bg-gradient-to-r from-amber-50 to-yellow-50 shadow-lg">
+          <Card className="mb-6 sm:mb-8 border-2 border-amber-300 dark:border-amber-700 bg-gradient-to-r from-amber-50 to-yellow-50 dark:from-amber-900/30 dark:to-yellow-900/30 shadow-lg">
             <CardContent className="p-4 sm:p-6">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
                 <div>
                   <PremiumBadge size="lg" expiresAt={membership.expires_at} />
-                  <p className="text-xs sm:text-sm text-gray-600 mt-2">
+                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 mt-2">
                     You're a premium member! Enjoy all exclusive benefits.
                   </p>
                   {membership.plan_type && membership.plan_type !== 'lifetime' && (
                     <div className="mt-2 flex items-center gap-2">
-                      <Badge variant="outline" className="text-xs bg-white">
+                      <Badge variant="outline" className="text-xs bg-amber-50 dark:bg-amber-900/30 text-amber-900 dark:text-amber-200 border-amber-200 dark:border-amber-700">
                         Current: {PREMIUM_PLANS[membership.plan_type as keyof typeof PREMIUM_PLANS]?.name || membership.plan_type}
                       </Badge>
-                      <Badge className="text-xs bg-green-100 text-green-700 border-green-200">
+                      <Badge className="text-xs bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 border-green-200 dark:border-green-700">
                         <ArrowUp className="h-3 w-3 mr-1" />
                         Upgrade available below
                       </Badge>
@@ -206,15 +206,15 @@ export default function PremiumPage() {
         )}
 
         {pendingRequest && !isPremium && (
-          <Card className="mb-6 sm:mb-8 border-2 border-yellow-300 bg-yellow-50 shadow-lg">
+          <Card className="mb-6 sm:mb-8 border-2 border-yellow-300 dark:border-yellow-700 bg-yellow-50 dark:bg-yellow-900/30 shadow-lg">
             <CardContent className="p-4 sm:p-6">
               <div className="flex items-start sm:items-center gap-3">
-                <div className="p-2 sm:p-3 rounded-full bg-yellow-200 flex-shrink-0">
-                  <Clock className="h-5 w-5 sm:h-6 sm:w-6 text-yellow-700" />
+                <div className="p-2 sm:p-3 rounded-full bg-yellow-200 dark:bg-yellow-800 flex-shrink-0">
+                  <Clock className="h-5 w-5 sm:h-6 sm:w-6 text-yellow-700 dark:text-yellow-300" />
                 </div>
                 <div>
                   <PremiumPendingBadge />
-                  <p className="text-xs sm:text-sm text-gray-600 mt-1">
+                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 mt-1">
                     Your request is pending admin approval.
                     {pendingRequest.transaction_id && pendingRequest.transaction_id !== 'N/A' && (
                       <span className="block sm:inline"> Transaction ID: {pendingRequest.transaction_id}</span>
@@ -229,30 +229,30 @@ export default function PremiumPage() {
         {/* Benefits */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4 lg:gap-6 mb-8 sm:mb-10 md:mb-12 mt-6 sm:mt-8">
           {BENEFITS.map((benefit) => (
-            <Card key={benefit.title} className="border-amber-100 hover:shadow-lg transition-shadow bg-white">
+            <Card key={benefit.title} className="border-amber-100 dark:border-amber-900/50 hover:shadow-lg transition-shadow bg-white dark:bg-gray-800">
               <CardContent className="p-3 sm:p-4 md:p-5">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-lg sm:rounded-xl bg-amber-100 flex items-center justify-center mb-2 sm:mb-3">
-                  <benefit.icon className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 text-amber-600" />
+                <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-lg sm:rounded-xl bg-amber-100 dark:bg-amber-900/50 flex items-center justify-center mb-2 sm:mb-3">
+                  <benefit.icon className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 text-amber-600 dark:text-amber-400" />
                 </div>
-                <h3 className="font-bold text-xs sm:text-sm md:text-base text-gray-900">{benefit.title}</h3>
-                <p className="text-[10px] sm:text-xs md:text-sm text-gray-500 mt-0.5 sm:mt-1">{benefit.description}</p>
+                <h3 className="font-bold text-xs sm:text-sm md:text-base text-gray-900 dark:text-white">{benefit.title}</h3>
+                <p className="text-[10px] sm:text-xs md:text-sm text-gray-500 dark:text-gray-400 mt-0.5 sm:mt-1">{benefit.description}</p>
               </CardContent>
             </Card>
           ))}
         </div>
 
         {/* Pricing Plans */}
-        <h2 className="text-lg sm:text-xl md:text-2xl font-bold mb-4 sm:mb-6">Choose Your Plan</h2>
+        <h2 className="text-lg sm:text-xl md:text-2xl font-bold mb-4 sm:mb-6 text-gray-900 dark:text-white">Choose Your Plan</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
           {(Object.entries(PREMIUM_PLANS) as [keyof typeof PREMIUM_PLANS, typeof PREMIUM_PLANS[keyof typeof PREMIUM_PLANS]][]).map(([key, plan]) => (
             <Card 
               key={key} 
               className={`relative overflow-hidden transition-all hover:shadow-xl ${
                 isUpgradePlan(key)
-                  ? 'border-2 border-green-400 shadow-lg shadow-green-100 bg-gradient-to-b from-green-50/50 to-white'
+                  ? 'border-2 border-green-400 dark:border-green-600 shadow-lg shadow-green-100 dark:shadow-green-900/20 bg-gradient-to-b from-green-50/50 to-white dark:from-green-900/20 dark:to-gray-800'
                   : key === '10_year' 
-                    ? 'border-2 border-amber-400 shadow-lg shadow-amber-100 md:scale-105 bg-gradient-to-b from-amber-50/50 to-white' 
-                    : 'border border-gray-200 bg-white'
+                    ? 'border-2 border-amber-400 dark:border-amber-600 shadow-lg shadow-amber-100 dark:shadow-amber-900/20 md:scale-105 bg-gradient-to-b from-amber-50/50 to-white dark:from-amber-900/20 dark:to-gray-800' 
+                    : 'border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800'
               }`}
             >
               {isUpgradePlan(key) && (
@@ -268,7 +268,7 @@ export default function PremiumPage() {
               )}
               <CardHeader className="pb-2 sm:pb-3 pt-4 sm:pt-6 px-3 sm:px-6">
                 <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-1 sm:gap-2 text-base sm:text-lg md:text-xl">
-                  <span className="font-bold">{plan.name}</span>
+                  <span className="font-bold text-gray-900 dark:text-white">{plan.name}</span>
                   <div className="flex flex-col items-end">
                     {isUpgradePlan(key) ? (
                       <>
@@ -276,11 +276,11 @@ export default function PremiumPage() {
                         <span className="text-xl sm:text-2xl md:text-3xl font-bold text-green-600">₹{getUpgradePrice(key)}</span>
                       </>
                     ) : (
-                      <span className="text-xl sm:text-2xl md:text-3xl font-bold text-amber-600">₹{plan.price}</span>
+                      <span className="text-xl sm:text-2xl md:text-3xl font-bold text-amber-600 dark:text-amber-400">₹{plan.price}</span>
                     )}
                   </div>
                 </CardTitle>
-                <CardDescription className="text-xs sm:text-sm md:text-base mt-1">
+                <CardDescription className="text-xs sm:text-sm md:text-base mt-1 dark:text-gray-400">
                   {plan.duration ? `Valid for ${plan.duration / 365} years` : 'Never expires'}
                   {isUpgradePlan(key) && (
                     <span className="block text-green-600 font-medium mt-1">
@@ -291,28 +291,28 @@ export default function PremiumPage() {
               </CardHeader>
               <CardContent className="pb-4 sm:pb-6 px-3 sm:px-6">
                 <ul className="space-y-2 sm:space-y-3 mb-4 sm:mb-6">
-                  <li className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm md:text-base">
-                    <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
-                      <Check className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-green-600" />
+                  <li className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm md:text-base text-gray-700 dark:text-gray-300">
+                    <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-green-100 dark:bg-green-900/50 flex items-center justify-center flex-shrink-0">
+                      <Check className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-green-600 dark:text-green-400" />
                     </div>
                     All premium products access
                   </li>
-                  <li className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm md:text-base">
-                    <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
-                      <Check className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-green-600" />
+                  <li className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm md:text-base text-gray-700 dark:text-gray-300">
+                    <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-green-100 dark:bg-green-900/50 flex items-center justify-center flex-shrink-0">
+                      <Check className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-green-600 dark:text-green-400" />
                     </div>
                     Exclusive tricks & guides
                   </li>
-                  <li className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm md:text-base">
-                    <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
-                      <Check className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-green-600" />
+                  <li className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm md:text-base text-gray-700 dark:text-gray-300">
+                    <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-green-100 dark:bg-green-900/50 flex items-center justify-center flex-shrink-0">
+                      <Check className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-green-600 dark:text-green-400" />
                     </div>
                     Free products every month
                   </li>
                   {key !== '5_year' && (
-                    <li className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm md:text-base">
-                      <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
-                        <Check className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-green-600" />
+                    <li className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm md:text-base text-gray-700 dark:text-gray-300">
+                      <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-green-100 dark:bg-green-900/50 flex items-center justify-center flex-shrink-0">
+                        <Check className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-green-600 dark:text-green-400" />
                       </div>
                       Priority support
                     </li>
@@ -374,10 +374,10 @@ export default function PremiumPage() {
 
           <div className="space-y-3 sm:space-y-4">
             {/* UPI Payment Section */}
-            <div className="bg-gradient-to-r from-amber-50 to-yellow-50 rounded-lg sm:rounded-xl p-3 sm:p-4 border border-amber-200">
+            <div className="bg-gradient-to-r from-amber-50 to-yellow-50 dark:from-amber-900/30 dark:to-yellow-900/30 rounded-lg sm:rounded-xl p-3 sm:p-4 border border-amber-200 dark:border-amber-700">
               <div className="flex items-center gap-2 mb-2 sm:mb-3">
-                <QrCode className="h-4 w-4 sm:h-5 sm:w-5 text-amber-600" />
-                <span className="font-semibold text-amber-800 text-sm sm:text-base">Pay via UPI</span>
+                <QrCode className="h-4 w-4 sm:h-5 sm:w-5 text-amber-600 dark:text-amber-400" />
+                <span className="font-semibold text-amber-800 dark:text-amber-300 text-sm sm:text-base">Pay via UPI</span>
               </div>
               
               {/* QR Code */}
@@ -395,10 +395,10 @@ export default function PremiumPage() {
               
               {/* UPI ID */}
               {settings?.upiId && (
-                <div className="flex items-center justify-between bg-white rounded-lg p-2 sm:p-3 border border-amber-200">
+                <div className="flex items-center justify-between bg-white dark:bg-gray-800 rounded-lg p-2 sm:p-3 border border-amber-200 dark:border-amber-700">
                   <div>
-                    <p className="text-[10px] sm:text-xs text-gray-500">UPI ID</p>
-                    <p className="font-mono font-semibold text-gray-900 text-xs sm:text-sm md:text-base">{settings.upiId}</p>
+                    <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">UPI ID</p>
+                    <p className="font-mono font-semibold text-gray-900 dark:text-white text-xs sm:text-sm md:text-base">{settings.upiId}</p>
                   </div>
                   <button
                     onClick={() => {
@@ -407,14 +407,14 @@ export default function PremiumPage() {
                       setTimeout(() => setCopied(false), 2000);
                       toast({ title: 'Copied!', description: 'UPI ID copied to clipboard' });
                     }}
-                    className="p-1.5 sm:p-2 rounded-lg bg-amber-100 hover:bg-amber-200 transition-colors"
+                    className="p-1.5 sm:p-2 rounded-lg bg-amber-100 dark:bg-amber-900/50 hover:bg-amber-200 dark:hover:bg-amber-800 transition-colors"
                   >
-                    {copied ? <Check className="h-3 w-3 sm:h-4 sm:w-4 text-green-600" /> : <Copy className="h-3 w-3 sm:h-4 sm:w-4 text-amber-600" />}
+                    {copied ? <Check className="h-3 w-3 sm:h-4 sm:w-4 text-green-600" /> : <Copy className="h-3 w-3 sm:h-4 sm:w-4 text-amber-600 dark:text-amber-400" />}
                   </button>
                 </div>
               )}
               
-              <p className="text-xs text-amber-700 mt-3 text-center">
+              <p className="text-xs text-amber-700 dark:text-amber-300 mt-3 text-center">
                 Amount to Pay: <span className="font-bold text-lg">₹{selectedPlan ? (isUpgrade ? getUpgradePrice(selectedPlan) : PREMIUM_PLANS[selectedPlan].price) : 0}</span>
                 {isUpgrade && selectedPlan && (
                   <span className="block text-green-600 text-[10px] mt-1">
@@ -426,7 +426,7 @@ export default function PremiumPage() {
 
             {/* Transaction ID - Optional */}
             <div>
-              <Label className="text-gray-700">Transaction ID / UTR Number <span className="text-gray-400 text-xs">(Optional)</span></Label>
+              <Label className="text-gray-700 dark:text-gray-300">Transaction ID / UTR Number <span className="text-gray-400 dark:text-gray-500 text-xs">(Optional)</span></Label>
               <Input
                 value={transactionId}
                 onChange={(e) => setTransactionId(e.target.value)}
@@ -437,21 +437,21 @@ export default function PremiumPage() {
 
             {/* Payment Screenshot - Required */}
             <div>
-              <Label className="text-gray-700">Payment Screenshot <span className="text-red-500">*</span></Label>
+              <Label className="text-gray-700 dark:text-gray-300">Payment Screenshot <span className="text-red-500">*</span></Label>
               <div className="mt-1">
-                <label className="flex items-center justify-center w-full h-28 border-2 border-dashed border-amber-300 rounded-xl cursor-pointer hover:border-amber-500 hover:bg-amber-50/50 transition-all">
+                <label className="flex items-center justify-center w-full h-28 border-2 border-dashed border-amber-300 dark:border-amber-700 rounded-xl cursor-pointer hover:border-amber-500 dark:hover:border-amber-500 hover:bg-amber-50/50 dark:hover:bg-amber-900/20 transition-all">
                   <div className="text-center">
                     {paymentProof ? (
-                      <div className="flex flex-col items-center gap-2 text-green-600">
+                      <div className="flex flex-col items-center gap-2 text-green-600 dark:text-green-400">
                         <Check className="h-8 w-8" />
                         <span className="text-sm font-medium">{paymentProof.name}</span>
-                        <span className="text-xs text-gray-500">Click to change</span>
+                        <span className="text-xs text-gray-500 dark:text-gray-400">Click to change</span>
                       </div>
                     ) : (
                       <>
-                        <Upload className="h-8 w-8 mx-auto text-amber-400" />
-                        <p className="text-sm text-gray-600 mt-2">Click to upload screenshot</p>
-                        <p className="text-xs text-gray-400">PNG, JPG up to 5MB</p>
+                        <Upload className="h-8 w-8 mx-auto text-amber-400 dark:text-amber-500" />
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">Click to upload screenshot</p>
+                        <p className="text-xs text-gray-400 dark:text-gray-500">PNG, JPG up to 5MB</p>
                       </>
                     )}
                   </div>

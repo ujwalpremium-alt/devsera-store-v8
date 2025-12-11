@@ -328,28 +328,28 @@ export function RewardsPage() {
                 <CardContent className="p-4 text-center">
                   <Users className="h-8 w-8 text-purple-500 mx-auto mb-2" />
                   <p className="text-2xl font-bold">{referralStats.totalReferrals}</p>
-                  <p className="text-xs text-gray-500">Total Referrals</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">Total Referrals</p>
                 </CardContent>
               </Card>
               <Card className="border-2 border-gray-100">
                 <CardContent className="p-4 text-center">
                   <Check className="h-8 w-8 text-green-500 mx-auto mb-2" />
                   <p className="text-2xl font-bold">{referralStats.completedReferrals}</p>
-                  <p className="text-xs text-gray-500">Completed</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">Completed</p>
                 </CardContent>
               </Card>
               <Card className="border-2 border-gray-100">
                 <CardContent className="p-4 text-center">
                   <Clock className="h-8 w-8 text-amber-500 mx-auto mb-2" />
                   <p className="text-2xl font-bold">{referralStats.pendingReferrals}</p>
-                  <p className="text-xs text-gray-500">Pending</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">Pending</p>
                 </CardContent>
               </Card>
               <Card className="border-2 border-gray-100">
                 <CardContent className="p-4 text-center">
                   <Coins className="h-8 w-8 text-yellow-500 mx-auto mb-2" />
                   <p className="text-2xl font-bold">{referralStats.totalEarned}</p>
-                  <p className="text-xs text-gray-500">Points Earned</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">Points Earned</p>
                 </CardContent>
               </Card>
             </div>
@@ -385,7 +385,7 @@ export function RewardsPage() {
                   Copy Referral Link
                 </Button>
                 <div className="bg-white rounded-xl p-4 border border-purple-200">
-                  <p className="text-sm text-gray-600 text-center">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 text-center">
                     Share your code and earn <span className="font-bold text-purple-600">{REFERRAL_REWARD_POINTS} points</span> when your friend makes their first purchase!
                     <br />
                     Your friend gets <span className="font-bold text-pink-600">{REFERRED_BONUS_POINTS} bonus points</span> too!
@@ -437,7 +437,7 @@ export function RewardsPage() {
                           </div>
                           <div>
                             <p className="font-semibold">{ref.referredName}</p>
-                            <p className="text-xs text-gray-500">
+                            <p className="text-xs text-gray-500 dark:text-gray-400">
                               {new Date(ref.createdAt).toLocaleDateString()}
                             </p>
                           </div>
@@ -514,7 +514,7 @@ export function RewardsPage() {
               </CardHeader>
               <CardContent>
                 {availableCoupons.length === 0 ? (
-                  <div className="text-center py-8 text-gray-500">
+                  <div className="text-center py-8 text-gray-500 dark:text-gray-400">
                     <Ticket className="h-12 w-12 mx-auto mb-3 opacity-30" />
                     <p className="font-medium">No coupons available</p>
                     <p className="text-sm">Redeem your points to get discount coupons!</p>
@@ -565,7 +565,7 @@ export function RewardsPage() {
               </CardHeader>
               <CardContent>
                 {transactions.length === 0 ? (
-                  <div className="text-center py-12 text-gray-500">
+                  <div className="text-center py-12 text-gray-500 dark:text-gray-400">
                     <Coins className="h-16 w-16 mx-auto mb-4 opacity-30" />
                     <p className="text-lg font-medium">No transactions yet</p>
                     <p className="text-sm">Make a purchase to start earning points!</p>
@@ -591,7 +591,7 @@ export function RewardsPage() {
                           </div>
                           <div>
                             <p className="font-semibold">{tx.description}</p>
-                            <p className="text-xs text-gray-500">
+                            <p className="text-xs text-gray-500 dark:text-gray-400">
                               {new Date(tx.createdAt).toLocaleDateString()}
                             </p>
                           </div>
@@ -644,7 +644,7 @@ export function RewardsPage() {
                           <div className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
                             <div>
                               <p className="font-medium">Order Updates</p>
-                              <p className="text-sm text-gray-500">Get notified about order status changes</p>
+                              <p className="text-sm text-gray-500 dark:text-gray-400">Get notified about order status changes</p>
                             </div>
                             <Switch
                               checked={preferences.pushOrderUpdates}
@@ -656,7 +656,7 @@ export function RewardsPage() {
                           <div className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
                             <div>
                               <p className="font-medium">Promotions</p>
-                              <p className="text-sm text-gray-500">Receive special offers and deals</p>
+                              <p className="text-sm text-gray-500 dark:text-gray-400">Receive special offers and deals</p>
                             </div>
                             <Switch
                               checked={preferences.pushPromotions}
@@ -670,7 +670,7 @@ export function RewardsPage() {
                     </>
                   ) : (
                     <div className="bg-gray-50 border border-gray-200 rounded-xl p-4">
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
                         Push notifications are not supported in your browser
                       </p>
                     </div>
@@ -687,7 +687,7 @@ export function RewardsPage() {
                     <div className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
                       <div>
                         <p className="font-medium">Order Updates</p>
-                        <p className="text-sm text-gray-500">Receive emails about your orders</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">Receive emails about your orders</p>
                       </div>
                       <Switch
                         checked={preferences.emailOrderUpdates}
@@ -699,7 +699,7 @@ export function RewardsPage() {
                     <div className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
                       <div>
                         <p className="font-medium">Promotions & Offers</p>
-                        <p className="text-sm text-gray-500">Get notified about deals and discounts</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">Get notified about deals and discounts</p>
                       </div>
                       <Switch
                         checked={preferences.emailPromotions}
@@ -727,28 +727,28 @@ export function RewardsPage() {
                   <span className="text-2xl font-bold text-purple-600">1</span>
                 </div>
                 <h3 className="font-semibold mb-1">Shop</h3>
-                <p className="text-sm text-gray-500">Earn 10 points for every ₹100 spent</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Earn 10 points for every ₹100 spent</p>
               </div>
               <div className="text-center">
                 <div className="w-16 h-16 bg-pink-100 rounded-2xl flex items-center justify-center mx-auto mb-3">
                   <span className="text-2xl font-bold text-pink-600">2</span>
                 </div>
                 <h3 className="font-semibold mb-1">Refer</h3>
-                <p className="text-sm text-gray-500">Earn {REFERRAL_REWARD_POINTS} points per referral</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Earn {REFERRAL_REWARD_POINTS} points per referral</p>
               </div>
               <div className="text-center">
                 <div className="w-16 h-16 bg-amber-100 rounded-2xl flex items-center justify-center mx-auto mb-3">
                   <span className="text-2xl font-bold text-amber-600">3</span>
                 </div>
                 <h3 className="font-semibold mb-1">Level Up</h3>
-                <p className="text-sm text-gray-500">Unlock higher tiers for better rewards</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Unlock higher tiers for better rewards</p>
               </div>
               <div className="text-center">
                 <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-3">
                   <span className="text-2xl font-bold text-green-600">4</span>
                 </div>
                 <h3 className="font-semibold mb-1">Redeem</h3>
-                <p className="text-sm text-gray-500">Use points for discounts on orders</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Use points for discounts on orders</p>
               </div>
             </div>
           </CardContent>
