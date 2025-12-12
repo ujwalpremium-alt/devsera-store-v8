@@ -17,6 +17,7 @@ import { Badge } from '@/components/ui/badge';
 import { isSupabaseConfigured } from '@/lib/supabase';
 import { DeliveryType, ProductVariant } from '@/types';
 import { getFlashSaleInfoFromStorage } from '@/hooks/useFlashSale';
+import { checkRateLimit, formatTimeRemaining } from '@/utils/rateLimiter';
 
 const deliveryTypeInfo: Record<DeliveryType, { icon: React.ReactNode; color: string }> = {
   CREDENTIALS: { icon: <Key className="h-5 w-5" />, color: 'text-blue-600' },
@@ -181,30 +182,62 @@ export function CheckoutPage() {
   };
 
   const handleSubmit = async () => {
-    if (!screenshot) {
+    // Check rate limit for order submissions
+    const rateLimit = checkRateLimit('order-submit', 3, 300000); // 3 orders per 5 minutes
+    if (rateLimit.isLimited) {
       toast({
-        title: 'Screenshot required',
-        description: 'Please upload payment screenshot',
+        title: 'Too many orders',
+        description: `Please wait ${formatTimeRemaining(rateLimit.resetIn)} before placing another order.`,
         variant: 'destructive',
       });
       return;
+    }
+    
+    // Comprehensive validation
+    const errors: string[] = [];
+    
+    if (!screenshot) {
+      errors.push('Payment screenshot is required');
+    }
+    
+    // Validate file size (max 10MB)
+    if (screenshot && screenshot.size > 10 * 1024 * 1024) {
+      errors.push('Screenshot file size must be less than 10MB');
+    }
+    
+    // Validate file type
+    if (screenshot && !['image/jpeg', 'image/png', 'image/webp', 'image/gif'].includes(screenshot.type)) {
+      errors.push('Please upload a valid image file (JPG, PNG, WebP, or GIF)');
     }
 
     // Validate user input for manual activation products
     if (requiresUserInput && !userInput.trim()) {
-      toast({
-        title: 'Account details required',
-        description: `Please provide your ${product.userInputLabel || 'account email'}`,
-        variant: 'destructive',
-      });
-      return;
+      errors.push(`Please provide your ${product?.userInputLabel || 'account email'}`);
+    }
+    
+    // Validate email format if it looks like an email field
+    if (requiresUserInput && userInput.trim() && product?.userInputLabel?.toLowerCase().includes('email')) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(userInput.trim())) {
+        errors.push('Please enter a valid email address');
+      }
     }
 
     // Validate password for manual activation products (only if requiresPassword is true)
     if (requiresUserInput && product?.requiresPassword !== false && !userPassword.trim()) {
+      errors.push('Account password is required for activation');
+    }
+    
+    // Validate password length
+    if (requiresUserInput && product?.requiresPassword !== false && userPassword.trim() && userPassword.length < 4) {
+      errors.push('Password seems too short. Please verify your password.');
+    }
+
+    // Show all validation errors
+    if (errors.length > 0) {
       toast({
-        title: 'Password required',
-        description: 'Please provide your account password for activation',
+        title: 'Please fix the following issues',
+        description: errors.join('. '),
         variant: 'destructive',
       });
       return;
@@ -215,7 +248,18 @@ export function CheckoutPage() {
     try {
       // Validate product exists
       if (!product) {
-        throw new Error('Product not found');
+        throw new Error('Product not found. Please go back and try again.');
+      }
+      
+      // Check if product is in stock
+      const showStock = product.useManualStock || 
+        product.deliveryType === 'INSTANT_KEY' || 
+        product.deliveryType === 'COUPON_CODE' || 
+        product.deliveryType === 'CREDENTIALS' ||
+        product.deliveryType === 'MANUAL_ACTIVATION';
+      
+      if (showStock && product.stockCount !== undefined && product.stockCount === 0) {
+        throw new Error('This product is currently out of stock. Please try again later.');
       }
 
       // Create order first if not already created
@@ -236,19 +280,19 @@ export function CheckoutPage() {
         }
       }
 
-      // Simulate upload progress
-      for (let i = 0; i <= 90; i += 10) {
+      // Simulate upload progress with smoother animation
+      for (let i = 0; i <= 90; i += 5) {
         setUploadProgress(i);
-        await new Promise(resolve => setTimeout(resolve, 100));
+        await new Promise(resolve => setTimeout(resolve, 50));
       }
 
       // Combine email and password for storage
       const userProvidedData = requiresUserInput 
         ? JSON.stringify({ 
-            email: userInput, 
+            email: userInput.trim(), 
             password: product?.requiresPassword !== false ? userPassword : undefined 
           })
-        : userInput;
+        : userInput.trim();
 
       if (isSupabaseConfigured && currentOrderId) {
         await uploadPaymentScreenshot(currentOrderId, screenshot, userProvidedData);
@@ -256,7 +300,7 @@ export function CheckoutPage() {
       setUploadProgress(100);
 
       toast({
-        title: 'Order submitted!',
+        title: '🎉 Order submitted successfully!',
         description: 'Your payment is being verified. You will receive credentials within 2 hours.',
       });
 
@@ -269,12 +313,23 @@ export function CheckoutPage() {
             amount: finalPrice
           }
         });
-      }, 1000);
+      }, 800);
     } catch (error: any) {
       console.error('Order submission error:', error);
+      
+      // Provide more helpful error messages
+      let errorMessage = 'Please try again or contact support';
+      if (error.message?.includes('network') || error.message?.includes('fetch')) {
+        errorMessage = 'Network error. Please check your internet connection and try again.';
+      } else if (error.message?.includes('storage') || error.message?.includes('upload')) {
+        errorMessage = 'Failed to upload screenshot. Please try a smaller file or different format.';
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      
       toast({
         title: 'Order submission failed',
-        description: error.message || 'Please try again or contact support',
+        description: errorMessage,
         variant: 'destructive',
       });
       setUploadProgress(0);
@@ -451,18 +506,30 @@ export function CheckoutPage() {
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {[
-                  { step: '1', text: 'Scan QR code or copy UPI ID' },
-                  { step: '2', text: 'Pay the exact amount shown' },
-                  { step: '3', text: 'Take a screenshot of payment' },
-                  { step: '4', text: 'Upload screenshot & submit' }
+                  { step: '1', text: 'Scan QR code or copy UPI ID', tip: 'Use any UPI app' },
+                  { step: '2', text: 'Pay the exact amount shown', tip: 'Double-check amount' },
+                  { step: '3', text: 'Take a clear screenshot', tip: 'Show transaction ID' },
+                  { step: '4', text: 'Upload screenshot & submit', tip: 'Wait for confirmation' }
                 ].map((item) => (
-                  <div key={item.step} className="flex items-center gap-3 bg-white/60 dark:bg-gray-800/60 rounded-xl p-3">
-                    <span className="w-7 h-7 bg-amber-200 dark:bg-amber-800 rounded-full flex items-center justify-center text-xs font-bold text-amber-900 dark:text-amber-200 flex-shrink-0">
+                  <div key={item.step} className="flex items-start gap-3 bg-white/60 dark:bg-gray-800/60 rounded-xl p-3">
+                    <span className="w-7 h-7 bg-amber-200 dark:bg-amber-800 rounded-full flex items-center justify-center text-xs font-bold text-amber-900 dark:text-amber-200 flex-shrink-0 mt-0.5">
                       {item.step}
                     </span>
-                    <span className="text-sm text-amber-900 dark:text-amber-200">{item.text}</span>
+                    <div>
+                      <span className="text-sm text-amber-900 dark:text-amber-200 font-medium">{item.text}</span>
+                      <p className="text-xs text-amber-700/70 dark:text-amber-300/70 mt-0.5">{item.tip}</p>
+                    </div>
                   </div>
                 ))}
+              </div>
+              <div className="mt-4 p-3 bg-white/80 dark:bg-gray-800/80 rounded-xl border border-amber-200/50 dark:border-amber-700/50">
+                <p className="text-xs text-amber-800 dark:text-amber-300 flex items-start gap-2">
+                  <Info className="h-4 w-4 flex-shrink-0 mt-0.5" />
+                  <span>
+                    <strong>Important:</strong> Make sure your screenshot clearly shows the payment confirmation with transaction ID. 
+                    Orders are typically processed within 1-2 hours during business hours.
+                  </span>
+                </p>
               </div>
             </div>
 
@@ -532,6 +599,9 @@ export function CheckoutPage() {
                 <Upload className="h-4 w-4 text-teal-500" />
                 Upload Payment Screenshot <span className="text-red-500">*</span>
               </Label>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">
+                Take a clear screenshot showing the payment confirmation with transaction ID visible
+              </p>
               <div className={`border-2 border-dashed rounded-2xl p-8 text-center transition-all ${
                 screenshot 
                   ? 'border-emerald-400 dark:border-emerald-600 bg-emerald-50 dark:bg-emerald-900/20' 
@@ -539,7 +609,7 @@ export function CheckoutPage() {
               }`}>
                 <input
                   type="file"
-                  accept="image/*"
+                  accept="image/jpeg,image/png,image/webp,image/gif"
                   onChange={handleFileChange}
                   className="hidden"
                   id="screenshot-upload"

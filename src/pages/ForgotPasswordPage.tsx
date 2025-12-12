@@ -88,12 +88,12 @@ export function ForgotPasswordPage() {
     <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-gray-50 dark:bg-gray-900">
       <div className="w-full max-w-md">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 mb-8">
+        <div className="flex items-center gap-2 mb-8">
           <div className="w-10 h-10 bg-gradient-to-br from-teal-500 to-emerald-600 rounded-xl flex items-center justify-center shadow-lg shadow-teal-500/25">
             <ShoppingBag className="h-5 w-5 text-white" />
           </div>
           <span className="text-xl font-bold text-gray-900 dark:text-white">Devsera Store</span>
-        </Link>
+        </div>
 
         <Link
           to="/login"

@@ -26,6 +26,11 @@ import { AdminDashboard } from '@/pages/admin/AdminDashboard';
 import { OrderConfirmationPage } from '@/pages/OrderConfirmationPage';
 import PremiumPage from '@/pages/PremiumPage';
 import PremiumExclusivePage from '@/pages/PremiumExclusivePage';
+import { AboutPage } from '@/pages/AboutPage';
+import { PrivacyPage } from '@/pages/PrivacyPage';
+import { RefundPage } from '@/pages/RefundPage';
+import { FAQPage } from '@/pages/FAQPage';
+import { WishlistPage } from '@/pages/WishlistPage';
 
 function ProtectedRoute({ children, adminOnly = false }: { children: React.ReactNode; adminOnly?: boolean }) {
   const { user, isLoading } = useAuth();
@@ -33,14 +38,16 @@ function ProtectedRoute({ children, adminOnly = false }: { children: React.React
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p>Loading...</p>
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+        <div className="text-center">
+          <div className="w-8 h-8 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+          <p className="text-sm text-gray-500 dark:text-gray-400">Loading...</p>
+        </div>
       </div>
     );
   }
 
   if (!user) {
-    // Pass the current location so we can redirect back after login
     return <Navigate to="/login" state={{ from: location.pathname }} replace />;
   }
 
@@ -51,67 +58,83 @@ function ProtectedRoute({ children, adminOnly = false }: { children: React.React
   return <>{children}</>;
 }
 
+function PublicRoute({ children }: { children: React.ReactNode }) {
+  const { user, isLoading } = useAuth();
+  const location = useLocation();
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+        <div className="text-center">
+          <div className="w-8 h-8 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+          <p className="text-sm text-gray-500 dark:text-gray-400">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // If user is logged in and trying to access login/register, redirect to home
+  if (user) {
+    const from = (location.state as any)?.from || '/';
+    return <Navigate to={from} replace />;
+  }
+
+  return <>{children}</>;
+}
+
 function AppRoutes() {
+  const { user, isLoading } = useAuth();
+
+  // Show loading while checking auth
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+        <div className="text-center">
+          <div className="w-8 h-8 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+          <p className="text-sm text-gray-500 dark:text-gray-400">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
-      <Header />
+      {user && <Header />}
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/product/:id" element={<ProductDetailPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        {/* Public Routes - Only accessible when NOT logged in */}
+        <Route path="/login" element={<PublicRoute><LoginPage /></PublicRoute>} />
+        <Route path="/register" element={<PublicRoute><RegisterPage /></PublicRoute>} />
+        <Route path="/forgot-password" element={<PublicRoute><ForgotPasswordPage /></PublicRoute>} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/community" element={<CommunityPage />} />
-        <Route path="/bundles" element={<BundleOffersPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route path="/support" element={<SupportPage />} />
-        <Route path="/rewards" element={<RewardsPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/premium" element={<PremiumPage />} />
-        <Route
-          path="/premium/exclusive"
-          element={
-            <ProtectedRoute>
-              <PremiumExclusivePage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/checkout/:id"
-          element={
-            <ProtectedRoute>
-              <CheckoutPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/order-confirmation/:orderId"
-          element={
-            <ProtectedRoute>
-              <OrderConfirmationPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/orders"
-          element={
-            <ProtectedRoute>
-              <OrdersPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/admin"
-          element={
-            <ProtectedRoute adminOnly>
-              <AdminDashboard />
-            </ProtectedRoute>
-          }
-        />
+
+        {/* Public Legal Pages - Accessible without login */}
+        <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/refund-policy" element={<RefundPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/faq" element={<FAQPage />} />
+
+        {/* Protected Routes - All require login */}
+        <Route path="/" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
+        <Route path="/product/:id" element={<ProtectedRoute><ProductDetailPage /></ProtectedRoute>} />
+        <Route path="/community" element={<ProtectedRoute><CommunityPage /></ProtectedRoute>} />
+        <Route path="/bundles" element={<ProtectedRoute><BundleOffersPage /></ProtectedRoute>} />
+        <Route path="/contact" element={<ProtectedRoute><ContactPage /></ProtectedRoute>} />
+        <Route path="/support" element={<ProtectedRoute><SupportPage /></ProtectedRoute>} />
+        <Route path="/rewards" element={<ProtectedRoute><RewardsPage /></ProtectedRoute>} />
+        <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+        <Route path="/premium" element={<ProtectedRoute><PremiumPage /></ProtectedRoute>} />
+        <Route path="/premium/exclusive" element={<ProtectedRoute><PremiumExclusivePage /></ProtectedRoute>} />
+        <Route path="/checkout/:id" element={<ProtectedRoute><CheckoutPage /></ProtectedRoute>} />
+        <Route path="/order-confirmation/:orderId" element={<ProtectedRoute><OrderConfirmationPage /></ProtectedRoute>} />
+        <Route path="/orders" element={<ProtectedRoute><OrdersPage /></ProtectedRoute>} />
+        <Route path="/wishlist" element={<ProtectedRoute><WishlistPage /></ProtectedRoute>} />
+        <Route path="/admin" element={<ProtectedRoute adminOnly><AdminDashboard /></ProtectedRoute>} />
+
+        {/* Catch all - redirect to login if not authenticated, home if authenticated */}
+        <Route path="*" element={user ? <Navigate to="/" replace /> : <Navigate to="/login" replace />} />
       </Routes>
-      <BottomNav />
-      <LiveChatWidget />
+      {user && <BottomNav />}
+      {user && <LiveChatWidget />}
       <Toaster />
     </>
   );

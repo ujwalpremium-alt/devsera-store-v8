@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useOrders } from '@/hooks/useOrders';
 import { StatusBadge } from '@/components/shared/StatusBadge';
@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Copy, Eye, Clock, CheckCircle2, XCircle, AlertCircle, Key, Package, UserCheck, Zap, RefreshCw, Download, RotateCcw, Truck, CreditCard, FileText, MessageCircle, Sparkles } from 'lucide-react';
+import { Copy, Eye, Clock, CheckCircle2, XCircle, AlertCircle, Key, Package, UserCheck, Zap, RefreshCw, Download, RotateCcw, Truck, CreditCard, FileText, MessageCircle, Sparkles, Bell, BellOff } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import { Order, OrderStatus, DeliveryType } from '@/types';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -29,6 +29,8 @@ export function OrdersPage() {
   const navigate = useNavigate();
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [filterStatus, setFilterStatus] = useState<OrderStatus | 'ALL'>('ALL');
+  const [autoRefresh, setAutoRefresh] = useState(true);
+  const [lastRefresh, setLastRefresh] = useState<Date>(new Date());
   const { toast } = useToast();
   const { orders: dbOrders, isLoading, refetch } = useOrders();
   const { settings: dbSettings } = useSettings();
@@ -36,6 +38,38 @@ export function OrdersPage() {
 
   const orders = dbOrders;
   const filteredOrders = filterStatus === 'ALL' ? orders : orders.filter(o => o.status === filterStatus);
+  
+  // Auto-refresh orders every 30 seconds for pending/submitted orders
+  useEffect(() => {
+    if (!autoRefresh) return;
+    
+    const hasPendingOrders = orders.some(o => o.status === 'PENDING' || o.status === 'SUBMITTED');
+    if (!hasPendingOrders) return;
+    
+    const interval = setInterval(() => {
+      refetch();
+      setLastRefresh(new Date());
+    }, 30000); // 30 seconds
+    
+    return () => clearInterval(interval);
+  }, [autoRefresh, orders, refetch]);
+  
+  // Show notification when order status changes
+  useEffect(() => {
+    const completedOrders = orders.filter(o => o.status === 'COMPLETED');
+    const storedCompletedIds = JSON.parse(localStorage.getItem('notifiedCompletedOrders') || '[]');
+    
+    completedOrders.forEach(order => {
+      if (!storedCompletedIds.includes(order.id)) {
+        toast({
+          title: '🎉 Order Completed!',
+          description: `Your order for ${order.product?.name || 'product'} is ready. Check your credentials!`,
+        });
+        storedCompletedIds.push(order.id);
+        localStorage.setItem('notifiedCompletedOrders', JSON.stringify(storedCompletedIds));
+      }
+    });
+  }, [orders, toast]);
 
   const handleCopy = (text: string, label: string) => {
     navigator.clipboard.writeText(text);
@@ -74,19 +108,48 @@ export function OrdersPage() {
     }
   };
 
-  const getStatusMessage = (status: OrderStatus) => {
+  const getStatusMessage = (status: OrderStatus, createdAt: string) => {
+    const created = new Date(createdAt);
+    const now = new Date();
+    const hoursSinceCreation = Math.floor((now.getTime() - created.getTime()) / (1000 * 60 * 60));
+    
     switch (status) {
-      case 'PENDING': return 'Awaiting payment upload';
-      case 'SUBMITTED': return 'Payment under verification';
-      case 'COMPLETED': return 'Order completed successfully';
-      case 'CANCELLED': return 'Order cancelled';
+      case 'PENDING': 
+        return 'Awaiting payment upload - Please upload your payment screenshot';
+      case 'SUBMITTED': 
+        if (hoursSinceCreation < 1) {
+          return 'Payment received - Verification in progress';
+        } else if (hoursSinceCreation < 2) {
+          return 'Payment being verified - Almost ready!';
+        } else {
+          return 'Payment under review - Contact support if delayed';
+        }
+      case 'COMPLETED': 
+        return 'Order completed - Your credentials are ready!';
+      case 'CANCELLED': 
+        return 'Order cancelled - Contact support for refund';
     }
   };
 
   const getEstimatedDelivery = (status: OrderStatus, createdAt: string) => {
     if (status === 'COMPLETED' || status === 'CANCELLED') return null;
     const created = new Date(createdAt);
-    return new Date(created.getTime() + 2 * 60 * 60 * 1000);
+    const estimated = new Date(created.getTime() + 2 * 60 * 60 * 1000);
+    const now = new Date();
+    
+    // If estimated time has passed, show "Soon" instead
+    if (now > estimated) {
+      return { text: 'Very Soon', isOverdue: true };
+    }
+    
+    const diffMs = estimated.getTime() - now.getTime();
+    const diffMins = Math.floor(diffMs / (1000 * 60));
+    
+    if (diffMins < 60) {
+      return { text: `~${diffMins} mins`, isOverdue: false };
+    }
+    
+    return { text: estimated.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), isOverdue: false };
   };
 
   if (isLoading && isSupabaseConfigured) {
@@ -109,14 +172,30 @@ export function OrdersPage() {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4">
           <div>
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">My Orders</h1>
-            <p className="text-gray-500 dark:text-gray-400">Track and manage your subscription orders</p>
+            <p className="text-gray-500 dark:text-gray-400">
+              Track and manage your subscription orders
+              {autoRefresh && orders.some(o => o.status === 'PENDING' || o.status === 'SUBMITTED') && (
+                <span className="ml-2 text-xs text-emerald-600 dark:text-emerald-400">
+                  • Auto-refreshing • Last: {lastRefresh.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </span>
+              )}
+            </p>
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="outline" onClick={() => handleExportOrders('csv')} className="border-2 border-gray-200 dark:border-gray-700">
-              <Download className="h-4 w-4 mr-2" />Export CSV
+            <Button 
+              variant={autoRefresh ? "default" : "outline"} 
+              onClick={() => setAutoRefresh(!autoRefresh)} 
+              className={`border-2 ${autoRefresh ? 'bg-emerald-600 hover:bg-emerald-700 text-white' : 'border-gray-200 dark:border-gray-700'}`}
+              title={autoRefresh ? 'Auto-refresh enabled (every 30s)' : 'Auto-refresh disabled'}
+            >
+              {autoRefresh ? <Bell className="h-4 w-4 mr-2" /> : <BellOff className="h-4 w-4 mr-2" />}
+              <span className="hidden sm:inline">{autoRefresh ? 'Live' : 'Paused'}</span>
             </Button>
-            <Button variant="outline" onClick={refetch} disabled={isLoading} className="border-2 border-gray-200 dark:border-gray-700">
-              <RefreshCw className={`h-4 w-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />Refresh
+            <Button variant="outline" onClick={() => handleExportOrders('csv')} className="border-2 border-gray-200 dark:border-gray-700">
+              <Download className="h-4 w-4 mr-2" /><span className="hidden sm:inline">Export CSV</span>
+            </Button>
+            <Button variant="outline" onClick={() => { refetch(); setLastRefresh(new Date()); }} disabled={isLoading} className="border-2 border-gray-200 dark:border-gray-700">
+              <RefreshCw className={`h-4 w-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} /><span className="hidden sm:inline">Refresh</span>
             </Button>
           </div>
         </div>
@@ -168,14 +247,21 @@ export function OrdersPage() {
                         <span className="font-bold text-teal-600 dark:text-teal-400 text-lg">₹{(order.totalAmount || order.product?.salePrice || 0).toLocaleString()}</span>
                       </div>
                       {estimatedDelivery && (
-                        <div className="flex items-center gap-2 text-sm text-amber-600 dark:text-amber-400 mb-3 bg-amber-50 dark:bg-amber-900/20 px-3 py-1.5 rounded-lg w-fit">
+                        <div className={`flex items-center gap-2 text-sm mb-3 px-3 py-1.5 rounded-lg w-fit ${
+                          estimatedDelivery.isOverdue 
+                            ? 'text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-900/20' 
+                            : 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20'
+                        }`}>
                           <Truck className="h-4 w-4" />
-                          <span>Est. delivery: {estimatedDelivery.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                          <span>Est. delivery: {estimatedDelivery.text}</span>
+                          {estimatedDelivery.isOverdue && (
+                            <span className="text-xs">(Processing)</span>
+                          )}
                         </div>
                       )}
                       <div className="flex items-center gap-2">
                         {getStatusIcon(order.status)}
-                        <span className="text-sm text-gray-600 dark:text-gray-300">{getStatusMessage(order.status)}</span>
+                        <span className="text-sm text-gray-600 dark:text-gray-300">{getStatusMessage(order.status, order.createdAt)}</span>
                       </div>
                       
                       {/* Compact Status Stepper for non-completed orders */}
