@@ -818,87 +818,87 @@ export function ProductManager() {
   });
 
   return (
-    <Card className="border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-white">
-      <CardHeader className="border-b-2 border-black bg-gradient-to-r from-teal-50 to-white">
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-          <div>
-            <CardTitle className="text-2xl font-bold font-['Space_Grotesk'] text-gray-900 dark:text-white">
-              Product Management
-            </CardTitle>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-              Manage your product catalog and delivery settings
-            </p>
-          </div>
-          <div className="flex items-center gap-3">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={loadProducts}
-              disabled={isLoading}
-              className="border-2 border-black hover:bg-gray-100"
-            >
-              <RefreshCw className={`h-4 w-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />
-              Refresh
-            </Button>
-            <Button
-              onClick={() => handleOpenDialog()}
-              className="bg-[#0A7A7A] hover:bg-[#086666] text-white border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
-            >
-              <Plus className="h-4 w-4 mr-2" />
-              Add Product
-            </Button>
-          </div>
+    <div className="p-4 sm:p-6 lg:p-8">
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6 sm:mb-8">
+        <div>
+          <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white">
+            Product Management
+          </h2>
+          <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400 mt-1">
+            Manage your product catalog and delivery settings
+          </p>
         </div>
-
-        {/* Filters */}
-        <div className="flex flex-col sm:flex-row gap-3 mt-4">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-            <Input
-              placeholder="Search products..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 border-2 border-black"
-            />
-          </div>
-          <Select value={filterCategory} onValueChange={setFilterCategory}>
-            <SelectTrigger className="w-full sm:w-[180px] border-2 border-black">
-              <Filter className="h-4 w-4 mr-2" />
-              <SelectValue placeholder="Category" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Categories</SelectItem>
-              {categories.map(cat => (
-                <SelectItem key={cat} value={cat}>{cat}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          <Select value={filterStatus} onValueChange={setFilterStatus}>
-            <SelectTrigger className="w-full sm:w-[150px] border-2 border-black">
-              <SelectValue placeholder="Status" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Status</SelectItem>
-              <SelectItem value="active">Active</SelectItem>
-              <SelectItem value="inactive">Inactive</SelectItem>
-            </SelectContent>
-          </Select>
+        <div className="flex items-center gap-3">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={loadProducts}
+            disabled={isLoading}
+            className="border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl"
+          >
+            <RefreshCw className={`h-4 w-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />
+            Refresh
+          </Button>
+          <Button
+            onClick={() => handleOpenDialog()}
+            className="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white rounded-xl shadow-lg shadow-indigo-500/25"
+          >
+            <Plus className="h-4 w-4 mr-2" />
+            Add Product
+          </Button>
         </div>
-      </CardHeader>
+      </div>
 
-      <CardContent className="p-0">
+      {/* Filters */}
+      <div className="flex flex-col sm:flex-row gap-3 mb-6">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+          <Input
+            placeholder="Search products..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="pl-10 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800"
+          />
+        </div>
+        <Select value={filterCategory} onValueChange={setFilterCategory}>
+          <SelectTrigger className="w-full sm:w-[180px] border border-gray-200 dark:border-gray-700 rounded-xl">
+            <Filter className="h-4 w-4 mr-2" />
+            <SelectValue placeholder="Category" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Categories</SelectItem>
+            {categories.map(cat => (
+              <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <Select value={filterStatus} onValueChange={setFilterStatus}>
+          <SelectTrigger className="w-full sm:w-[150px] border border-gray-200 dark:border-gray-700 rounded-xl">
+            <SelectValue placeholder="Status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Status</SelectItem>
+            <SelectItem value="active">Active</SelectItem>
+            <SelectItem value="inactive">Inactive</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div className="bg-gray-50 dark:bg-gray-800/50 rounded-2xl border border-gray-100 dark:border-gray-700/50 overflow-hidden">
         {isLoading ? (
-          <div className="flex items-center justify-center py-16">
-            <RefreshCw className="h-8 w-8 animate-spin text-[#0A7A7A]" />
-            <span className="ml-3 text-gray-600 dark:text-gray-400">Loading products...</span>
+          <div className="flex items-center justify-center py-20">
+            <RefreshCw className="h-8 w-8 animate-spin text-indigo-500" />
+            <span className="ml-3 text-gray-600 dark:text-gray-400 font-medium">Loading products...</span>
           </div>
         ) : filteredProducts.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-16 px-4">
-            <Package className="h-16 w-16 text-gray-300 dark:text-gray-600 mb-4" />
-            <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2">
+          <div className="flex flex-col items-center justify-center py-20 px-4">
+            <div className="w-20 h-20 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mb-5">
+              <Package className="h-10 w-10 text-gray-400 dark:text-gray-500" />
+            </div>
+            <h3 className="text-lg sm:text-xl font-bold text-gray-700 dark:text-gray-300 mb-2">
               {products.length === 0 ? 'No products yet' : 'No products found'}
             </h3>
-            <p className="text-gray-500 dark:text-gray-400 text-center mb-4">
+            <p className="text-gray-500 dark:text-gray-400 text-center mb-5 max-w-md">
               {products.length === 0 
                 ? 'Get started by adding your first product'
                 : 'Try adjusting your search or filters'}
@@ -906,7 +906,7 @@ export function ProductManager() {
             {products.length === 0 && (
               <Button
                 onClick={() => handleOpenDialog()}
-                className="bg-[#0A7A7A] hover:bg-[#086666] text-white border-2 border-black"
+                className="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white rounded-xl"
               >
                 <Plus className="h-4 w-4 mr-2" />
                 Add Your First Product
@@ -1174,20 +1174,20 @@ export function ProductManager() {
             </div>
           </div>
         )}
-      </CardContent>
+      </div>
 
       {/* Product Dialog */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-3xl w-[95vw] max-h-[90vh] overflow-y-auto border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-          <DialogHeader className="border-b-2 border-black pb-4">
-            <DialogTitle className="text-xl font-bold font-['Space_Grotesk']">
+        <DialogContent className="max-w-3xl w-[95vw] max-h-[90vh] overflow-y-auto border border-gray-200 dark:border-gray-700 rounded-2xl shadow-2xl">
+          <DialogHeader className="border-b border-gray-200 dark:border-gray-700 pb-4">
+            <DialogTitle className="text-xl font-bold text-gray-900 dark:text-white">
               {editingProduct?.id ? 'Edit Product' : 'Add New Product'}
             </DialogTitle>
           </DialogHeader>
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 mb-4 h-auto">
-              <TabsTrigger value="basic" className="text-xs sm:text-sm py-2">
+            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 mb-4 h-auto bg-gray-100 dark:bg-gray-700/50 rounded-xl p-1">
+              <TabsTrigger value="basic" className="text-xs sm:text-sm py-2 rounded-lg data-[state=active]:bg-white dark:data-[state=active]:bg-gray-800 data-[state=active]:shadow-sm">
                 <Package className="h-4 w-4 sm:mr-1" />
                 <span className="hidden sm:inline">Basic</span>
               </TabsTrigger>
@@ -2482,6 +2482,6 @@ export function ProductManager() {
           </div>
         </DialogContent>
       </Dialog>
-    </Card>
+    </div>
   );
 }

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useWishlist } from '@/contexts/WishlistContext';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import {
@@ -11,18 +12,19 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { User, ShoppingBag, LayoutDashboard, LogOut, Menu, X, ChevronDown, Package, Phone, Ticket, Gift, Moon, Sun, Crown } from 'lucide-react';
+import { User, ShoppingBag, LayoutDashboard, LogOut, Menu, X, ChevronDown, Package, Phone, Ticket, Gift, Moon, Sun, Crown, Heart } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/sheet';
 
 export function Header() {
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
+  const { wishlist } = useWishlist();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
-    navigate('/');
+    navigate('/login');
     setIsOpen(false);
   };
 
@@ -79,14 +81,6 @@ export function Header() {
       >
         <Gift className="h-4 w-4" />
         Rewards
-      </Link>
-      <Link 
-        to="/contact" 
-        onClick={() => setIsOpen(false)}
-        className={`font-semibold transition-colors text-gray-700 dark:text-gray-300 hover:text-teal-600 dark:hover:text-teal-400 flex items-center gap-1 ${mobile ? 'text-base py-2' : 'text-sm'}`}
-      >
-        <Phone className="h-4 w-4" />
-        Contact
       </Link>
       <Link 
         to="/support" 

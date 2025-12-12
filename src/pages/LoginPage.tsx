@@ -7,12 +7,14 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
 import { LogIn, Mail, Lock, ShoppingBag, AlertCircle } from 'lucide-react';
 import { validateEmail, getAllowedDomainsDisplay } from '@/utils/emailValidation';
+import { checkRateLimit, formatTimeRemaining } from '@/utils/rateLimiter';
 
 export function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [emailError, setEmailError] = useState<string | null>(null);
+  const [rateLimitError, setRateLimitError] = useState<string | null>(null);
   const { login, user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -44,6 +46,20 @@ export function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Check rate limit
+    const rateLimit = checkRateLimit(`login-${email}`, 5, 60000); // 5 attempts per minute
+    if (rateLimit.isLimited) {
+      const errorMsg = `Too many login attempts. Please try again in ${formatTimeRemaining(rateLimit.resetIn)}.`;
+      setRateLimitError(errorMsg);
+      toast({
+        title: 'Rate Limited',
+        description: errorMsg,
+        variant: 'destructive',
+      });
+      return;
+    }
+    setRateLimitError(null);
     
     // Validate email before submission
     const emailValidation = validateEmail(email);
@@ -84,12 +100,12 @@ export function LoginPage() {
       <div className="flex-1 flex items-center justify-center px-4 py-12 bg-white dark:bg-gray-900">
         <div className="w-full max-w-md">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 mb-8">
+          <div className="flex items-center gap-2 mb-8">
             <div className="w-10 h-10 bg-gradient-to-br from-teal-500 to-emerald-600 rounded-xl flex items-center justify-center shadow-lg shadow-teal-500/25">
               <ShoppingBag className="h-5 w-5 text-white" />
             </div>
             <span className="text-xl font-bold text-gray-900 dark:text-white">Devsera Store</span>
-          </Link>
+          </div>
 
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
@@ -126,6 +142,13 @@ export function LoginPage() {
                 </div>
               )}
             </div>
+
+            {rateLimitError && (
+              <div className="flex items-start gap-2 text-red-500 text-sm p-3 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-800">
+                <AlertCircle className="h-4 w-4 mt-0.5 flex-shrink-0" />
+                <span>{rateLimitError}</span>
+              </div>
+            )}
 
             <div className="space-y-2">
               <div className="flex items-center justify-between">
@@ -201,6 +224,14 @@ export function LoginPage() {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Footer Links */}
+      <div className="absolute bottom-4 left-0 right-0 text-center lg:hidden">
+        <p className="text-xs text-gray-500 dark:text-gray-400">
+          By signing in, you agree to our{' '}
+          <Link to="/privacy" className="text-teal-600 hover:underline">Privacy Policy</Link>
+        </p>
       </div>
     </div>
   );

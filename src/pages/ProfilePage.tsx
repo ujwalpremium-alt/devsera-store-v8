@@ -42,7 +42,9 @@ import {
   Package,
   Shield,
   LayoutDashboard,
+  Heart,
 } from 'lucide-react';
+import { useWishlist } from '@/contexts/WishlistContext';
 
 export function ProfilePage() {
   const navigate = useNavigate();
@@ -54,6 +56,7 @@ export function ProfilePage() {
   const { preferences, updatePreferences, pushSupported, pushEnabled, requestPushPermission } = useNotifications();
   const { availableCoupons, POINTS_PER_COUPON } = useCoupons();
   const { isPremium, membership, fetchPendingRequest } = usePremium();
+  const { wishlist } = useWishlist();
   const [pendingPremium, setPendingPremium] = useState<any>(null);
 
   const [isEditing, setIsEditing] = useState(false);
@@ -236,7 +239,7 @@ export function ProfilePage() {
         )}
 
         {/* Quick Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-6">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4 mb-6">
           <Card className="border-2 border-gray-100 dark:border-gray-700 dark:bg-gray-800">
             <CardContent className="p-3 md:p-4 text-center">
               <Coins className="h-6 w-6 md:h-8 md:w-8 text-yellow-500 mx-auto mb-1 md:mb-2" />
@@ -249,6 +252,16 @@ export function ProfilePage() {
               <ShoppingBag className="h-6 w-6 md:h-8 md:w-8 text-teal-500 mx-auto mb-1 md:mb-2" />
               <p className="text-lg md:text-2xl font-bold text-gray-900 dark:text-white">{completedOrders}</p>
               <p className="text-xs text-gray-500 dark:text-gray-400">Orders</p>
+            </CardContent>
+          </Card>
+          <Card 
+            className="border-2 border-pink-100 dark:border-pink-900/50 dark:bg-gray-800 cursor-pointer hover:border-pink-300 dark:hover:border-pink-700 transition-colors"
+            onClick={() => navigate('/wishlist')}
+          >
+            <CardContent className="p-3 md:p-4 text-center">
+              <Heart className="h-6 w-6 md:h-8 md:w-8 text-pink-500 mx-auto mb-1 md:mb-2" />
+              <p className="text-lg md:text-2xl font-bold text-gray-900 dark:text-white">{wishlist.length}</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">Wishlist</p>
             </CardContent>
           </Card>
           <Card className="border-2 border-gray-100 dark:border-gray-700 dark:bg-gray-800">

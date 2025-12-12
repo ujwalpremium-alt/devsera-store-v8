@@ -6,7 +6,7 @@ import { useAdminBundles } from '@/hooks/useBundles';
 import { usePremium } from '@/hooks/usePremium';
 import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { DollarSign, ShoppingBag, Clock, CheckCircle2, XCircle, Users, MessageSquare, Package, Ticket, TrendingUp, Activity, BarChart3, ArrowUpRight, ArrowDownRight, Gift, Flame, Crown, Shield, Image as ImageIcon, Database } from 'lucide-react';
+import { DollarSign, ShoppingBag, Clock, CheckCircle2, XCircle, Users, MessageSquare, Package, Ticket, TrendingUp, Activity, BarChart3, ArrowUpRight, ArrowDownRight, Gift, Flame, Crown, Shield, Image as ImageIcon, Database, Sparkles } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { OrderVerificationPanel } from '@/components/admin/OrderVerificationPanel';
 import { SettingsPanel } from '@/components/admin/SettingsPanel';
@@ -144,215 +144,182 @@ export function AdminDashboard() {
 
   if (isLoading && isSupabaseConfigured) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-teal-50 via-white to-amber-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 pb-20 md:pb-0">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-gray-50 to-slate-100 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 pb-20 md:pb-0">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-lg font-medium text-gray-600 dark:text-gray-400">Loading dashboard...</p>
+          <div className="w-16 h-16 sm:w-20 sm:h-20 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
+          <p className="text-lg sm:text-xl font-semibold text-gray-700 dark:text-gray-300">Loading dashboard...</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">Please wait while we fetch your data</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 pb-20 md:pb-0">
-      <div className="container mx-auto px-4 py-6 md:py-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-slate-100 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 pb-20 md:pb-0">
+      <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-6 max-w-7xl">
         {/* Header */}
-        <div className="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div className="mb-6 flex items-center justify-between">
           <div>
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-12 h-12 bg-gradient-to-br from-teal-500 to-emerald-600 rounded-2xl flex items-center justify-center shadow-lg shadow-teal-500/25">
-                <BarChart3 className="h-6 w-6 text-white" />
-              </div>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-teal-600 to-emerald-600 dark:from-teal-400 dark:to-emerald-400 bg-clip-text text-transparent">
-                Admin Dashboard
-              </h1>
-            </div>
-            <p className="text-gray-500 dark:text-gray-400 text-sm sm:text-base ml-15">
-              Welcome back, <span className="font-semibold text-teal-600 dark:text-teal-400">{profile?.full_name || profile?.email?.split('@')[0] || 'Admin'}</span>! Here's what's happening with your store.
+            <h1 className="text-xl font-semibold text-gray-900 dark:text-white">Dashboard</h1>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              Welcome, {profile?.full_name || profile?.email?.split('@')[0] || 'Admin'}
             </p>
           </div>
-          <div className="flex items-center gap-3">
-            <div className="bg-white dark:bg-gray-800 rounded-xl border-2 border-gray-200 dark:border-gray-700 px-4 py-2 shadow-sm">
-              <p className="text-xs text-gray-500 dark:text-gray-400">Today's Date</p>
-              <p className="font-semibold text-gray-900 dark:text-white">{new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</p>
-            </div>
+          <div className="text-right">
+            <p className="text-xs text-gray-500 dark:text-gray-400">{new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}</p>
           </div>
         </div>
 
-        {/* Key Metrics - Professional Dashboard */}
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4 mb-8">
-          {/* Revenue Card */}
-          <Card className="col-span-2 bg-gradient-to-br from-emerald-500 to-teal-600 text-white border-0 shadow-lg shadow-emerald-500/20">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
-                  <DollarSign className="h-6 w-6" />
+        {/* Key Metrics - Compact Linear/Stripe Style */}
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 mb-6">
+          {/* Revenue */}
+          <div className="col-span-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg flex items-center justify-center">
+                  <DollarSign className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
                 </div>
-                <div className={`flex items-center gap-1 text-sm ${weeklyGrowth >= 0 ? 'text-emerald-100' : 'text-red-200'}`}>
-                  {weeklyGrowth >= 0 ? <ArrowUpRight className="h-4 w-4" /> : <ArrowDownRight className="h-4 w-4" />}
-                  {Math.abs(weeklyGrowth)}%
-                </div>
+                <span className="text-xs font-medium text-gray-500 dark:text-gray-400">Revenue</span>
               </div>
-              <p className="text-emerald-100 text-sm font-medium">Total Revenue</p>
-              <p className="text-3xl font-bold">₹{totalRevenue.toLocaleString()}</p>
-              <p className="text-emerald-100 text-xs mt-1">{orderCounts.completed} completed orders</p>
-            </CardContent>
-          </Card>
+              <span className={`text-xs font-medium px-1.5 py-0.5 rounded ${weeklyGrowth >= 0 ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400' : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'}`}>
+                {weeklyGrowth >= 0 ? '+' : ''}{weeklyGrowth}%
+              </span>
+            </div>
+            <p className="text-2xl font-bold text-gray-900 dark:text-white">₹{totalRevenue.toLocaleString()}</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{orderCounts.completed} completed</p>
+          </div>
 
-          {/* Profit Card */}
-          <Card className="col-span-2 bg-gradient-to-br from-amber-500 to-orange-600 text-white border-0 shadow-lg shadow-amber-500/20">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
-                  <TrendingUp className="h-6 w-6" />
-                </div>
-                <div className="flex items-center gap-1 text-sm text-amber-100">
-                  <BarChart3 className="h-4 w-4" />
-                  Net
-                </div>
+          {/* Profit */}
+          <div className="col-span-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-8 h-8 bg-amber-100 dark:bg-amber-900/30 rounded-lg flex items-center justify-center">
+                <TrendingUp className="h-4 w-4 text-amber-600 dark:text-amber-400" />
               </div>
-              <p className="text-amber-100 text-sm font-medium">Total Profit</p>
-              <p className="text-3xl font-bold">₹{totalProfit.toLocaleString()}</p>
-              <p className="text-amber-100 text-xs mt-1">Cost: ₹{totalCost.toLocaleString()}</p>
-            </CardContent>
-          </Card>
+              <span className="text-xs font-medium text-gray-500 dark:text-gray-400">Profit</span>
+            </div>
+            <p className="text-2xl font-bold text-gray-900 dark:text-white">₹{totalProfit.toLocaleString()}</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Cost: ₹{totalCost.toLocaleString()}</p>
+          </div>
 
-          {/* Orders Today */}
-          <Card className="col-span-2 bg-gradient-to-br from-blue-500 to-indigo-600 text-white border-0 shadow-lg shadow-blue-500/20">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
-                  <Activity className="h-6 w-6" />
-                </div>
-                <div className="flex items-center gap-1 text-sm text-blue-100">
-                  <TrendingUp className="h-4 w-4" />
-                  Live
-                </div>
+          {/* Today's Orders */}
+          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+                <Activity className="h-4 w-4 text-blue-600 dark:text-blue-400" />
               </div>
-              <p className="text-blue-100 text-sm font-medium">Today's Orders</p>
-              <p className="text-3xl font-bold">{todayOrders}</p>
-              <p className="text-blue-100 text-xs mt-1">{orderCounts.submitted} awaiting action</p>
-            </CardContent>
-          </Card>
+              <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
+            </div>
+            <p className="text-2xl font-bold text-gray-900 dark:text-white">{todayOrders}</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Today</p>
+          </div>
 
           {/* Users */}
-          <Card className="bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-700 hover:border-purple-200 dark:hover:border-purple-700 transition-all hover:shadow-lg">
-            <CardContent className="p-4">
-              <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center mb-3">
-                <Users className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-8 h-8 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center">
+                <Users className="h-4 w-4 text-purple-600 dark:text-purple-400" />
               </div>
-              <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Users</p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">{usersLoading ? '...' : userCount}</p>
-            </CardContent>
-          </Card>
+            </div>
+            <p className="text-2xl font-bold text-gray-900 dark:text-white">{usersLoading ? '...' : userCount}</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Users</p>
+          </div>
 
           {/* Products */}
-          <Card className="bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-700 hover:border-orange-200 dark:hover:border-orange-700 transition-all hover:shadow-lg">
-            <CardContent className="p-4">
-              <div className="w-10 h-10 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center mb-3">
-                <ShoppingBag className="h-5 w-5 text-orange-600 dark:text-orange-400" />
+          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-8 h-8 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center">
+                <ShoppingBag className="h-4 w-4 text-orange-600 dark:text-orange-400" />
               </div>
-              <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Products</p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">{products.length}</p>
-            </CardContent>
-          </Card>
+            </div>
+            <p className="text-2xl font-bold text-gray-900 dark:text-white">{products.length}</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Products</p>
+          </div>
 
           {/* Bundles */}
-          <Card className="bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-700 hover:border-pink-200 dark:hover:border-pink-700 transition-all hover:shadow-lg">
-            <CardContent className="p-4">
-              <div className="w-10 h-10 bg-pink-100 dark:bg-pink-900/30 rounded-lg flex items-center justify-center mb-3">
-                <Package className="h-5 w-5 text-pink-600 dark:text-pink-400" />
+          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-8 h-8 bg-pink-100 dark:bg-pink-900/30 rounded-lg flex items-center justify-center">
+                <Package className="h-4 w-4 text-pink-600 dark:text-pink-400" />
               </div>
-              <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Bundles</p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">{bundles.length}</p>
-            </CardContent>
-          </Card>
+            </div>
+            <p className="text-2xl font-bold text-gray-900 dark:text-white">{bundles.length}</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Bundles</p>
+          </div>
 
-          {/* Open Tickets */}
-          <Card className={`bg-white dark:bg-gray-800 border-2 transition-all hover:shadow-lg ${ticketStats.open > 0 ? 'border-red-200 dark:border-red-800 bg-red-50/50 dark:bg-red-900/20' : 'border-gray-100 dark:border-gray-700'}`}>
-            <CardContent className="p-4">
-              <div className={`w-10 h-10 rounded-lg flex items-center justify-center mb-3 ${ticketStats.open > 0 ? 'bg-red-100 dark:bg-red-900/30' : 'bg-gray-100 dark:bg-gray-700'}`}>
-                <Ticket className={`h-5 w-5 ${ticketStats.open > 0 ? 'text-red-600 dark:text-red-400' : 'text-gray-600 dark:text-gray-400'}`} />
+          {/* Tickets */}
+          <div className={`bg-white dark:bg-gray-800 border rounded-lg p-4 ${ticketStats.open > 0 ? 'border-red-300 dark:border-red-700' : 'border-gray-200 dark:border-gray-700'}`}>
+            <div className="flex items-center gap-2 mb-2">
+              <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${ticketStats.open > 0 ? 'bg-red-100 dark:bg-red-900/30' : 'bg-gray-100 dark:bg-gray-700'}`}>
+                <Ticket className={`h-4 w-4 ${ticketStats.open > 0 ? 'text-red-600 dark:text-red-400' : 'text-gray-600 dark:text-gray-400'}`} />
               </div>
-              <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Open Tickets</p>
-              <p className={`text-2xl font-bold ${ticketStats.open > 0 ? 'text-red-600 dark:text-red-400' : 'text-gray-900 dark:text-white'}`}>{ticketStats.open}</p>
-            </CardContent>
-          </Card>
+            </div>
+            <p className={`text-2xl font-bold ${ticketStats.open > 0 ? 'text-red-600 dark:text-red-400' : 'text-gray-900 dark:text-white'}`}>{ticketStats.open}</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Tickets</p>
+          </div>
 
-          {/* Premium Requests */}
-          <Card className={`bg-white dark:bg-gray-800 border-2 transition-all hover:shadow-lg ${pendingRequests.length > 0 ? 'border-amber-200 dark:border-amber-800 bg-amber-50/50 dark:bg-amber-900/20' : 'border-gray-100 dark:border-gray-700'}`}>
-            <CardContent className="p-4">
-              <div className={`w-10 h-10 rounded-lg flex items-center justify-center mb-3 ${pendingRequests.length > 0 ? 'bg-amber-100 dark:bg-amber-900/30' : 'bg-gray-100 dark:bg-gray-700'}`}>
-                <Crown className={`h-5 w-5 ${pendingRequests.length > 0 ? 'text-amber-600 dark:text-amber-400' : 'text-gray-600 dark:text-gray-400'}`} />
+          {/* Premium */}
+          <div className={`bg-white dark:bg-gray-800 border rounded-lg p-4 ${pendingRequests.length > 0 ? 'border-amber-300 dark:border-amber-700' : 'border-gray-200 dark:border-gray-700'}`}>
+            <div className="flex items-center gap-2 mb-2">
+              <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${pendingRequests.length > 0 ? 'bg-amber-100 dark:bg-amber-900/30' : 'bg-gray-100 dark:bg-gray-700'}`}>
+                <Crown className={`h-4 w-4 ${pendingRequests.length > 0 ? 'text-amber-600 dark:text-amber-400' : 'text-gray-600 dark:text-gray-400'}`} />
               </div>
-              <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Premium Pending</p>
-              <p className={`text-2xl font-bold ${pendingRequests.length > 0 ? 'text-amber-600 dark:text-amber-400' : 'text-gray-900 dark:text-white'}`}>{pendingRequests.length}</p>
-            </CardContent>
-          </Card>
+            </div>
+            <p className={`text-2xl font-bold ${pendingRequests.length > 0 ? 'text-amber-600 dark:text-amber-400' : 'text-gray-900 dark:text-white'}`}>{pendingRequests.length}</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Premium</p>
+          </div>
         </div>
 
-        {/* Order Status Overview */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          <div className="bg-white dark:bg-gray-800 rounded-xl border-2 border-gray-100 dark:border-gray-700 p-4 flex items-center gap-4">
-            <div className="w-12 h-12 bg-amber-100 dark:bg-amber-900/30 rounded-xl flex items-center justify-center">
-              <Clock className="h-6 w-6 text-amber-600 dark:text-amber-400" />
-            </div>
-            <div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Pending</p>
-              <p className="text-2xl font-bold text-amber-600 dark:text-amber-400">{orderCounts.pending}</p>
-            </div>
-          </div>
-          <div className="bg-white dark:bg-gray-800 rounded-xl border-2 border-gray-100 dark:border-gray-700 p-4 flex items-center gap-4">
-            <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center">
-              <BarChart3 className="h-6 w-6 text-blue-600 dark:text-blue-400" />
-            </div>
-            <div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Submitted</p>
-              <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">{orderCounts.submitted}</p>
-            </div>
-          </div>
-          <div className="bg-white dark:bg-gray-800 rounded-xl border-2 border-gray-100 dark:border-gray-700 p-4 flex items-center gap-4">
-            <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/30 rounded-xl flex items-center justify-center">
-              <CheckCircle2 className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
-            </div>
-            <div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Completed</p>
-              <p className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">{orderCounts.completed}</p>
-            </div>
-          </div>
-          <div className="bg-white dark:bg-gray-800 rounded-xl border-2 border-gray-100 dark:border-gray-700 p-4 flex items-center gap-4">
-            <div className="w-12 h-12 bg-red-100 dark:bg-red-900/30 rounded-xl flex items-center justify-center">
-              <XCircle className="h-6 w-6 text-red-600 dark:text-red-400" />
-            </div>
-            <div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Cancelled</p>
-              <p className="text-2xl font-bold text-red-600 dark:text-red-400">{orderCounts.cancelled}</p>
+        {/* Order Status - Inline Compact */}
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 mb-6">
+          <div className="flex items-center justify-between flex-wrap gap-4">
+            <h3 className="text-sm font-medium text-gray-900 dark:text-white">Order Status</h3>
+            <div className="flex items-center gap-6">
+              <div className="flex items-center gap-2">
+                <Clock className="h-4 w-4 text-amber-500" />
+                <span className="text-sm text-gray-600 dark:text-gray-400">Pending</span>
+                <span className="text-sm font-semibold text-amber-600 dark:text-amber-400">{orderCounts.pending}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <BarChart3 className="h-4 w-4 text-blue-500" />
+                <span className="text-sm text-gray-600 dark:text-gray-400">Submitted</span>
+                <span className="text-sm font-semibold text-blue-600 dark:text-blue-400">{orderCounts.submitted}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+                <span className="text-sm text-gray-600 dark:text-gray-400">Completed</span>
+                <span className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">{orderCounts.completed}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <XCircle className="h-4 w-4 text-red-500" />
+                <span className="text-sm text-gray-600 dark:text-gray-400">Cancelled</span>
+                <span className="text-sm font-semibold text-red-600 dark:text-red-400">{orderCounts.cancelled}</span>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Admin Tabs */}
-        <Tabs defaultValue={getDefaultTab()} className="space-y-6">
-          <div className="overflow-x-auto -mx-4 px-4 pb-2">
-            <TabsList className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 h-auto p-2 flex flex-nowrap md:flex-wrap rounded-2xl shadow-sm min-w-max md:min-w-0 gap-1.5">
+        <Tabs defaultValue={getDefaultTab()} className="space-y-6 sm:space-y-8">
+          <div className="overflow-x-auto -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 pb-2">
+            <TabsList className="bg-white dark:bg-gray-800/90 backdrop-blur-sm border border-gray-200/80 dark:border-gray-700/50 h-auto p-2 flex flex-nowrap rounded-2xl shadow-lg shadow-gray-200/50 dark:shadow-black/20 min-w-max gap-1.5">
             {(isSuperAdmin || hasPermission('can_view_orders')) && (
               <TabsTrigger
                 value="orders"
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-teal-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-teal-500/25 font-semibold rounded-xl text-xs sm:text-sm whitespace-nowrap px-4 py-2.5 transition-all"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-indigo-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-indigo-500/30 font-semibold rounded-xl text-sm whitespace-nowrap px-4 py-2.5 transition-all duration-200 flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-700/50"
               >
-                <ShoppingBag className="h-4 w-4 mr-1.5" />
-                Orders
+                <ShoppingBag className="h-4 w-4" />
+                <span>Orders</span>
               </TabsTrigger>
             )}
             {(isSuperAdmin || hasPermission('can_view_tickets')) && (
               <TabsTrigger
                 value="tickets"
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-teal-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-teal-500/25 font-semibold rounded-xl relative px-4 py-2.5 transition-all"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-indigo-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-indigo-500/30 font-semibold rounded-xl relative px-4 py-2.5 transition-all duration-200 flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-700/50"
               >
-                <Ticket className="h-4 w-4 mr-1.5" />
-                Tickets
+                <Ticket className="h-4 w-4" />
+                <span>Tickets</span>
                 {ticketStats.open > 0 && (
-                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center animate-pulse">
+                  <span className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center animate-pulse shadow-lg shadow-red-500/50">
                     {ticketStats.open}
                   </span>
                 )}
@@ -361,64 +328,66 @@ export function AdminDashboard() {
             {(isSuperAdmin || hasPermission('can_view_products')) && (
               <TabsTrigger
                 value="products"
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-teal-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-teal-500/25 font-semibold rounded-xl text-xs sm:text-sm whitespace-nowrap px-4 py-2.5 transition-all"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-indigo-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-indigo-500/30 font-semibold rounded-xl text-sm whitespace-nowrap px-4 py-2.5 transition-all duration-200 flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-700/50"
               >
-                Products
+                <Package className="h-4 w-4" />
+                <span>Products</span>
               </TabsTrigger>
             )}
             {(isSuperAdmin || hasPermission('can_view_customers')) && (
               <TabsTrigger
                 value="customers"
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-teal-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-teal-500/25 font-semibold rounded-xl text-xs sm:text-sm whitespace-nowrap px-4 py-2.5 transition-all"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-indigo-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-indigo-500/30 font-semibold rounded-xl text-sm whitespace-nowrap px-4 py-2.5 transition-all duration-200 flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-700/50"
               >
-                Customers
+                <Users className="h-4 w-4" />
+                <span>Customers</span>
               </TabsTrigger>
             )}
             {(isSuperAdmin || hasPermission('can_view_bundles')) && (
               <TabsTrigger
                 value="bundles"
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-teal-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-teal-500/25 font-semibold rounded-xl text-xs sm:text-sm whitespace-nowrap px-4 py-2.5 transition-all"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-indigo-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-indigo-500/30 font-semibold rounded-xl text-sm whitespace-nowrap px-4 py-2.5 transition-all duration-200 flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-700/50"
               >
-                <Package className="h-4 w-4 mr-1.5" />
-                Bundles
+                <Gift className="h-4 w-4" />
+                <span>Bundles</span>
               </TabsTrigger>
             )}
             {(isSuperAdmin || hasPermission('can_view_flash_sales')) && (
               <TabsTrigger
                 value="flashsales"
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-red-500 data-[state=active]:to-orange-500 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-red-500/25 font-semibold rounded-xl text-xs sm:text-sm whitespace-nowrap px-4 py-2.5 transition-all"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-rose-500 data-[state=active]:to-orange-500 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-rose-500/30 font-semibold rounded-xl text-sm whitespace-nowrap px-4 py-2.5 transition-all duration-200 flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-700/50"
               >
-                <Flame className="h-4 w-4 mr-1.5" />
-                Flash Sales
+                <Flame className="h-4 w-4" />
+                <span>Flash</span>
               </TabsTrigger>
             )}
             {(isSuperAdmin || hasPermission('can_view_flash_sales')) && (
               <TabsTrigger
                 value="banners"
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500 data-[state=active]:to-blue-500 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-cyan-500/25 font-semibold rounded-xl text-xs sm:text-sm whitespace-nowrap px-4 py-2.5 transition-all"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500 data-[state=active]:to-blue-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-cyan-500/30 font-semibold rounded-xl text-sm whitespace-nowrap px-4 py-2.5 transition-all duration-200 flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-700/50"
               >
-                <ImageIcon className="h-4 w-4 mr-1.5" />
-                Banners
+                <ImageIcon className="h-4 w-4" />
+                <span>Banners</span>
               </TabsTrigger>
             )}
             {(isSuperAdmin || hasPermission('can_view_products')) && (
               <TabsTrigger
                 value="stockusage"
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-violet-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-violet-500/25 font-semibold rounded-xl text-xs sm:text-sm whitespace-nowrap px-4 py-2.5 transition-all"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-violet-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-violet-500/30 font-semibold rounded-xl text-sm whitespace-nowrap px-4 py-2.5 transition-all duration-200 flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-700/50"
               >
-                <Database className="h-4 w-4 mr-1.5" />
-                Stock Usage
+                <Database className="h-4 w-4" />
+                <span>Stock</span>
               </TabsTrigger>
             )}
             {(isSuperAdmin || hasPermission('can_view_premium')) && (
               <TabsTrigger
                 value="premium"
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-amber-500 data-[state=active]:to-yellow-500 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-amber-500/25 font-semibold rounded-xl relative px-4 py-2.5 transition-all"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-amber-500 data-[state=active]:to-yellow-500 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-amber-500/30 font-semibold rounded-xl relative px-4 py-2.5 transition-all duration-200 flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-700/50"
               >
-                <Crown className="h-4 w-4 mr-1.5" />
-                Premium
+                <Crown className="h-4 w-4" />
+                <span>Premium</span>
                 {pendingRequests.length > 0 && (
-                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-amber-500 text-white text-xs rounded-full flex items-center justify-center animate-pulse">
+                  <span className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-amber-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center animate-pulse shadow-lg shadow-amber-500/50">
                     {pendingRequests.length}
                   </span>
                 )}
@@ -427,78 +396,80 @@ export function AdminDashboard() {
             {(isSuperAdmin || hasPermission('can_view_rewards')) && (
               <TabsTrigger
                 value="rewards"
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-teal-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-teal-500/25 font-semibold rounded-xl text-xs sm:text-sm whitespace-nowrap px-4 py-2.5 transition-all"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-indigo-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-indigo-500/30 font-semibold rounded-xl text-sm whitespace-nowrap px-4 py-2.5 transition-all duration-200 flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-700/50"
               >
-                <Gift className="h-4 w-4 mr-1.5" />
-                Rewards
+                <Sparkles className="h-4 w-4" />
+                <span>Rewards</span>
               </TabsTrigger>
             )}
             {(isSuperAdmin || hasPermission('can_view_community')) && (
               <TabsTrigger
                 value="community"
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-teal-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-teal-500/25 font-semibold rounded-xl text-xs sm:text-sm whitespace-nowrap px-4 py-2.5 transition-all"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-indigo-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-indigo-500/30 font-semibold rounded-xl text-sm whitespace-nowrap px-4 py-2.5 transition-all duration-200 flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-700/50"
               >
-                <MessageSquare className="h-4 w-4 mr-1.5" />
-                Community
+                <MessageSquare className="h-4 w-4" />
+                <span>Community</span>
               </TabsTrigger>
             )}
             {(isSuperAdmin || hasPermission('can_view_settings')) && (
               <TabsTrigger
                 value="settings"
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-teal-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-teal-500/25 font-semibold rounded-xl text-xs sm:text-sm whitespace-nowrap px-4 py-2.5 transition-all"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-indigo-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-indigo-500/30 font-semibold rounded-xl text-sm whitespace-nowrap px-4 py-2.5 transition-all duration-200 flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-700/50"
               >
-                Settings
+                <Activity className="h-4 w-4" />
+                <span>Settings</span>
               </TabsTrigger>
             )}
             {(isSuperAdmin || hasPermission('can_manage_admins')) && (
               <TabsTrigger
                 value="admins"
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-indigo-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-purple-500/25 font-semibold rounded-xl text-xs sm:text-sm whitespace-nowrap px-4 py-2.5 transition-all"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-pink-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-purple-500/30 font-semibold rounded-xl text-sm whitespace-nowrap px-4 py-2.5 transition-all duration-200 flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-700/50"
               >
-                <Shield className="h-4 w-4 mr-1.5" />
-                Admins
+                <Shield className="h-4 w-4" />
+                <span>Admins</span>
               </TabsTrigger>
             )}
           </TabsList>
           </div>
 
-          <TabsContent value="orders">
+          <div className="bg-white dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl border border-gray-200/80 dark:border-gray-700/50 shadow-xl shadow-gray-200/50 dark:shadow-black/20 overflow-hidden">
+          <TabsContent value="orders" className="m-0">
             <OrderVerificationPanel />
           </TabsContent>
 
-          <TabsContent value="tickets">
+          <TabsContent value="tickets" className="m-0">
             <TicketManager />
           </TabsContent>
 
-          <TabsContent value="products">
+          <TabsContent value="products" className="m-0">
             <ProductManager />
           </TabsContent>
 
-          <TabsContent value="customers">
+          <TabsContent value="customers" className="m-0">
             <CustomerManager />
           </TabsContent>
 
-          <TabsContent value="bundles">
+          <TabsContent value="bundles" className="m-0">
             <BundleManager />
           </TabsContent>
 
-          <TabsContent value="flashsales">
+          <TabsContent value="flashsales" className="m-0">
             <FlashSalesManager />
           </TabsContent>
 
-          <TabsContent value="banners">
+          <TabsContent value="banners" className="m-0">
             <BannerManager />
           </TabsContent>
 
-          <TabsContent value="stockusage">
+          <TabsContent value="stockusage" className="m-0">
             <StockUsageManager />
           </TabsContent>
 
-          <TabsContent value="premium">
+          <TabsContent value="premium" className="m-0 p-4 sm:p-6">
             <Tabs defaultValue="requests" className="space-y-4">
-              <TabsList>
-                <TabsTrigger value="requests">Membership Requests</TabsTrigger>
-                <TabsTrigger value="content">Premium Content</TabsTrigger>
+              <TabsList className="bg-gray-100 dark:bg-gray-700/50 rounded-xl p-1">
+                <TabsTrigger value="requests" className="rounded-lg data-[state=active]:bg-white dark:data-[state=active]:bg-gray-800 data-[state=active]:shadow-sm font-medium">Membership Requests</TabsTrigger>
+                <TabsTrigger value="content" className="rounded-lg data-[state=active]:bg-white dark:data-[state=active]:bg-gray-800 data-[state=active]:shadow-sm font-medium">Premium Content</TabsTrigger>
               </TabsList>
               <TabsContent value="requests">
                 <PremiumManager />
@@ -509,21 +480,22 @@ export function AdminDashboard() {
             </Tabs>
           </TabsContent>
 
-          <TabsContent value="rewards">
+          <TabsContent value="rewards" className="m-0">
             <RewardsManager />
           </TabsContent>
 
-          <TabsContent value="community">
+          <TabsContent value="community" className="m-0">
             <CommunityManager />
           </TabsContent>
 
-          <TabsContent value="settings">
+          <TabsContent value="settings" className="m-0">
             <SettingsPanel />
           </TabsContent>
 
-          <TabsContent value="admins">
+          <TabsContent value="admins" className="m-0">
             <AdminManager />
           </TabsContent>
+          </div>
         </Tabs>
       </div>
     </div>

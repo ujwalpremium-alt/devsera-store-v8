@@ -405,187 +405,187 @@ export function OrderVerificationPanel() {
   };
 
   return (
-    <div>
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold font-['Space_Grotesk'] mb-2">
+    <div className="p-4 sm:p-6 lg:p-8">
+      <div className="mb-6 sm:mb-8">
+        <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white mb-2">
           Order Management
         </h2>
-        <p className="text-muted-foreground">
+        <p className="text-gray-500 dark:text-gray-400 text-sm sm:text-base">
           Review payment screenshots and approve or reject orders
         </p>
       </div>
 
       {/* Filter Tabs */}
-      <div className="mb-6 overflow-x-auto pb-2">
+      <div className="mb-6 sm:mb-8 overflow-x-auto pb-2 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
         <Tabs value={filterStatus} onValueChange={(v) => setFilterStatus(v as OrderStatus | 'ALL')}>
-          <TabsList className="bg-white border border-gray-200 rounded-xl p-1 inline-flex min-w-max">
-            <TabsTrigger value="SUBMITTED" className="rounded-lg data-[state=active]:bg-blue-500 data-[state=active]:text-white px-4">
-              <AlertCircle className="h-4 w-4 mr-2" />
-              Pending ({submittedOrders.length})
+          <TabsList className="bg-gray-100 dark:bg-gray-700/50 border border-gray-200/80 dark:border-gray-600/50 rounded-xl p-1.5 inline-flex min-w-max gap-1.5">
+            <TabsTrigger value="SUBMITTED" className="rounded-lg data-[state=active]:bg-blue-500 data-[state=active]:text-white data-[state=active]:shadow-md px-3 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-medium transition-all">
+              <AlertCircle className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1.5 sm:mr-2" />
+              <span className="hidden sm:inline">Pending</span> ({submittedOrders.length})
             </TabsTrigger>
-            <TabsTrigger value="ALL" className="rounded-lg data-[state=active]:bg-gray-900 data-[state=active]:text-white px-4">
-              All Orders ({orders.length})
+            <TabsTrigger value="ALL" className="rounded-lg data-[state=active]:bg-gray-900 dark:data-[state=active]:bg-gray-600 data-[state=active]:text-white data-[state=active]:shadow-md px-3 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-medium transition-all">
+              All ({orders.length})
             </TabsTrigger>
-            <TabsTrigger value="COMPLETED" className="rounded-lg data-[state=active]:bg-emerald-500 data-[state=active]:text-white px-4">
-              <CheckCircle2 className="h-4 w-4 mr-2" />
-              Completed
+            <TabsTrigger value="COMPLETED" className="rounded-lg data-[state=active]:bg-emerald-500 data-[state=active]:text-white data-[state=active]:shadow-md px-3 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-medium transition-all">
+              <CheckCircle2 className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1.5 sm:mr-2" />
+              <span className="hidden sm:inline">Completed</span>
             </TabsTrigger>
-            <TabsTrigger value="PENDING" className="rounded-lg data-[state=active]:bg-amber-500 data-[state=active]:text-white px-4">
-              <Clock className="h-4 w-4 mr-2" />
-              Awaiting Payment
+            <TabsTrigger value="PENDING" className="rounded-lg data-[state=active]:bg-amber-500 data-[state=active]:text-white data-[state=active]:shadow-md px-3 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-medium transition-all">
+              <Clock className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1.5 sm:mr-2" />
+              <span className="hidden sm:inline">Awaiting</span>
             </TabsTrigger>
-            <TabsTrigger value="CANCELLED" className="rounded-lg data-[state=active]:bg-red-500 data-[state=active]:text-white px-4">
-              <XCircle className="h-4 w-4 mr-2" />
-              Cancelled
+            <TabsTrigger value="CANCELLED" className="rounded-lg data-[state=active]:bg-red-500 data-[state=active]:text-white data-[state=active]:shadow-md px-3 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-medium transition-all">
+              <XCircle className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1.5 sm:mr-2" />
+              <span className="hidden sm:inline">Cancelled</span>
             </TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
 
       {filteredOrders.length === 0 ? (
-        <div className="brutalist-card p-12 text-center">
-          <CheckCircle2 className="h-16 w-16 text-green-500 mx-auto mb-4" />
-          <p className="text-lg font-semibold">
+        <div className="bg-gray-50 dark:bg-gray-800/50 rounded-2xl p-10 sm:p-14 text-center border border-gray-100 dark:border-gray-700/50">
+          <div className="w-16 h-16 sm:w-20 sm:h-20 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center mx-auto mb-5">
+            <CheckCircle2 className="h-8 w-8 sm:h-10 sm:w-10 text-emerald-500" />
+          </div>
+          <p className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">
             {filterStatus === 'SUBMITTED' ? 'All caught up!' : 'No orders found'}
           </p>
-          <p className="text-muted-foreground">
+          <p className="text-gray-500 dark:text-gray-400 text-sm sm:text-base mt-2">
             {filterStatus === 'SUBMITTED' 
               ? 'No orders pending verification' 
               : `No ${filterStatus === 'ALL' ? '' : filterStatus.toLowerCase()} orders`}
           </p>
         </div>
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-4 sm:space-y-5">
           {filteredOrders.map(order => (
-            <div key={order.id} className="brutalist-card p-6">
-              <div className="flex items-start justify-between">
-                <div className="flex items-start space-x-4 flex-1">
-                  {order.product && (
-                    <img
-                      src={order.product.image || 'https://images.unsplash.com/photo-1557821552-17105176677c?w=800&q=80'}
-                      alt={order.product.name}
-                      className="w-20 h-20 object-cover rounded-lg border-2 border-black bg-gray-100"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.src = 'https://images.unsplash.com/photo-1557821552-17105176677c?w=800&q=80';
-                      }}
-                    />
-                  )}
-                  <div className="flex-1">
-                    <div className="flex items-start justify-between mb-2">
-                      <div>
-                        <h3 className="text-lg font-bold font-['Space_Grotesk']">
-                          {order.product?.name || 'Unknown Product'}
-                        </h3>
-                        <p className="text-sm font-mono text-muted-foreground">
-                          Order ID: {order.id.slice(0, 8)}...
+            <div key={order.id} className="bg-gray-50 dark:bg-gray-800/50 rounded-2xl p-4 sm:p-6 border border-gray-100 dark:border-gray-700/50 hover:shadow-lg transition-all duration-300">
+              <div className="flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-5">
+                {order.product && (
+                  <img
+                    src={order.product.image || 'https://images.unsplash.com/photo-1557821552-17105176677c?w=800&q=80'}
+                    alt={order.product.name}
+                    className="w-full sm:w-24 h-36 sm:h-24 object-cover rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = 'https://images.unsplash.com/photo-1557821552-17105176677c?w=800&q=80';
+                    }}
+                  />
+                )}
+                <div className="flex-1 min-w-0">
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
+                    <div className="min-w-0">
+                      <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white truncate">
+                        {order.product?.name || 'Unknown Product'}
+                      </h3>
+                      <p className="text-xs sm:text-sm font-mono text-gray-500 dark:text-gray-400">
+                        ID: {order.id.slice(0, 8)}...
+                      </p>
+                      {order.profile && (
+                        <p className="text-xs sm:text-sm text-indigo-600 dark:text-indigo-400 flex items-center gap-1.5 mt-1.5 font-medium">
+                          <User className="h-3.5 w-3.5" />
+                          <span className="truncate">{order.profile.full_name || order.profile.email}</span>
                         </p>
-                        {order.profile && (
-                          <p className="text-sm text-blue-600 flex items-center gap-1 mt-1">
-                            <User className="h-3 w-3" />
-                            {order.profile.full_name || order.profile.email}
-                          </p>
-                        )}
-                      </div>
-                      <StatusBadge status={order.status} />
+                      )}
                     </div>
-                    <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
-                      <span>
-                        {new Date(order.updatedAt).toLocaleString()}
-                      </span>
-                      <span>•</span>
-                      <span className="font-semibold text-primary">
-                        ₹{order.product?.salePrice}
-                      </span>
-                      <span>•</span>
-                      <span className="flex items-center gap-1">
-                        {deliveryTypeLabels[order.product?.deliveryType || 'CREDENTIALS'].icon}
-                        {deliveryTypeLabels[order.product?.deliveryType || 'CREDENTIALS'].label}
-                      </span>
-                    </div>
-                    {order.userProvidedInput && (() => {
-                      const copyToClipboard = (text: string, label: string) => {
-                        navigator.clipboard.writeText(text);
-                        toast({ title: 'Copied!', description: `${label} copied to clipboard` });
-                      };
-                      try {
-                        const parsed = JSON.parse(order.userProvidedInput);
-                        if (parsed.email && parsed.password) {
-                          return (
-                            <div className="mt-2 p-2 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded text-sm space-y-1">
-                              <div className="flex items-center justify-between gap-2 text-blue-700 dark:text-blue-300">
-                                <span className="flex items-center gap-1">
-                                  <User className="h-3 w-3" />
-                                  Email: <span className="font-mono font-semibold">{parsed.email}</span>
-                                </span>
-                                <button onClick={() => copyToClipboard(parsed.email, 'Email')} className="p-1 hover:bg-blue-100 dark:hover:bg-blue-800 rounded" title="Copy email">
-                                  <Copy className="h-3 w-3" />
-                                </button>
-                              </div>
-                              <div className="flex items-center justify-between gap-2 text-blue-700 dark:text-blue-300">
-                                <span className="flex items-center gap-1">
-                                  <Key className="h-3 w-3" />
-                                  Password: <span className="font-mono font-semibold">{parsed.password}</span>
-                                </span>
-                                <button onClick={() => copyToClipboard(parsed.password, 'Password')} className="p-1 hover:bg-blue-100 dark:hover:bg-blue-800 rounded" title="Copy password">
-                                  <Copy className="h-3 w-3" />
-                                </button>
-                              </div>
-                            </div>
-                          );
-                        }
-                      } catch {
-                        // Not JSON, show as plain text
-                      }
-                      return (
-                        <div className="mt-2 p-2 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded text-sm">
-                          <div className="flex items-center justify-between gap-2 text-blue-700 dark:text-blue-300">
-                            <span className="flex items-center gap-1">
-                              <User className="h-3 w-3" />
-                              User's Account: <span className="font-mono font-semibold">{order.userProvidedInput}</span>
-                            </span>
-                            <button onClick={() => copyToClipboard(order.userProvidedInput!, 'Account')} className="p-1 hover:bg-blue-100 dark:hover:bg-blue-800 rounded" title="Copy">
-                              <Copy className="h-3 w-3" />
-                            </button>
-                          </div>
-                        </div>
-                      );
-                    })()}
+                    <StatusBadge status={order.status} />
                   </div>
+                  <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 text-[10px] sm:text-sm text-muted-foreground">
+                    <span className="truncate max-w-[100px] sm:max-w-none">
+                      {new Date(order.updatedAt).toLocaleString()}
+                    </span>
+                    <span>•</span>
+                    <span className="font-semibold text-primary">
+                      ₹{order.product?.salePrice}
+                    </span>
+                    <span className="hidden sm:inline">•</span>
+                    <span className="hidden sm:flex items-center gap-1">
+                      {deliveryTypeLabels[order.product?.deliveryType || 'CREDENTIALS'].icon}
+                      {deliveryTypeLabels[order.product?.deliveryType || 'CREDENTIALS'].label}
+                    </span>
+                  </div>
+                  {order.userProvidedInput && (() => {
+                    const copyToClipboard = (text: string, label: string) => {
+                      navigator.clipboard.writeText(text);
+                      toast({ title: 'Copied!', description: `${label} copied to clipboard` });
+                    };
+                    try {
+                      const parsed = JSON.parse(order.userProvidedInput);
+                      if (parsed.email && parsed.password) {
+                        return (
+                          <div className="mt-2 p-2 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded text-sm space-y-1">
+                            <div className="flex items-center justify-between gap-2 text-blue-700 dark:text-blue-300">
+                              <span className="flex items-center gap-1">
+                                <User className="h-3 w-3" />
+                                Email: <span className="font-mono font-semibold">{parsed.email}</span>
+                              </span>
+                              <button onClick={() => copyToClipboard(parsed.email, 'Email')} className="p-1 hover:bg-blue-100 dark:hover:bg-blue-800 rounded" title="Copy email">
+                                <Copy className="h-3 w-3" />
+                              </button>
+                            </div>
+                            <div className="flex items-center justify-between gap-2 text-blue-700 dark:text-blue-300">
+                              <span className="flex items-center gap-1">
+                                <Key className="h-3 w-3" />
+                                Password: <span className="font-mono font-semibold">{parsed.password}</span>
+                              </span>
+                              <button onClick={() => copyToClipboard(parsed.password, 'Password')} className="p-1 hover:bg-blue-100 dark:hover:bg-blue-800 rounded" title="Copy password">
+                                <Copy className="h-3 w-3" />
+                              </button>
+                            </div>
+                          </div>
+                        );
+                      }
+                    } catch {
+                      // Not JSON, show as plain text
+                    }
+                    return (
+                      <div className="mt-2 p-2 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded text-sm">
+                        <div className="flex items-center justify-between gap-2 text-blue-700 dark:text-blue-300">
+                          <span className="flex items-center gap-1">
+                            <User className="h-3 w-3" />
+                            User's Account: <span className="font-mono font-semibold">{order.userProvidedInput}</span>
+                          </span>
+                          <button onClick={() => copyToClipboard(order.userProvidedInput!, 'Account')} className="p-1 hover:bg-blue-100 dark:hover:bg-blue-800 rounded" title="Copy">
+                            <Copy className="h-3 w-3" />
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })()}
                 </div>
                 {order.status === 'SUBMITTED' ? (
-                  <div className="flex items-center gap-2 ml-4">
+                  <div className="flex items-center gap-2 mt-3 sm:mt-0">
                     <Button
                       onClick={() => setSelectedOrder(order)}
-                      className="brutalist-button bg-primary text-primary-foreground hover:bg-primary/90"
+                      className="brutalist-button bg-primary text-primary-foreground hover:bg-primary/90 h-8 sm:h-10 px-2 sm:px-4 text-xs sm:text-sm"
                     >
-                      <Eye className="h-4 w-4 mr-2" />
-                      Review
+                      <Eye className="h-3 w-3 sm:h-4 sm:w-4 sm:mr-2" />
+                      <span className="hidden sm:inline">Review</span>
                     </Button>
                     <Button
                       onClick={() => handleDeleteOrder(order.id)}
                       variant="outline"
-                      className="border-2 border-red-500 text-red-500 hover:bg-red-50"
+                      className="border-2 border-red-500 text-red-500 hover:bg-red-50 h-8 sm:h-10 px-2 sm:px-3"
                     >
-                      <Trash2 className="h-4 w-4" />
+                      <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />
                     </Button>
                   </div>
                 ) : (
-                  <div className="flex items-center gap-2 ml-4">
+                  <div className="flex items-center gap-2 mt-3 sm:mt-0">
                     <Button
                       onClick={() => setSelectedOrder(order)}
                       variant="outline"
-                      className="border-2 border-black"
+                      className="border-2 border-black h-8 sm:h-10 px-2 sm:px-4 text-xs sm:text-sm"
                     >
-                      <Eye className="h-4 w-4 mr-2" />
-                      View
+                      <Eye className="h-3 w-3 sm:h-4 sm:w-4 sm:mr-2" />
+                      <span className="hidden sm:inline">View</span>
                     </Button>
                     <Button
                       onClick={() => handleDeleteOrder(order.id)}
                       variant="outline"
-                      className="border-2 border-red-500 text-red-500 hover:bg-red-50"
+                      className="border-2 border-red-500 text-red-500 hover:bg-red-50 h-8 sm:h-10 px-2 sm:px-3"
                     >
-                      <Trash2 className="h-4 w-4" />
+                      <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />
                     </Button>
                   </div>
                 )}
@@ -597,9 +597,9 @@ export function OrderVerificationPanel() {
 
       {/* Verification Dialog */}
       <Dialog open={!!selectedOrder} onOpenChange={() => setSelectedOrder(null)}>
-        <DialogContent className="brutalist-card max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="brutalist-card max-w-4xl max-h-[90vh] overflow-y-auto p-3 sm:p-6">
           <DialogHeader>
-            <DialogTitle className="text-2xl font-bold font-['Space_Grotesk']">
+            <DialogTitle className="text-lg sm:text-2xl font-bold font-['Space_Grotesk']">
               Verify Order
             </DialogTitle>
           </DialogHeader>

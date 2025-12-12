@@ -369,6 +369,46 @@ export function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Footer */}
+      <footer className="bg-gray-900 text-white py-8 sm:py-12">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-8">
+            <div className="col-span-1 sm:col-span-2 lg:col-span-1">
+              <h4 className="font-bold text-lg mb-3 sm:mb-4">Devsera Store</h4>
+              <p className="text-gray-400 text-sm leading-relaxed">Your trusted destination for premium digital products and subscriptions.</p>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-3 sm:mb-4 text-sm sm:text-base">Quick Links</h4>
+              <ul className="space-y-2 text-sm text-gray-400">
+                <li><button onClick={() => navigate('/')} className="hover:text-white transition-colors">Home</button></li>
+                <li><button onClick={() => navigate('/bundles')} className="hover:text-white transition-colors">Bundles</button></li>
+                <li><button onClick={() => navigate('/premium')} className="hover:text-white transition-colors">Premium</button></li>
+                <li><button onClick={() => navigate('/rewards')} className="hover:text-white transition-colors">Rewards</button></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-3 sm:mb-4 text-sm sm:text-base">Support</h4>
+              <ul className="space-y-2 text-sm text-gray-400">
+                <li><button onClick={() => navigate('/support')} className="hover:text-white transition-colors">Help Center</button></li>
+                <li><button onClick={() => navigate('/faq')} className="hover:text-white transition-colors">FAQ</button></li>
+                <li><button onClick={() => navigate('/contact')} className="hover:text-white transition-colors">Contact Us</button></li>
+                <li><button onClick={() => navigate('/about')} className="hover:text-white transition-colors">About Us</button></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-3 sm:mb-4 text-sm sm:text-base">Legal</h4>
+              <ul className="space-y-2 text-sm text-gray-400">
+                <li><button onClick={() => navigate('/privacy')} className="hover:text-white transition-colors">Privacy Policy</button></li>
+                <li><button onClick={() => navigate('/refund-policy')} className="hover:text-white transition-colors">Refund Policy</button></li>
+              </ul>
+            </div>
+          </div>
+          <div className="border-t border-gray-800 pt-6 sm:pt-8 text-center text-xs sm:text-sm text-gray-400">
+            <p>© {new Date().getFullYear()} Devsera Store. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

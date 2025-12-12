@@ -1,17 +1,32 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { Home, Package, Gift, User, MessageSquare, Crown, Users } from 'lucide-react';
+import { useWishlist } from '@/contexts/WishlistContext';
+import { Home, Package, Gift, User, MessageSquare, Crown, Users, Heart } from 'lucide-react';
 
 export function BottomNav() {
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useAuth();
+  const { wishlist } = useWishlist();
 
   const navItems = [
     { icon: <Home className="h-5 w-5" />, label: 'Home', path: '/' },
     { icon: <Users className="h-5 w-5" />, label: 'Community', path: '/community' },
     { icon: <Crown className="h-5 w-5" />, label: 'Premium', path: '/premium', highlight: true },
-    { icon: <Gift className="h-5 w-5" />, label: 'Rewards', path: '/rewards' },
+    { 
+      icon: (
+        <div className="relative">
+          <Heart className="h-5 w-5" />
+          {wishlist.length > 0 && (
+            <span className="absolute -top-1 -right-1 w-4 h-4 bg-pink-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+              {wishlist.length > 9 ? '9+' : wishlist.length}
+            </span>
+          )}
+        </div>
+      ), 
+      label: 'Wishlist', 
+      path: '/wishlist' 
+    },
     { 
       icon: user ? <User className="h-5 w-5" /> : <User className="h-5 w-5" />, 
       label: user ? 'Profile' : 'Login', 

@@ -155,12 +155,12 @@ export function RegisterPage() {
       <div className="flex-1 flex items-center justify-center px-4 py-12 bg-white dark:bg-gray-900">
         <div className="w-full max-w-md">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 mb-8">
+          <div className="flex items-center gap-2 mb-8">
             <div className="w-10 h-10 bg-gradient-to-br from-teal-500 to-emerald-600 rounded-xl flex items-center justify-center shadow-lg shadow-teal-500/25">
               <ShoppingBag className="h-5 w-5 text-white" />
             </div>
             <span className="text-xl font-bold text-gray-900 dark:text-white">Devsera Store</span>
-          </Link>
+          </div>
 
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
@@ -279,6 +279,13 @@ export function RegisterPage() {
               <Link to="/login" state={{ from }} className="text-teal-600 font-semibold hover:underline">
                 Login
               </Link>
+            </p>
+          </div>
+
+          <div className="mt-6 text-center">
+            <p className="text-xs text-gray-500 dark:text-gray-400">
+              By creating an account, you agree to our{' '}
+              <Link to="/privacy" className="text-teal-600 hover:underline">Privacy Policy</Link>
             </p>
           </div>
         </div>

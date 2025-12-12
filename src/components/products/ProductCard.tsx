@@ -3,8 +3,9 @@ import { Product, DeliveryType } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useNavigate } from 'react-router-dom';
-import { Clock, Key, Package, UserCheck, Zap, ArrowRight, Eye, Star, AlertTriangle, Layers, Flame } from 'lucide-react';
+import { Clock, Key, Package, UserCheck, Zap, ArrowRight, Eye, Star, AlertTriangle, Layers, Flame, Heart } from 'lucide-react';
 import { getFlashSaleInfoFromStorage } from '@/hooks/useFlashSale';
+import { useWishlist } from '@/contexts/WishlistContext';
 
 const deliveryIcons: Record<DeliveryType, React.ReactNode> = {
   CREDENTIALS: <Key className="h-3 w-3" />,
@@ -27,8 +28,11 @@ interface ProductCardProps {
 
 export function ProductCard({ product, onQuickView }: ProductCardProps) {
   const navigate = useNavigate();
+  const { isInWishlist, toggleWishlist } = useWishlist();
   const [isHovered, setIsHovered] = useState(false);
   const [flashSaleInfo, setFlashSaleInfo] = useState({ isOnFlashSale: false, discountAmount: 0 });
+  
+  const inWishlist = isInWishlist(product.id);
   
   // Check flash sale status
   useEffect(() => {
@@ -118,17 +122,43 @@ export function ProductCard({ product, onQuickView }: ProductCardProps) {
         </div>
       )}
 
+      {/* Wishlist Button */}
+      <div className={`absolute top-2 sm:top-4 right-${onQuickView ? '12 sm:right-16' : '2 sm:right-4'} z-10 transition-all duration-300 ${isHovered || inWishlist ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-2 sm:opacity-0'}`}>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleWishlist(product.id);
+          }}
+          className={`w-7 h-7 sm:w-9 sm:h-9 rounded-full flex items-center justify-center shadow-lg transition-all ${
+            inWishlist 
+              ? 'bg-pink-500 text-white hover:bg-pink-600' 
+              : 'bg-white/95 dark:bg-gray-800/95 text-gray-600 dark:text-gray-300 hover:bg-pink-50 dark:hover:bg-pink-900/20 hover:text-pink-500'
+          }`}
+        >
+          <Heart className={`h-3.5 w-3.5 sm:h-4 sm:w-4 ${inWishlist ? 'fill-current' : ''}`} />
+        </button>
+      </div>
+
       {/* Image Container */}
       <div className="aspect-[4/3] overflow-hidden relative bg-gradient-to-br from-gray-100 to-gray-50 dark:from-gray-700 dark:to-gray-800 cursor-pointer" onClick={() => navigate(`/product/${product.id}`)}>
-        <img
-          src={product.image || 'https://images.unsplash.com/photo-1557821552-17105176677c?w=800&q=80'}
-          alt={product.name}
-          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-          onError={(e) => {
-            const target = e.target as HTMLImageElement;
-            target.src = 'https://images.unsplash.com/photo-1557821552-17105176677c?w=800&q=80';
-          }}
-        />
+        {product.image ? (
+          <img
+            src={product.image}
+            alt={product.name}
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+            loading="lazy"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.onerror = null; // Prevent infinite loop
+              target.src = 'https://images.unsplash.com/photo-1557821552-17105176677c?w=800&q=80';
+            }}
+          />
+        ) : (
+          <div className="w-full h-full flex flex-col items-center justify-center text-gray-400 dark:text-gray-500">
+            <Package className="h-12 w-12 mb-2 opacity-50" />
+            <span className="text-xs">No image</span>
+          </div>
+        )}
         {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         
@@ -171,47 +201,47 @@ export function ProductCard({ product, onQuickView }: ProductCardProps) {
       </div>
 
       {/* Content */}
-      <div className="p-3 sm:p-4 md:p-5 space-y-2 sm:space-y-3 md:space-y-4">
+      <div className="p-2.5 sm:p-4 md:p-5 space-y-1.5 sm:space-y-3 md:space-y-4">
         {/* Category, Rating & Duration */}
-        <div className="flex items-center justify-between gap-2">
-          <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
-            <Badge variant="secondary" className="bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 font-medium text-[10px] sm:text-xs px-1.5 sm:px-2">
+        <div className="flex items-center justify-between gap-1">
+          <div className="flex items-center gap-1 sm:gap-2 flex-wrap">
+            <Badge variant="secondary" className="bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 font-medium text-[9px] sm:text-xs px-1 sm:px-2 py-0">
               {product.category}
             </Badge>
             <div className="flex items-center text-amber-500">
-              <Star className="h-3 w-3 sm:h-3.5 sm:w-3.5 fill-current" />
-              <span className="text-[10px] sm:text-xs font-semibold ml-0.5">{rating.toFixed(1)}</span>
+              <Star className="h-2.5 w-2.5 sm:h-3.5 sm:w-3.5 fill-current" />
+              <span className="text-[9px] sm:text-xs font-semibold ml-0.5">{rating.toFixed(1)}</span>
             </div>
           </div>
-          <div className="flex items-center text-gray-500 dark:text-gray-400 text-[10px] sm:text-sm">
-            <Clock className="h-3 w-3 sm:h-3.5 sm:w-3.5 mr-0.5 sm:mr-1" />
-            <span className="font-medium truncate max-w-[60px] sm:max-w-none">{product.duration}</span>
+          <div className="flex items-center text-gray-500 dark:text-gray-400 text-[9px] sm:text-sm">
+            <Clock className="h-2.5 w-2.5 sm:h-3.5 sm:w-3.5 mr-0.5" />
+            <span className="font-medium truncate max-w-[50px] sm:max-w-none">{product.duration}</span>
           </div>
         </div>
 
         {/* Title & Description */}
         <div>
-          <h3 className="text-sm sm:text-base md:text-lg font-bold text-gray-900 dark:text-white group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors line-clamp-1">
+          <h3 className="text-xs sm:text-base md:text-lg font-bold text-gray-900 dark:text-white group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors line-clamp-1">
             {product.name}
           </h3>
-          <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5 sm:mt-1 line-clamp-2">{product.description}</p>
+          <p className="text-[10px] sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5 line-clamp-2 leading-tight">{product.description}</p>
         </div>
 
         {/* Price Section */}
-        <div className="flex items-end justify-between pt-2 sm:pt-3 border-t border-gray-100 dark:border-gray-700 gap-2">
+        <div className="flex items-end justify-between pt-2 sm:pt-3 border-t border-gray-100 dark:border-gray-700 gap-1.5 sm:gap-2">
           <div className="min-w-0 flex-1">
             <div className="flex items-baseline gap-1 sm:gap-2 flex-wrap">
               {hasVariants && minPrice !== maxPrice ? (
-                <span className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white">
+                <span className="text-sm sm:text-lg md:text-xl font-bold text-gray-900 dark:text-white">
                   ₹{minPrice.toLocaleString()} - ₹{maxPrice.toLocaleString()}
                 </span>
               ) : (
                 <>
-                  <span className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white">
+                  <span className="text-sm sm:text-lg md:text-xl font-bold text-gray-900 dark:text-white">
                     ₹{salePrice.toLocaleString()}
                   </span>
                   {originalPrice > salePrice && (
-                    <span className="text-[10px] sm:text-xs md:text-sm text-gray-400 line-through">
+                    <span className="text-[9px] sm:text-xs text-gray-400 line-through">
                       ₹{originalPrice.toLocaleString()}
                     </span>
                   )}
@@ -219,17 +249,17 @@ export function ProductCard({ product, onQuickView }: ProductCardProps) {
               )}
             </div>
             {hasVariants ? (
-              <p className="text-[10px] sm:text-xs font-medium text-purple-600 mt-0.5 flex items-center gap-0.5 sm:gap-1">
+              <p className="text-[9px] sm:text-xs font-medium text-purple-600 mt-0.5 flex items-center gap-0.5">
                 <Layers className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
                 {product.variants!.length} plans
               </p>
             ) : flashSaleInfo.isOnFlashSale ? (
-              <p className="text-[10px] sm:text-xs font-semibold text-red-600 mt-0.5 flex items-center gap-0.5 sm:gap-1">
+              <p className="text-[9px] sm:text-xs font-semibold text-red-600 mt-0.5 flex items-center gap-0.5">
                 <Flame className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
                 Save ₹{flashSaleInfo.discountAmount}
               </p>
             ) : savings > 0 ? (
-              <p className="text-[10px] sm:text-xs font-semibold text-emerald-600 mt-0.5">
+              <p className="text-[9px] sm:text-xs font-semibold text-emerald-600 mt-0.5">
                 Save ₹{savings.toLocaleString()}
               </p>
             ) : null}
@@ -237,10 +267,10 @@ export function ProductCard({ product, onQuickView }: ProductCardProps) {
           <Button
             onClick={() => navigate(`/product/${product.id}`)}
             size="sm"
-            className="rounded-lg sm:rounded-xl bg-gradient-to-r from-teal-500 to-emerald-600 hover:from-teal-600 hover:to-emerald-700 text-white font-semibold shadow-lg shadow-teal-500/25 hover:shadow-teal-500/40 transition-all group/btn text-xs sm:text-sm px-2 sm:px-3 h-7 sm:h-8 md:h-9 flex-shrink-0"
+            className="rounded-lg sm:rounded-xl bg-gradient-to-r from-teal-500 to-emerald-600 hover:from-teal-600 hover:to-emerald-700 text-white font-medium shadow-md shadow-teal-500/20 hover:shadow-teal-500/30 transition-all group/btn text-[10px] sm:text-xs px-2.5 sm:px-3 h-7 sm:h-8 flex-shrink-0 min-w-[60px] sm:min-w-0"
           >
-            <span className="hidden xs:inline">View</span>
-            <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4 xs:ml-1 group-hover/btn:translate-x-0.5 transition-transform" />
+            <span>View</span>
+            <ArrowRight className="h-3 w-3 sm:h-3.5 sm:w-3.5 ml-1 group-hover/btn:translate-x-0.5 transition-transform" />
           </Button>
         </div>
       </div>

@@ -3,7 +3,6 @@ import { useSettings } from '@/hooks/useSettings';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/components/ui/use-toast';
 import { Progress } from '@/components/ui/progress';
 import { Save, Upload, Copy, CheckCircle2, RefreshCw, CreditCard, MessageCircle, Mail, Phone, QrCode, X, ImageIcon, ExternalLink, AlertCircle } from 'lucide-react';
@@ -18,7 +17,6 @@ export function SettingsPanel() {
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Update local settings when settings load
   useEffect(() => {
     if (settings) {
       setLocalSettings(settings);
@@ -27,7 +25,6 @@ export function SettingsPanel() {
 
   const handleSave = async () => {
     if (!localSettings) return;
-
     setIsSaving(true);
     try {
       await updateSettings(localSettings);
@@ -36,7 +33,6 @@ export function SettingsPanel() {
         description: 'Your changes have been saved successfully.',
       });
     } catch (error: any) {
-      console.error('Error saving settings:', error);
       toast({
         title: 'Error saving settings',
         description: error.message || 'An unexpected error occurred',
@@ -51,21 +47,19 @@ export function SettingsPanel() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Validate file type
     if (!file.type.startsWith('image/')) {
       toast({
         title: 'Invalid file type',
-        description: 'Please upload an image file (JPG, PNG, GIF, etc.)',
+        description: 'Please upload an image file',
         variant: 'destructive',
       });
       return;
     }
 
-    // Validate file size (max 5MB)
     if (file.size > 5 * 1024 * 1024) {
       toast({
         title: 'File too large',
-        description: 'Please upload an image smaller than 5MB',
+        description: 'Max 5MB allowed',
         variant: 'destructive',
       });
       return;
@@ -73,8 +67,6 @@ export function SettingsPanel() {
 
     setIsUploading(true);
     setUploadProgress(0);
-
-    // Simulate progress
     const progressInterval = setInterval(() => {
       setUploadProgress(prev => Math.min(prev + 15, 90));
     }, 100);
@@ -84,23 +76,18 @@ export function SettingsPanel() {
       clearInterval(progressInterval);
       setUploadProgress(100);
       setLocalSettings({ ...localSettings!, qrCodeUrl: url });
-      toast({
-        title: 'QR Code uploaded!',
-        description: 'Click Save Settings to apply changes.',
-      });
+      toast({ title: 'QR Code uploaded!' });
     } catch (error: any) {
       clearInterval(progressInterval);
       toast({
         title: 'Upload failed',
-        description: error.message || 'Failed to upload image',
+        description: error.message,
         variant: 'destructive',
       });
     } finally {
       setIsUploading(false);
       setUploadProgress(0);
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
-      }
+      if (fileInputRef.current) fileInputRef.current.value = '';
     }
   };
 
@@ -109,10 +96,7 @@ export function SettingsPanel() {
       navigator.clipboard.writeText(localSettings.upiId);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-      toast({
-        title: 'Copied!',
-        description: 'UPI ID copied to clipboard',
-      });
+      toast({ title: 'Copied!' });
     }
   };
 
@@ -123,359 +107,254 @@ export function SettingsPanel() {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center p-12">
-        <RefreshCw className="h-8 w-8 animate-spin text-[#0A7A7A]" />
-        <span className="ml-3 text-gray-600 dark:text-gray-400">Loading settings...</span>
+        <RefreshCw className="h-5 w-5 animate-spin text-gray-400" />
+        <span className="ml-2 text-sm text-gray-500">Loading...</span>
       </div>
     );
   }
 
   return (
-    <Card className="border-2 border-black dark:border-gray-700 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(75,85,99,1)] bg-white dark:bg-gray-800">
-      <CardHeader className="border-b-2 border-black dark:border-gray-700 bg-gradient-to-r from-teal-50 to-white dark:from-teal-900/20 dark:to-gray-800">
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-          <div>
-            <CardTitle className="text-2xl font-bold font-['Space_Grotesk'] text-gray-900 dark:text-white">
-              Platform Settings
-            </CardTitle>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-              Configure payment details and contact information
-            </p>
+    <div className="p-4 sm:p-6 max-w-5xl mx-auto">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Settings</h2>
+          <p className="text-sm text-gray-500 dark:text-gray-400">Payment & contact configuration</p>
+        </div>
+        <div className="flex gap-2">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={refetch}
+            disabled={isLoading}
+            className="h-8 px-3 text-gray-600 dark:text-gray-400"
+          >
+            <RefreshCw className={`h-3.5 w-3.5 ${isLoading ? 'animate-spin' : ''}`} />
+          </Button>
+          <Button
+            onClick={handleSave}
+            disabled={isSaving}
+            size="sm"
+            className="h-8 px-4 bg-gray-900 hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100"
+          >
+            {isSaving ? <RefreshCw className="h-3.5 w-3.5 animate-spin" /> : <Save className="h-3.5 w-3.5 mr-1.5" />}
+            Save
+          </Button>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Left Column - Forms */}
+        <div className="lg:col-span-2 space-y-4">
+          {/* Payment Section */}
+          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
+            <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+              <div className="flex items-center gap-2">
+                <CreditCard className="h-4 w-4 text-gray-500" />
+                <h3 className="text-sm font-medium text-gray-900 dark:text-white">Payment</h3>
+              </div>
+            </div>
+            <div className="p-4 space-y-4">
+              {/* UPI ID */}
+              <div>
+                <Label className="text-xs font-medium text-gray-700 dark:text-gray-300">UPI ID</Label>
+                <div className="flex gap-2 mt-1.5">
+                  <Input
+                    value={localSettings?.upiId || ''}
+                    onChange={(e) => setLocalSettings({ ...localSettings!, upiId: e.target.value })}
+                    className="h-9 text-sm font-mono border-gray-200 dark:border-gray-700"
+                    placeholder="yourname@upi"
+                  />
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    className="h-9 w-9 p-0 border-gray-200 dark:border-gray-700"
+                    onClick={handleCopyUpi}
+                  >
+                    {copied ? <CheckCircle2 className="h-3.5 w-3.5 text-green-500" /> : <Copy className="h-3.5 w-3.5" />}
+                  </Button>
+                </div>
+              </div>
+
+              {/* QR Code */}
+              <div>
+                <Label className="text-xs font-medium text-gray-700 dark:text-gray-300">QR Code</Label>
+                <div className="mt-1.5 flex gap-3">
+                  {localSettings?.qrCodeUrl ? (
+                    <div className="relative">
+                      <img
+                        src={localSettings.qrCodeUrl}
+                        alt="QR"
+                        className="w-20 h-20 object-contain rounded border border-gray-200 dark:border-gray-700 bg-white"
+                      />
+                      <button
+                        onClick={handleRemoveQrCode}
+                        className="absolute -top-1.5 -right-1.5 bg-red-500 text-white rounded-full p-0.5 hover:bg-red-600"
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    </div>
+                  ) : null}
+                  <div className="flex-1">
+                    <input
+                      type="file"
+                      ref={fileInputRef}
+                      onChange={handleQrUpload}
+                      accept="image/*"
+                      className="hidden"
+                    />
+                    <Button
+                      variant="outline"
+                      onClick={() => fileInputRef.current?.click()}
+                      disabled={isUploading}
+                      className="w-full h-20 border-dashed border-gray-300 dark:border-gray-600 hover:border-gray-400"
+                    >
+                      {isUploading ? (
+                        <RefreshCw className="h-4 w-4 animate-spin" />
+                      ) : (
+                        <div className="text-center">
+                          <Upload className="h-4 w-4 mx-auto mb-1 text-gray-400" />
+                          <span className="text-xs text-gray-500">Upload QR</span>
+                        </div>
+                      )}
+                    </Button>
+                    {isUploading && <Progress value={uploadProgress} className="mt-2 h-1" />}
+                  </div>
+                </div>
+                <Input
+                  value={localSettings?.qrCodeUrl || ''}
+                  onChange={(e) => setLocalSettings({ ...localSettings!, qrCodeUrl: e.target.value })}
+                  placeholder="Or paste image URL..."
+                  className="mt-2 h-9 text-sm border-gray-200 dark:border-gray-700"
+                />
+              </div>
+            </div>
           </div>
-          <div className="flex items-center gap-3">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={refetch}
-              disabled={isLoading}
-              className="border-2 border-black dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700"
-            >
-              <RefreshCw className={`h-4 w-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />
-              Refresh
-            </Button>
-            <Button
-              onClick={handleSave}
-              disabled={isSaving}
-              className="bg-[#0A7A7A] hover:bg-[#086666] text-white border-2 border-black dark:border-gray-600 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(75,85,99,1)]"
-            >
-              {isSaving ? (
-                <>
-                  <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
-                  Saving...
-                </>
-              ) : (
-                <>
-                  <Save className="h-4 w-4 mr-2" />
-                  Save Settings
-                </>
-              )}
-            </Button>
+
+          {/* Contact Section */}
+          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
+            <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+              <div className="flex items-center gap-2">
+                <MessageCircle className="h-4 w-4 text-gray-500" />
+                <h3 className="text-sm font-medium text-gray-900 dark:text-white">Contact</h3>
+              </div>
+            </div>
+            <div className="p-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <Label className="text-xs font-medium text-gray-700 dark:text-gray-300">Telegram Link</Label>
+                <Input
+                  value={localSettings?.telegramLink || ''}
+                  onChange={(e) => setLocalSettings({ ...localSettings!, telegramLink: e.target.value })}
+                  className="mt-1.5 h-9 text-sm border-gray-200 dark:border-gray-700"
+                  placeholder="https://t.me/username"
+                />
+              </div>
+              <div>
+                <Label className="text-xs font-medium text-gray-700 dark:text-gray-300">Telegram Username</Label>
+                <Input
+                  value={localSettings?.telegramUsername || ''}
+                  onChange={(e) => setLocalSettings({ ...localSettings!, telegramUsername: e.target.value })}
+                  className="mt-1.5 h-9 text-sm border-gray-200 dark:border-gray-700"
+                  placeholder="@username"
+                />
+              </div>
+              <div>
+                <Label className="text-xs font-medium text-gray-700 dark:text-gray-300">Email</Label>
+                <Input
+                  type="email"
+                  value={localSettings?.contactEmail || ''}
+                  onChange={(e) => setLocalSettings({ ...localSettings!, contactEmail: e.target.value })}
+                  className="mt-1.5 h-9 text-sm border-gray-200 dark:border-gray-700"
+                  placeholder="support@store.com"
+                />
+              </div>
+              <div>
+                <Label className="text-xs font-medium text-gray-700 dark:text-gray-300">Phone</Label>
+                <Input
+                  value={localSettings?.contactPhone || ''}
+                  onChange={(e) => setLocalSettings({ ...localSettings!, contactPhone: e.target.value })}
+                  className="mt-1.5 h-9 text-sm border-gray-200 dark:border-gray-700"
+                  placeholder="+91 98765 43210"
+                />
+              </div>
+            </div>
           </div>
         </div>
-      </CardHeader>
 
-      <CardContent className="p-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Settings Form */}
-          <div className="space-y-6">
-            {/* Payment Information */}
-            <div className="border-2 border-black dark:border-gray-700 rounded-lg p-6 bg-white dark:bg-gray-800 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(75,85,99,1)]">
-              <h3 className="font-bold font-['Space_Grotesk'] text-lg mb-4 flex items-center gap-2 text-gray-900 dark:text-white">
-                <CreditCard className="h-5 w-5 text-[#0A7A7A] dark:text-teal-400" />
-                Payment Information
-              </h3>
-              <div className="space-y-5">
-                {/* UPI ID */}
-                <div>
-                  <Label htmlFor="upi-id" className="font-medium text-gray-900 dark:text-white">
-                    UPI ID <span className="text-red-500">*</span>
-                  </Label>
-                  <div className="flex gap-2 mt-1.5">
-                    <div className="relative flex-1">
-                      <Input
-                        id="upi-id"
-                        value={localSettings?.upiId || ''}
-                        onChange={(e) => setLocalSettings({ ...localSettings!, upiId: e.target.value })}
-                        className="border-2 border-black dark:border-gray-600 font-mono pr-10 focus:border-[#0A7A7A] bg-white dark:bg-gray-800"
-                        placeholder="yourname@upi"
-                      />
-                    </div>
-                    <Button 
-                      variant="outline" 
-                      className="border-2 border-black dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700"
-                      onClick={handleCopyUpi}
-                    >
-                      {copied ? <CheckCircle2 className="h-4 w-4 text-green-600" /> : <Copy className="h-4 w-4" />}
-                    </Button>
-                  </div>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1.5">
-                    This UPI ID will be shown to customers for payment
-                  </p>
-                </div>
-
-                {/* QR Code */}
-                <div>
-                  <Label className="font-medium text-gray-900 dark:text-white">
-                    Payment QR Code
-                  </Label>
-                  <div className="mt-1.5 space-y-3">
-                    {/* QR Preview */}
-                    {localSettings?.qrCodeUrl && (
-                      <div className="relative inline-block">
-                        <img
-                          src={localSettings.qrCodeUrl}
-                          alt="QR Code Preview"
-                          className="w-32 h-32 object-contain rounded-lg border-2 border-black bg-white"
-                        />
-                        <button
-                          type="button"
-                          onClick={handleRemoveQrCode}
-                          className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
-                        >
-                          <X className="h-3 w-3" />
-                        </button>
-                      </div>
-                    )}
-
-                    {/* Upload Section */}
-                    <div>
-                      <input
-                        type="file"
-                        ref={fileInputRef}
-                        onChange={handleQrUpload}
-                        accept="image/*"
-                        className="hidden"
-                        id="qr-upload"
-                      />
-                      <Button
-                        type="button"
-                        variant="outline"
-                        onClick={() => fileInputRef.current?.click()}
-                        disabled={isUploading}
-                        className="w-full border-2 border-dashed border-gray-400 dark:border-gray-600 hover:border-[#0A7A7A] dark:hover:border-teal-500 hover:bg-teal-50 dark:hover:bg-teal-900/20 h-20 flex flex-col items-center justify-center gap-1"
-                      >
-                        {isUploading ? (
-                          <>
-                            <RefreshCw className="h-5 w-5 animate-spin text-[#0A7A7A]" />
-                            <span className="text-sm">Uploading...</span>
-                          </>
-                        ) : (
-                          <>
-                            <Upload className="h-5 w-5 text-gray-500 dark:text-gray-400" />
-                            <span className="text-sm text-gray-600 dark:text-gray-400">Click to upload QR code</span>
-                            <span className="text-xs text-gray-400 dark:text-gray-500">Max 5MB (JPG, PNG, GIF)</span>
-                          </>
-                        )}
-                      </Button>
-                      {isUploading && (
-                        <Progress value={uploadProgress} className="mt-2 h-2" />
-                      )}
-                    </div>
-
-                    {/* URL Input */}
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs text-gray-500 dark:text-gray-400">or</span>
-                      <div className="flex-1 h-px bg-gray-200" />
-                    </div>
-                    <div className="relative">
-                      <QrCode className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500" />
-                      <Input
-                        value={localSettings?.qrCodeUrl || ''}
-                        onChange={(e) => setLocalSettings({ ...localSettings!, qrCodeUrl: e.target.value })}
-                        placeholder="Paste QR code image URL here..."
-                        className="pl-10 border-2 border-black dark:border-gray-600 focus:border-[#0A7A7A] bg-white dark:bg-gray-800"
-                      />
-                    </div>
-                  </div>
-                </div>
+        {/* Right Column - Preview */}
+        <div className="space-y-4">
+          {/* Payment Preview */}
+          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
+            <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+              <div className="flex items-center gap-2">
+                <ImageIcon className="h-4 w-4 text-gray-500" />
+                <h3 className="text-sm font-medium text-gray-900 dark:text-white">Preview</h3>
               </div>
             </div>
-
-            {/* Contact Information */}
-            <div className="border-2 border-black dark:border-gray-700 rounded-lg p-6 bg-white dark:bg-gray-800 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(75,85,99,1)]">
-              <h3 className="font-bold font-['Space_Grotesk'] text-lg mb-4 flex items-center gap-2 text-gray-900 dark:text-white">
-                <MessageCircle className="h-5 w-5 text-[#0A7A7A] dark:text-teal-400" />
-                Contact Information
-              </h3>
-              <div className="space-y-4">
-                <div>
-                  <Label htmlFor="telegram" className="font-medium text-gray-900 dark:text-white">
-                    Telegram Support Link
-                  </Label>
-                  <div className="relative mt-1.5">
-                    <MessageCircle className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500" />
-                    <Input
-                      id="telegram"
-                      value={localSettings?.telegramLink || ''}
-                      onChange={(e) => setLocalSettings({ ...localSettings!, telegramLink: e.target.value })}
-                      className="pl-10 border-2 border-black dark:border-gray-600 focus:border-[#0A7A7A] bg-white dark:bg-gray-800"
-                      placeholder="https://t.me/yourusername"
-                    />
+            <div className="p-4">
+              <div className="text-center mb-3">
+                {localSettings?.qrCodeUrl ? (
+                  <img
+                    src={localSettings.qrCodeUrl}
+                    alt="QR"
+                    className="w-32 h-32 mx-auto object-contain border border-gray-200 dark:border-gray-700 rounded bg-white"
+                  />
+                ) : (
+                  <div className="w-32 h-32 mx-auto border-2 border-dashed border-gray-200 dark:border-gray-700 rounded flex items-center justify-center">
+                    <QrCode className="h-8 w-8 text-gray-300" />
                   </div>
-                </div>
-                <div>
-                  <Label htmlFor="telegramUsername" className="font-medium text-gray-900 dark:text-white">
-                    Telegram Username (for direct contact)
-                  </Label>
-                  <div className="relative mt-1.5">
-                    <MessageCircle className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500" />
-                    <Input
-                      id="telegramUsername"
-                      value={localSettings?.telegramUsername || ''}
-                      onChange={(e) => setLocalSettings({ ...localSettings!, telegramUsername: e.target.value })}
-                      className="pl-10 border-2 border-black dark:border-gray-600 focus:border-[#0A7A7A] bg-white dark:bg-gray-800"
-                      placeholder="@yourusername"
-                    />
-                  </div>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">This username will be shown to customers for direct contact during checkout</p>
-                </div>
-                <div>
-                  <Label htmlFor="email" className="font-medium text-gray-900 dark:text-white">
-                    Contact Email
-                  </Label>
-                  <div className="relative mt-1.5">
-                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500" />
-                    <Input
-                      id="email"
-                      type="email"
-                      value={localSettings?.contactEmail || ''}
-                      onChange={(e) => setLocalSettings({ ...localSettings!, contactEmail: e.target.value })}
-                      className="pl-10 border-2 border-black dark:border-gray-600 focus:border-[#0A7A7A] bg-white dark:bg-gray-800"
-                      placeholder="support@yourstore.com"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <Label htmlFor="phone" className="font-medium text-gray-900 dark:text-white">
-                    Contact Phone
-                  </Label>
-                  <div className="relative mt-1.5">
-                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500" />
-                    <Input
-                      id="phone"
-                      value={localSettings?.contactPhone || ''}
-                      onChange={(e) => setLocalSettings({ ...localSettings!, contactPhone: e.target.value })}
-                      className="pl-10 border-2 border-black dark:border-gray-600 focus:border-[#0A7A7A] bg-white dark:bg-gray-800"
-                      placeholder="+91 98765 43210"
-                    />
-                  </div>
-                </div>
+                )}
               </div>
-            </div>
-          </div>
-
-          {/* Live Preview */}
-          <div className="space-y-6">
-            {/* Payment Preview */}
-            <div className="border-2 border-black dark:border-gray-700 rounded-lg p-6 bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(75,85,99,1)]">
-              <h3 className="font-bold font-['Space_Grotesk'] text-lg mb-2 flex items-center gap-2 text-gray-900 dark:text-white">
-                <ImageIcon className="h-5 w-5 text-[#0A7A7A] dark:text-teal-400" />
-                Payment Preview
-              </h3>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-                This is how customers will see your payment details
-              </p>
-              <div className="space-y-4">
-                <div className="text-center">
-                  <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">QR Code</p>
-                  <div className="inline-block">
-                    {localSettings?.qrCodeUrl ? (
-                      <div className="relative">
-                        <img
-                          src={localSettings.qrCodeUrl}
-                          alt="QR Code Preview"
-                          className="w-52 h-52 border-4 border-black dark:border-gray-600 object-contain bg-white rounded-lg shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(75,85,99,1)]"
-                        />
-                      </div>
-                    ) : (
-                      <div className="w-52 h-52 border-4 border-dashed border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 flex flex-col items-center justify-center rounded-lg">
-                        <QrCode className="h-12 w-12 text-gray-300 dark:text-gray-600 mb-2" />
-                        <p className="text-sm text-gray-400 dark:text-gray-500">No QR Code</p>
-                        <p className="text-xs text-gray-400 dark:text-gray-500">Upload one above</p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-                <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border-2 border-black dark:border-gray-600">
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">UPI ID</p>
-                  <p className="font-mono font-bold text-xl text-[#0A7A7A] dark:text-teal-400">
-                    {localSettings?.upiId || 'Not set'}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Contact Preview */}
-            <div className="border-2 border-black dark:border-gray-700 rounded-lg p-6 bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(75,85,99,1)]">
-              <h3 className="font-bold font-['Space_Grotesk'] text-lg mb-4 flex items-center gap-2 text-gray-900 dark:text-white">
-                <MessageCircle className="h-5 w-5 text-[#0A7A7A] dark:text-teal-400" />
-                Contact Preview
-              </h3>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between p-3 bg-white dark:bg-gray-800 rounded-lg border-2 border-gray-200 dark:border-gray-600">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
-                      <MessageCircle className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-                    </div>
-                    <div>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">Telegram</p>
-                      <p className="font-medium text-gray-900 dark:text-white">
-                        {localSettings?.telegramLink ? 'Configured' : 'Not set'}
-                      </p>
-                    </div>
-                  </div>
-                  {localSettings?.telegramLink && (
-                    <a
-                      href={localSettings.telegramLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#0A7A7A] dark:text-teal-400 hover:underline flex items-center gap-1 text-sm font-medium"
-                    >
-                      Open <ExternalLink className="h-3 w-3" />
-                    </a>
-                  )}
-                </div>
-                <div className="flex items-center justify-between p-3 bg-white dark:bg-gray-800 rounded-lg border-2 border-gray-200 dark:border-gray-600">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
-                      <Mail className="h-5 w-5 text-green-600 dark:text-green-400" />
-                    </div>
-                    <div>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">Email</p>
-                      <p className="font-medium text-gray-900 dark:text-white">
-                        {localSettings?.contactEmail || 'Not set'}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between p-3 bg-white dark:bg-gray-800 rounded-lg border-2 border-gray-200 dark:border-gray-600">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
-                      <Phone className="h-5 w-5 text-purple-600 dark:text-purple-400" />
-                    </div>
-                    <div>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">Phone</p>
-                      <p className="font-medium text-gray-900 dark:text-white">
-                        {localSettings?.contactPhone || 'Not set'}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Info Box */}
-            <div className="bg-amber-50 dark:bg-amber-900/20 border-2 border-amber-200 dark:border-amber-700 rounded-lg p-4 flex gap-3">
-              <AlertCircle className="h-5 w-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
-              <div>
-                <p className="font-medium text-amber-800 dark:text-amber-300 text-sm">Remember to save</p>
-                <p className="text-xs text-amber-700 dark:text-amber-400 mt-1">
-                  Changes won't take effect until you click the "Save Settings" button.
+              <div className="bg-gray-50 dark:bg-gray-900 rounded p-3 text-center">
+                <p className="text-xs text-gray-500 mb-1">UPI ID</p>
+                <p className="font-mono text-sm font-medium text-gray-900 dark:text-white">
+                  {localSettings?.upiId || '—'}
                 </p>
               </div>
             </div>
           </div>
+
+          {/* Contact Preview */}
+          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
+            <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+              <h3 className="text-sm font-medium text-gray-900 dark:text-white">Contact Info</h3>
+            </div>
+            <div className="p-3 space-y-2">
+              <div className="flex items-center gap-2 p-2 bg-gray-50 dark:bg-gray-900 rounded text-sm">
+                <MessageCircle className="h-3.5 w-3.5 text-blue-500" />
+                <span className="text-gray-600 dark:text-gray-400 truncate flex-1">
+                  {localSettings?.telegramLink || '—'}
+                </span>
+                {localSettings?.telegramLink && (
+                  <a href={localSettings.telegramLink} target="_blank" rel="noopener noreferrer">
+                    <ExternalLink className="h-3 w-3 text-gray-400" />
+                  </a>
+                )}
+              </div>
+              <div className="flex items-center gap-2 p-2 bg-gray-50 dark:bg-gray-900 rounded text-sm">
+                <Mail className="h-3.5 w-3.5 text-green-500" />
+                <span className="text-gray-600 dark:text-gray-400 truncate">
+                  {localSettings?.contactEmail || '—'}
+                </span>
+              </div>
+              <div className="flex items-center gap-2 p-2 bg-gray-50 dark:bg-gray-900 rounded text-sm">
+                <Phone className="h-3.5 w-3.5 text-purple-500" />
+                <span className="text-gray-600 dark:text-gray-400 truncate">
+                  {localSettings?.contactPhone || '—'}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Info */}
+          <div className="flex gap-2 p-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg">
+            <AlertCircle className="h-4 w-4 text-amber-500 flex-shrink-0 mt-0.5" />
+            <p className="text-xs text-amber-700 dark:text-amber-400">
+              Click Save to apply changes
+            </p>
+          </div>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }
